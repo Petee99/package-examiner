@@ -2,30 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VehicleInfo</title>
-    <link rel="stylesheet" href="css/index.css" type="text/css">
-    <script src="js/jquery-3.4.1.js" type="text/javascript"></script>
-    <script type="text/javascript" rel="script" src="js/index.js"></script>
+    <title>Package Examiner</title>
+    <link rel="stylesheet" href="../styles/global.css" type="text/css">
+    <script type="text/javascript" rel="script" src="../js/index.js"></script>
 </head>
 <body>
-<div id="everything">
-    <div id="header">
-        <div id="banner">
-            VehicleInfo
-        </div>
-        <div class="topnav" id="topNav">
-            <ul>
-                <li class="navItem" id="indexDiv"><a href="index.html">Home</a></li>
-                <li class="navItem" id="bookDiv"><a href="manufacturers.html">Manufacturers</a></li>
-                <li class="navItem" id="authorDiv"><a href="cars.html">Cars</a></li>
-                <li class="navItem" id="bookaddDiv"><a href="manufacturerform.html">Add Manufacturer</a></li>
-                <li class="navItem" id="authoraddDiv"><a href="carform.html">Add Car</a></li>
-            </ul>
-        </div>
-    </div>
-    <div id="content">    
-    </div>
-</div>
+    <h1>Package Manager</h1>
+
+    <form onsubmit="getPackageData(event)">
+      <label for="fname">Package Name:</label><br>
+      <input type="text" id="pname" name="pname" placeholder="e.g. vue"><br>
+      <input type="submit" value="Submit">
+    </form> 
+    
+    <label for="myDiv">Package Version:</label>
+    <div id="myDiv"></div>
+    <button onclick="getDependencies()">Get direct dependencies</button>
+    
+    <h1>Direct dependencies of the selected package</h1>
+    <div id="directDependencies"></div>
 </body>
 <footer>
     <div id="footer">
