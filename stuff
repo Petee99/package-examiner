@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="styles/global.css">
+    <script src="js/app.js"></script>
+    <title>Package Manager</title>
+</head>
+<body>
+    <h1>Package Manager</h1>
+
+<form onsubmit="getPackageData(event)">
+  <label for="fname">Package Name:</label><br>
+  <input type="text" id="pname" name="pname" placeholder="e.g. vue"><br>
+  <input type="submit" value="Submit">
+</form> 
+
+<label for="myDiv">Package Version:</label>
+<div id="myDiv"></div>
+<button onclick="getDependencies()">Get direct dependencies</button>
+
+<h1>Direct dependencies of the selected package</h1>
+<div id="directDependencies"></div>
+
+</body>
+</html>
+
+function getPackage(packageName, packageVersion="", requiredData=""){
+    var registryUrl = "https://registry.npmjs.cf/";
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", registryUrl+packageName+"/"+packageVersion, false ); // false for synchronous request
+    xmlHttp.send( null );
+    if(requiredData.length>0){
+        return JSON.parse(xmlHttp.responseText)[requiredData];
+    }else{
+        return JSON.parse(xmlHttp.responseText);
+    }   
+}
+
+function getPackageData(event){
+    event.preventDefault();
+    var packageName = document.getElementsByName("pname")[0].value;
+    var packageObject = getPackage(packageName);
+    populateVersions(packageName, packageObject.versions);
+}
+
+function populateVersions(packageName, versions){
+    if (document.contains(document.getElementById("mySelect"))) {
+        document.getElementById("mySelect").remove();
+    }
+    var versionArray =[];
+    var i = 0;
+    var myDiv = document.getElementById("myDiv");
+    var selectList = document.createElement("select");
+    selectList.setAttribute("id", "mySelect");
+    myDiv.appendChild(selectList);
+
+    for(version in versions){
+        versionArray[i] = version;
+        i++;
+    }
+
+    for(i=versionArray.length-1; i>=0; i--){
+        var option = document.createElement("option");
+        option.setAttribute("value", packageName+" "+versionArray[i]);
+        option.text = versionArray[i];
+        selectList.appendChild(option);
+    }
+}
+
+function getDependencies(){
+    var packageName = document.getElementById("mySelect").value.split(" ");
+    var directDependencies = getPackage(packageName[0], packageName[1], "dependencies");
+
+    if (document.contains(document.getElementById("directDepList"))) {
+        document.getElementById("directDepList").remove();
+    }
+
+    var myDiv = document.getElementById("directDependencies");
+    var depList = document.createElement("ul");
+    depList.setAttribute("id", "directDepList");
+    myDiv.appendChild(depList);
+
+    for(dep in directDependencies){
+        var listElement = document.createElement("li");
+        listElement.innerHTML = dep;
+        depList.appendChild(listElement)
+    }
+}
