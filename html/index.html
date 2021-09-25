@@ -10,17 +10,22 @@
     <h1>Package Manager</h1>
 
     <form onsubmit="getPackageData(event)">
-      <label for="fname">Package Name:</label><br>
+      <label for="pname">Package Name:</label><br>
       <input type="text" id="pname" name="pname" placeholder="e.g. vue"><br>
       <input type="submit" value="Submit">
     </form> 
     
     <label for="myDiv">Package Version:</label>
     <div id="myDiv"></div>
-    <button onclick="getDependenciesTillDepth()">Get direct dependencies</button>
+
+    <form onsubmit="populateDepList(event)">
+        <label for="ddepth">Depth: (If left blank the whole tree will be processed)</label><br>
+        <input type="number" id="ddepth" name="ddepth" placeholder="e.g. 5"><br>
+        <input type="submit" value="Get dependencies">
+    </form> 
     
-    <h1>Direct dependencies of the selected package</h1>
-    <div id="directDependencies"></div>
+    <h1>Dependencies of the selected package</h1>
+    <div id="dependencies"></div>
 </body>
 <footer>
     <div id="footer">
