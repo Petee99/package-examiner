@@ -93,13 +93,13 @@ function getDependenciesTillDepth(package, depth){
         else{
             if(i==0){ //First level, there probably won't be any duplicate package names
                 dependencies = dependencies.concat(populateDependencies(package, i));
-                packages.push(package.Name.replace('%2f','/'));
+                packages.push({Name: package.Name.replace('%2f','/'), Version: package.Version, Level: 0});
             }else{ //The rest of the levels. The function checks for duplicate packagenames, so it won't search for dependencies of a package, when it's already been done
                 for(const dep of dependencies){
                     
                     if(dep.Depth == i-1){
                         for(const pckg of packages){
-                            if(dep.Name == pckg){
+                            if(dep.Name == pckg.Name){
                                 alrdyExists = true;
                                 break;
                             }
@@ -107,7 +107,7 @@ function getDependenciesTillDepth(package, depth){
                         if(!alrdyExists){
                             package = {Name: dep.Name, Version: dep.Version};
                             dependencies = dependencies.concat(populateDependencies(package, i));
-                            packages.push(package.Name.replace('%2f','/'));
+                            packages.push({Name: package.Name.replace('%2f','/'), Version: package.Version, Level: dep.Depth+1});
                         }else{
                             alrdyExists = false;
                         }
@@ -117,7 +117,8 @@ function getDependenciesTillDepth(package, depth){
         }
         i++;
     }
-
+    console.log(packages);
+    dependencies.push(packages);
     return dependencies;
 }
 
@@ -154,10 +155,54 @@ function populateDepList(event){
     var package = document.getElementById("mySelect").value.split(" ");
 
     var dependencies = getDependenciesTillDepth(package, dDepth);
+    var packages = dependencies[dependencies.length-1];
+    document.getElementById("dTitle").innerHTML=package[0];
+    dependencies.pop(dependencies[dependencies.length-1]);
+    console.log(packages);
     console.log(dependencies);
+    
+    const s = new sigma({ 
+        container: 'container',
+        renderer: {
+          container: document.getElementById('container'),
+          type: sigma.renderers.canvas,
+        },
+        settings: {
+            defaultEdgeType: "curvedArrow"
+        }
+    });
+   // var s = new sigma('container');
+    var n = 0;
+    var offset = 0;
 
-    if (document.contains(document.getElementById("directDepList"))) {
-        document.getElementById("directDepList").remove();
+    for (let i = 0; i < packages.length; i++) {
+        if(i>0 &&packages[i].Level != packages[i-1].Level){
+            offset = 0;
+        }
+        
+        s.graph.addNode({
+            // Main attributes:
+            id: packages[i].Name,
+            label: packages[i].Name,
+            // Display attributes:
+            x: 0+offset,
+            y: 0+packages[i].Level/2,
+            size: 1,
+            color: '#2e946d'
+        })
+        offset+=0.1;
     }
+
+    dependencies.forEach(dep => {
+        s.graph.addEdge({
+            id: 'edge_'+n,
+            // Reference extremities:
+            source: dep.Parent,
+            target: dep.Name,
+            color: '#ccc'
+        });
+        n++;
+    });
+    s.refresh();
 
 }

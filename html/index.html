@@ -5,27 +5,34 @@
     <title>Package Examiner</title>
     <link rel="stylesheet" href="../styles/global.css" type="text/css">
     <script type="text/javascript" rel="script" src="../js/index.js"></script>
+    <script src="../graphing/sigma.js-1.2.1/build/sigma.min.js"></script>
 </head>
 <body>
-    <h1>Package Manager</h1>
+    <div class="split sidebar">
+        
+        <h1>Package Examiner</h1>
 
-    <form onsubmit="getPackageData(event)">
-      <label for="pname">Package Name:</label><br>
-      <input type="text" id="pname" name="pname" placeholder="e.g. vue"><br>
-      <input type="submit" value="Submit">
-    </form> 
+        <form onsubmit="getPackageData(event)">
+          <label for="pname">Package Name:</label><br>
+          <input type="text" id="pname" name="pname" placeholder="e.g. vue"><br>
+          <input type="submit" value="Submit">
+        </form> 
+        
+        <label for="myDiv">Package Version:</label>
+        <div id="myDiv"></div>
     
-    <label for="myDiv">Package Version:</label>
-    <div id="myDiv"></div>
-
-    <form onsubmit="populateDepList(event)">
-        <label for="ddepth">Depth: (If left blank the whole tree will be processed)</label><br>
-        <input type="number" id="ddepth" name="ddepth" placeholder="e.g. 5"><br>
-        <input type="submit" value="Get dependencies">
-    </form> 
+        <form onsubmit="populateDepList(event)">
+            <label for="ddepth">Depth: <br>(If left blank the whole tree will be processed)</label><br>
+            <input type="number" id="ddepth" name="ddepth" placeholder="e.g. 5"><br>
+            <input type="submit" value="Get dependencies">
+        </form>
+    </div>
+     
+    <div class="split canvas">
+        <h1>Dependency graph of <b id="dTitle" nowrap>the selected package</b>:</h1>
+        <div id="container"></div>    
+    </div>
     
-    <h1>Dependencies of the selected package</h1>
-    <div id="dependencies"></div>
 </body>
 <footer>
     <div id="footer">
