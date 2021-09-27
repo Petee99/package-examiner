@@ -87,17 +87,17 @@ function getDependenciesTillDepth(package, depth){
     var i = 0; 
 
     while(1){
-        if(depth=='' && i>=1 && dependencies[i]==dependencies[i-1] || i==depth-1){ //Breaks the loop when there're no unknown dependencies left or if it reaches the given depth level
+        if(depth=='' && i>=1 && dependencies[i]==dependencies[i-1] || i==depth){ //Breaks the loop when there're no unknown dependencies left or if it reaches the given depth level
             break;
         }
         else{
             if(i==0){ //First level, there probably won't be any duplicate package names
                 dependencies = dependencies.concat(populateDependencies(package, i));
-                packages.push({Name: package.Name.replace('%2f','/'), Version: package.Version, Level: 0});
+                packages.push({Name: package.Name.replace('%2f','/'), Version: package.Version, Level: i});
             }else{ //The rest of the levels. The function checks for duplicate packagenames, so it won't search for dependencies of a package, when it's already been done
                 for(const dep of dependencies){
-                    
-                    if(dep.Depth == i-1){
+                
+                    if(dep.Depth == i){
                         for(const pckg of packages){
                             if(dep.Name == pckg.Name){
                                 alrdyExists = true;
@@ -107,7 +107,7 @@ function getDependenciesTillDepth(package, depth){
                         if(!alrdyExists){
                             package = {Name: dep.Name, Version: dep.Version};
                             dependencies = dependencies.concat(populateDependencies(package, i));
-                            packages.push({Name: package.Name.replace('%2f','/'), Version: package.Version, Level: dep.Depth+1});
+                            packages.push({Name: package.Name.replace('%2f','/'), Version: package.Version, Level: dep.Depth});
                         }else{
                             alrdyExists = false;
                         }
@@ -117,7 +117,6 @@ function getDependenciesTillDepth(package, depth){
         }
         i++;
     }
-    console.log(packages);
     dependencies.push(packages);
     return dependencies;
 }
@@ -137,7 +136,7 @@ function populateDependencies(package, depth){
         dependencies.push({
             Name: dep.Name, 
             Version: dep.Version.replace('^',''), 
-            Depth: depth, 
+            Depth: depth+1, 
             Parent: package.Name.replace('%2f', '/'), 
             ParentVersion: package.Version
         });
@@ -147,9 +146,9 @@ function populateDependencies(package, depth){
 }
 
 /*
-This function handles the form responsible for getting the dependencies of a package, with the correct version and ceratin depth selected
+This function handles the form responsible for getting and graphing the dependencies of a package, with the correct version and ceratin depth selected
 */
-function populateDepList(event){
+function drawDepGraph(event){
     event.preventDefault();
     var dDepth = document.getElementsByName("ddepth")[0].value;
     var package = document.getElementById("mySelect").value.split(" ");
@@ -158,20 +157,24 @@ function populateDepList(event){
     var packages = dependencies[dependencies.length-1];
     document.getElementById("dTitle").innerHTML=package[0];
     dependencies.pop(dependencies[dependencies.length-1]);
-    console.log(packages);
-    console.log(dependencies);
-    
-    const s = new sigma({ 
+
+    if(document.getElementById("container").innerHTML != ""){
+        document.getElementById("container").innerHTML = "";
+    }
+
+    var s = new sigma({ 
         container: 'container',
         renderer: {
           container: document.getElementById('container'),
           type: sigma.renderers.canvas,
         },
         settings: {
-            defaultEdgeType: "curvedArrow"
+            defaultEdgeType: "arrow",
+            minArrowSize: 10,
+            defaultLabelColor: '#ccc'
         }
-    });
-   // var s = new sigma('container');
+    });  
+
     var n = 0;
     var offset = 0;
 
@@ -203,6 +206,6 @@ function populateDepList(event){
         });
         n++;
     });
-    s.refresh();
 
+    s.startForceAtlas2();
 }
