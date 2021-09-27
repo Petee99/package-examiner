@@ -85,9 +85,8 @@ function getDependenciesTillDepth(package, depth){
     var dependencies = [];
     var alrdyExists = false;
     var i = 0; 
-
     while(1){
-        if(depth=='' && i>=1 && dependencies[i]==dependencies[i-1] || i==depth){ //Breaks the loop when there're no unknown dependencies left or if it reaches the given depth level
+        if(depth==='' && i>=1 && dependencies[i]==dependencies[i-1] || depth!=0 && i==depth){ //Breaks the loop when there're no unknown dependencies left or if it reaches the given depth level
             break;
         }
         else{
@@ -95,9 +94,11 @@ function getDependenciesTillDepth(package, depth){
                 dependencies = dependencies.concat(populateDependencies(package, i));
                 packages.push({Name: package.Name.replace('%2f','/'), Version: package.Version, Level: i});
             }else{ //The rest of the levels. The function checks for duplicate packagenames, so it won't search for dependencies of a package, when it's already been done
+              
                 for(const dep of dependencies){
-                
+                    
                     if(dep.Depth == i){
+                        
                         for(const pckg of packages){
                             if(dep.Name == pckg.Name){
                                 alrdyExists = true;
@@ -108,6 +109,7 @@ function getDependenciesTillDepth(package, depth){
                             package = {Name: dep.Name, Version: dep.Version};
                             dependencies = dependencies.concat(populateDependencies(package, i));
                             packages.push({Name: package.Name.replace('%2f','/'), Version: package.Version, Level: dep.Depth});
+                            
                         }else{
                             alrdyExists = false;
                         }
@@ -117,7 +119,21 @@ function getDependenciesTillDepth(package, depth){
         }
         i++;
     }
+    for(const dep of dependencies){
+        for(const pckg of packages){
+            if(dep.Name == pckg.Name){
+                alrdyExists = true;
+                break;
+            }
+        }
+        if(!alrdyExists){
+            packages.push({Name: dep.Name.replace('%2f','/'), Version: dep.Version, Level: dep.Depth});
+        }else{
+            alrdyExists = false;
+        }
+    }
     dependencies.push(packages);
+    console.log(dependencies);
     return dependencies;
 }
 
@@ -157,6 +173,8 @@ function drawDepGraph(event){
     var packages = dependencies[dependencies.length-1];
     document.getElementById("dTitle").innerHTML=package[0];
     dependencies.pop(dependencies[dependencies.length-1]);
+
+    console.log(packages);
 
     if(document.getElementById("container").innerHTML != ""){
         document.getElementById("container").innerHTML = "";
