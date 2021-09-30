@@ -84,54 +84,58 @@ function getDependenciesTillDepth(package, depth){
     var packages = [];
     var dependencies = [];
     var alrdyExists = false;
-    var i = 0; 
-    while(1){
-        if(depth==='' && i>=1 && dependencies[i]==dependencies[i-1] || depth!=0 && i==depth){ //Breaks the loop when there're no unknown dependencies left or if it reaches the given depth level
-            break;
+    var i = 0;
+
+    do{
+        if(i==0){ //First level, there probably won't be any duplicate package names
+            dependencies = dependencies.concat(populateDependencies(package, i));
+            packages.push({Name: package.Name.replace('%2f','/'), Version: package.Version, Level: i});
         }
-        else{
-            if(i==0){ //First level, there probably won't be any duplicate package names
-                dependencies = dependencies.concat(populateDependencies(package, i));
-                packages.push({Name: package.Name.replace('%2f','/'), Version: package.Version, Level: i});
-            }else{ //The rest of the levels. The function checks for duplicate packagenames, so it won't search for dependencies of a package, when it's already been done
-              
-                for(const dep of dependencies){
-                    
-                    if(dep.Depth == i){
-                        
-                        for(const pckg of packages){
-                            if(dep.Name == pckg.Name){
-                                alrdyExists = true;
-                                break;
-                            }
+        else{ //The rest of the levels. The function checks for duplicate packagenames, so it won't search for dependencies of a package, when it's already been done  
+            for(const dep of dependencies){
+                console.log(dep);    
+                if(dep.Depth == i){
+                    for(const pckg of packages){
+                        if(dep.Name == pckg.Name){
+                            alrdyExists = true;
+                            break;
                         }
-                        if(!alrdyExists){
-                            package = {Name: dep.Name, Version: dep.Version};
-                            dependencies = dependencies.concat(populateDependencies(package, i));
-                            packages.push({Name: package.Name.replace('%2f','/'), Version: package.Version, Level: dep.Depth});
-                            
-                        }else{
-                            alrdyExists = false;
-                        }
+                    }
+                    if(!alrdyExists){
+                        package = {Name: dep.Name, Version: dep.Version};
+                        dependencies = dependencies.concat(populateDependencies(package, i));
+                        packages.push({Name: package.Name.replace('%2f','/'), Version: package.Version, Level: dep.Depth});    
+                    }
+                    else{
+                        alrdyExists = false;
                     }
                 }
             }
         }
         i++;
-    }
+    }while(depth==='' && dependencies[i]!==dependencies[i-1] || depth!=0 && i<depth);
+    
+    //This below does another iteration of the previous loop to add the packages on the new depth level,
+    //This needs to be deleted from here and the loop should be rewritten to work flawlessly
     for(const dep of dependencies){
-        for(const pckg of packages){
-            if(dep.Name == pckg.Name){
-                alrdyExists = true;
-                break;
+        console.log(dep);    
+        if(dep.Depth == i){
+            for(const pckg of packages){
+                if(dep.Name == pckg.Name){
+                    alrdyExists = true;
+                    break;
+                }
+            }
+            if(!alrdyExists){
+                package = {Name: dep.Name, Version: dep.Version};
+                packages.push({Name: package.Name.replace('%2f','/'), Version: package.Version, Level: dep.Depth});    
+            }
+            else{
+                alrdyExists = false;
             }
         }
-        if(!alrdyExists){
-            packages.push({Name: dep.Name.replace('%2f','/'), Version: dep.Version, Level: dep.Depth});
-        }else{
-            alrdyExists = false;
-        }
     }
+
     dependencies.push(packages);
     console.log(dependencies);
     return dependencies;
