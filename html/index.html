@@ -22,19 +22,24 @@
         
         <label for="versionSelect">Package Version:</label><br>
         <select name="versionSelect" id="versionSelect">
-            <option value="" selected disabled hidden>Choose package version</option>
+            <option value="" selected disabled hidden>Choose version</option>
         </select>
 
         <form onsubmit="drawDepGraph(event)">
-            <label for="ddepth">Depth: <br>(If left blank the whole tree will be processed)</label><br>
+            <label for="ddepth">Depth: <br><span class="desc">(If left blank the whole tree will be processed)</span></label><br>
             <input type="number" id="ddepth" name="ddepth" min=1 placeholder="e.g. 5"><br>
             <input type="submit" value="Get dependencies">
         </form>
     </div>
      
     <div class="split canvas">
-        <h1>Dependency graph of <b id="dTitle" nowrap>the selected package</b>:</h1>
+        <h1 class="canvasTitle">Dependency graph of <b id="dTitle" nowrap>the selected package</b>:</h1>
         <div id="container"></div>    
+    </div>
+
+    <div class="split graphData">
+        <h1>Graph Data:</h1>
+        <div id="graphData"></div>
     </div>
     
 </body>

@@ -208,16 +208,76 @@ function drawDepGraph(event){
     // Starts the algorithm, and kills it once it's drawn, to save resources:
     s.startForceAtlas2();
     window.setTimeout(function() {s.killForceAtlas2()}, 100);
+    analyseGraph(packages, dependencies);
+}
 
-    /*
-        Következő lépés:
+/*
+    Következő lépés:
 
-        A függőségi gráf komplexitására kellene mondani valamit. 
-        Lehet nézni például: 
-            függőségek számára vonatkozóan eloszlást, 
-            gráf mélységét, 
-            mennyire fáról vagy hálóról van szó.
+    A függőségi gráf komplexitására kellene mondani valamit. 
+    Lehet nézni például: 
+        függőségek számára vonatkozóan eloszlást, 
+        gráf mélységét, 
+        mennyire fáról vagy hálóról van szó.
+*/
 
-    */
+function analyseGraph(packages, dependencies){
+    var graphData = [];
+    graphData[0] = document.createElement('h3');
+    graphData[0].innerHTML = "Number of nodes: <b nowrap>"+packages.length+"</b>";
+    graphData[1] = document.createElement('h3');
+    graphData[1].innerHTML = "Number of links: <b nowrap>"+dependencies.length+"</b>";
+    graphData[2] = document.createElement('h3');
+    graphData[2].innerHTML = "Type of graph: <b nowrap>"+getGraphType(packages, dependencies)+"</b>";
+    graphData[3] = document.createElement('h3');
+    graphData[3].innerHTML = "Depth of graph: <b nowrap>"+dependencies[dependencies.length-1].Depth+"</b>";
+    graphData[4] = document.createElement('h3');
+    graphData[4].innerHTML = "Dependency distribution:";
+    
+    var linksPerDepth = [];
 
+    for(dep of dependencies){
+        if(isNaN(linksPerDepth[dep.Depth])){
+            linksPerDepth[dep.Depth] = 0;
+        }
+        linksPerDepth[dep.Depth]++;
+    }
+
+    dataDom = document.getElementById("graphData");
+    if(dataDom.innerHTML!=""){
+        dataDom.innerHTML=""
+    }
+    
+    listElement = document.createElement('ul');
+
+    for (let i = 1; i < linksPerDepth.length; i++) {
+        console.log("Dependecies on the "+i+". depth level: "+linksPerDepth[i]);
+        
+        listItem = document.createElement('li');
+        listItem.innerHTML = "Dependecies on the "+i+". depth level: <b nowrap style=\"color: #2e946d;\">"+linksPerDepth[i];
+        listElement.appendChild(listItem);
+    }
+    graphData[5] = listElement;
+
+    for(let i= 0; i<graphData.length; i++){
+        dataDom.appendChild(graphData[i]);
+    }
+}
+
+function getGraphType(packages, dependencies){
+    //Since the program checks the dependencies of certain packages there's only one root in each case
+    var areThereCycles = false;
+    for(pack of packages){
+        var parentNum = 0;
+        for(dep of dependencies){
+            if(parentNum>1){
+                thereAreCycles = true;
+                return "Net";
+            }
+            if(pack.Name == dep.Name){
+                parentNum++;
+            }
+        }
+    }
+    return "Tree";
 }
