@@ -52,8 +52,8 @@ input[type=text], select, input[type=number], input[type=date] {
   }
 
   .canvas {
-    right: 20%;
-    width: 60%;
+    right: 0;
+    width: 80%;
     background-color: rgb(31, 31, 31);
     color:#ccc;
   }
@@ -72,8 +72,7 @@ input[type=text], select, input[type=number], input[type=date] {
   #container {
     position: absolute;
     width: 100%;
-    height: 80%;
-    padding: 1em;
+    height: 90%;
   }
 
   #dTitle{
@@ -90,6 +89,10 @@ input[type=text], select, input[type=number], input[type=date] {
 
   .canvasTitle{
    padding-left: 1em;
+  }
+
+  .label{
+    font-weight: bolder;
   }
   
   

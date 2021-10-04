@@ -175,39 +175,90 @@ function drawDepGraph(event){
         },
         settings: {
             defaultEdgeType: "arrow",
-            minArrowSize: 10,
+            minArrowSize: 5,
             sideMargin: 5,
             defaultLabelColor: '#ccc',
             defaultNodeColor: '#2e946d',
+            defaultLabelColor: '#2e946d',
         }
     });  
 
     // Create graph nodes from packages
+
+    var nodesPerLevel = [];
+    var pckCount = 0;
+    var currentLevel = 0;
+    var offset = 0;
+    var divided = 0;
+
+    dependencies.forEach(dep=>{
+        packages.forEach(pack=>{
+            if(pack.Name == dep.Name){
+                if(pack.Level == dep.Depth){
+                    pack.Level++;
+                    dep.Depth++;
+                }
+            }
+        })
+    })
+
+    packages.sort((a,b) => (a.Level > b.Level) ? 1 : ((b.Level > a.Level) ? -1 : 0));
+    console.log(packages);
+
+    packages.forEach(pckg => {
+        if(currentLevel == pckg.Level){
+            pckCount++;
+            nodesPerLevel[currentLevel] = pckCount;
+        }
+        else{
+            pckCount=1;
+            currentLevel = pckg.Level;
+            nodesPerLevel[currentLevel] = pckCount;
+        }
+    });
+
+    console.log(nodesPerLevel);
+
     for (let i = 0; i < packages.length; i++) {
+        if(i>0 && packages[i].Level != packages[i-1].Level){
+            offset = 0;
+            divided = 2/nodesPerLevel[packages[i].Level];
+            console.log(divided);
+
+        }
+        if(divided==0 || divided==2){
+            offset=0.5;
+        }
+
         s.graph.addNode({
+            // Main attributes:
             id: packages[i].Name,
             label: packages[i].Name,
-            x: Math.random(),
-            y: Math.random(),
+            // Display attributes:
+            y: 0+offset,
+            x: 0+packages[i].Level/2,
             size: 1
         })
+        offset+=divided;
     }
-
+  
     // Create graph edges from dependencies
     var n = 0;
-    dependencies.forEach(dep => {
+
+    for (let i = 0; i < dependencies.length; i++) {
+        
         s.graph.addEdge({
-            id: 'edge_'+n,
-            source: dep.Parent,
-            target: dep.Name,
+            id: 'edge_'+i,
+            source: dependencies[i].Parent,
+            target: dependencies[i].Name,
             color: '#ccc'
         });
-        n++;
-    });
+    }
     
     // Starts the algorithm, and kills it once it's drawn, to save resources:
-    s.startForceAtlas2();
-    window.setTimeout(function() {s.killForceAtlas2()}, 100);
+   // s.startForceAtlas2();
+   // window.setTimeout(function() {s.killForceAtlas2()}, 100);
+   s.refresh();
     analyseGraph(packages, dependencies);
 }
 
@@ -266,12 +317,10 @@ function analyseGraph(packages, dependencies){
 
 function getGraphType(packages, dependencies){
     //Since the program checks the dependencies of certain packages there's only one root in each case
-    var areThereCycles = false;
     for(pack of packages){
         var parentNum = 0;
         for(dep of dependencies){
             if(parentNum>1){
-                thereAreCycles = true;
                 return "Net";
             }
             if(pack.Name == dep.Name){
