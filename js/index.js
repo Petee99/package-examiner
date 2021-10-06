@@ -202,7 +202,22 @@ function drawDepGraph(event){
         })
     })
 
+
     packages.sort((a,b) => (a.Level > b.Level) ? 1 : ((b.Level > a.Level) ? -1 : 0));
+    
+    for(let i=0; i<packages.length; i++){
+        if(i>0 && packages[i].Level - packages[i-1].Level > 1){
+            let temp = packages[i].Level;
+            let temp2 = packages[i-1].Level+1;
+            for(let j=i; j<packages.length; j++){
+                if(packages[j].Level == temp){
+                    packages[j].Level = temp2;
+                }
+                
+            }
+        }
+    }
+    
     console.log(packages);
 
     packages.forEach(pckg => {
