@@ -164,8 +164,55 @@ function drawDepGraph(event){
         document.getElementById("container").innerHTML = "";
     }
 
-    console.log(dependencies);
+    for(dep of packages){
+        console.log(dep);
+    }
+    //Some advancements, still needs work
+    for(dep of dependencies){
+        console.log(dep);
+        for(pack of packages){
+            if(pack.Name == dep.Name){
+                console.log("Előtte: "+dep.Name+" Szint:"+dep.Depth);
+                console.log("Előtte: "+pack.Name+" Szint:"+pack.Level); 
+                
+                if(pack.Level == dep.Depth){
+                    dep.Depth++;
+                    pack.Level=dep.Depth;                    
+                    
+                }else if(pack.Level > dep.Depth){
+                    pack.Level+=1;
+                }else{
+                    console.log("Helooooooooooooooooooooooo");
+                }
+                console.log("Utána: "+dep.Name+" Szint:"+dep.Depth);
+                console.log("Utána: "+pack.Name+" Szint:"+pack.Level);
+            }
+        }
+    }
 
+    packages.sort((a,b) => (a.Level > b.Level) ? 1 : ((b.Level > a.Level) ? -1 : 0));
+    
+    for(let i=0; i<packages.length; i++){
+        if(i>0 && packages[i].Level - packages[i-1].Level > 1){
+            let temp = packages[i].Level;
+            let temp2 = packages[i-1].Level+1;
+            for(let j=i; j<packages.length; j++){
+                if(packages[j].Level == temp){
+                    packages[j].Level = temp2;
+                }
+                
+            }
+        }
+    }  
+
+    
+    console.log(packages);
+
+    drawGraph(packages, dependencies);
+    analyseGraph(packages, dependencies);
+}
+
+function drawGraph(packages, dependencies, nodesPer){
     //Creates a new sigma.js instance, and configures it
     var s = new sigma({ 
         container: 'container',
@@ -181,45 +228,15 @@ function drawDepGraph(event){
             defaultNodeColor: '#2e946d',
             defaultLabelColor: '#2e946d',
         }
-    });  
-
-    // Create graph nodes from packages
-
+    }); 
+    
+    var offset = 0;
+    var divided = 0;
     var nodesPerLevel = [];
     var pckCount = 0;
     var currentLevel = 0;
-    var offset = 0;
-    var divided = 0;
 
-    dependencies.forEach(dep=>{
-        packages.forEach(pack=>{
-            if(pack.Name == dep.Name){
-                if(pack.Level == dep.Depth){
-                    pack.Level++;
-                    dep.Depth++;
-                }
-            }
-        })
-    })
-
-
-    packages.sort((a,b) => (a.Level > b.Level) ? 1 : ((b.Level > a.Level) ? -1 : 0));
-    
-    for(let i=0; i<packages.length; i++){
-        if(i>0 && packages[i].Level - packages[i-1].Level > 1){
-            let temp = packages[i].Level;
-            let temp2 = packages[i-1].Level+1;
-            for(let j=i; j<packages.length; j++){
-                if(packages[j].Level == temp){
-                    packages[j].Level = temp2;
-                }
-                
-            }
-        }
-    }
-    
-    console.log(packages);
-
+    // Array of how many packages are there on each level
     packages.forEach(pckg => {
         if(currentLevel == pckg.Level){
             pckCount++;
@@ -232,8 +249,7 @@ function drawDepGraph(event){
         }
     });
 
-    console.log(nodesPerLevel);
-
+    // Create graph nodes from packages
     for (let i = 0; i < packages.length; i++) {
         if(i>0 && packages[i].Level != packages[i-1].Level){
             offset = 0;
@@ -258,8 +274,6 @@ function drawDepGraph(event){
     }
   
     // Create graph edges from dependencies
-    var n = 0;
-
     for (let i = 0; i < dependencies.length; i++) {
         
         s.graph.addEdge({
@@ -269,23 +283,9 @@ function drawDepGraph(event){
             color: '#ccc'
         });
     }
-    
-    // Starts the algorithm, and kills it once it's drawn, to save resources:
-   // s.startForceAtlas2();
-   // window.setTimeout(function() {s.killForceAtlas2()}, 100);
-   s.refresh();
-    analyseGraph(packages, dependencies);
+
+    s.refresh();
 }
-
-/*
-    Következő lépés:
-
-    A függőségi gráf komplexitására kellene mondani valamit. 
-    Lehet nézni például: 
-        függőségek számára vonatkozóan eloszlást, 
-        gráf mélységét, 
-        mennyire fáról vagy hálóról van szó.
-*/
 
 function analyseGraph(packages, dependencies){
     var graphData = [];
