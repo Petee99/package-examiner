@@ -229,11 +229,12 @@ function drawGraph(packages, dependencies, nodesPer){
             id: packages[i].Name,
             label: packages[i].Name,
             // Display attributes:
-            y: Math.random()+offset,
+            y: 0+offset,
             x: 0+packages[i].Level/2,
             size: 1
         })
         offset+=divided;
+        
     }
   
     // Create graph edges from dependencies
@@ -246,31 +247,73 @@ function drawGraph(packages, dependencies, nodesPer){
             color: '#ccc'
         });
     }
+    var changes = 1;
 
-    s.graph.edges().forEach(edge => {
-        let source;
-        let target;
-        s.graph.nodes().forEach(node => {
-          if(edge.source == node.label){
-            source = node;
-          }else if(edge.target == node.label){
-            target = node;  
-          }  
-          if(typeof source == "object" && typeof target == "object"){
-              if(source.x == target.x){
-                  target.x++;;
+    // MY Graph layout algorithm for arranging nodes to their proper level
+    while(changes>0){
+        changes=0;
+        for(let edge of s.graph.edges()) {
+            let source;
+            let target;
+            for(let node of s.graph.nodes()){
+                if(edge.source == node.label){
+                    source = node;
+                }else if(edge.target == node.label){
+                    target = node;  
+                }  
+                if(typeof source == "object" && typeof target == "object"){
+                    
+                    if(source.x == target.x){
+                        target.x+=0.5;;
+                        changes++;    
+                    }
+                    else if(target.x<source.x){
+                        target.x = source.x+0.5;
+                        changes++;
+                    }                        
+                    break;
                 }
-              if(target.x<source.x){
-                  target.x = source.x+1;
+            }
+        }
+    }
+
+    let nodes = s.graph.nodes().sort((a,b) => (a.x > b.x) ? 1 : ((b.x > a.x) ? -1 : 0))
+    console.log(nodes);
+    let nArray = [];
+    for(let i = 0; i<nodes.length; i++){
+        if(i>0 && nodes[i].x == nodes[i-1].x){
+            if(i==2){
+                nArray.push(nodes[i-1]);
+                nArray.push(nodes[i-1]);
+            }else if(i==nodes.length-1){
+                nArray.push(nodes[i]);
+            }else{
+                nArray.push(nodes[i-1]);
+            }
+            
+        }
+        else if(nArray.length>0){
+            nArray.push(nodes[i-1]);
+            console.log(nArray);
+            let offset = 1/nArray.length;
+            console.log(offset);
+            
+            for(let j=0; j<nArray.length; j++){
+                if(j==0){
+                    nArray[j].y = offset;
+                }else{
+                    nArray[j].y = nArray[j-1].y + offset;
                 }
-            console.log(source.x)
-            console.log(target.x)
-          }
-        })
-    });
+                
+                
+            }
+            nArray=[];
+        } 
+    }
 
     s.refresh();
 }
+
 
 function analyseGraph(packages, dependencies){
     var graphData = [];
