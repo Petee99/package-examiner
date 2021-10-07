@@ -168,42 +168,7 @@ function drawDepGraph(event){
         console.log(dep);
     }
     //Some advancements, still needs work
-    for(dep of dependencies){
-        console.log(dep);
-        for(pack of packages){
-            if(pack.Name == dep.Name){
-                console.log("Előtte: "+dep.Name+" Szint:"+dep.Depth);
-                console.log("Előtte: "+pack.Name+" Szint:"+pack.Level); 
-                
-                if(pack.Level == dep.Depth){
-                    dep.Depth++;
-                    pack.Level=dep.Depth;                    
-                    
-                }else if(pack.Level > dep.Depth){
-                    pack.Level+=1;
-                }else{
-                    console.log("Helooooooooooooooooooooooo");
-                }
-                console.log("Utána: "+dep.Name+" Szint:"+dep.Depth);
-                console.log("Utána: "+pack.Name+" Szint:"+pack.Level);
-            }
-        }
-    }
-
-    packages.sort((a,b) => (a.Level > b.Level) ? 1 : ((b.Level > a.Level) ? -1 : 0));
-    
-    for(let i=0; i<packages.length; i++){
-        if(i>0 && packages[i].Level - packages[i-1].Level > 1){
-            let temp = packages[i].Level;
-            let temp2 = packages[i-1].Level+1;
-            for(let j=i; j<packages.length; j++){
-                if(packages[j].Level == temp){
-                    packages[j].Level = temp2;
-                }
-                
-            }
-        }
-    }  
+      
 
     
     console.log(packages);
@@ -253,9 +218,7 @@ function drawGraph(packages, dependencies, nodesPer){
     for (let i = 0; i < packages.length; i++) {
         if(i>0 && packages[i].Level != packages[i-1].Level){
             offset = 0;
-            divided = 2/nodesPerLevel[packages[i].Level];
-            console.log(divided);
-
+            divided = packages[i].Level/nodesPerLevel[packages[i].Level];
         }
         if(divided==0 || divided==2){
             offset=0.5;
@@ -266,7 +229,7 @@ function drawGraph(packages, dependencies, nodesPer){
             id: packages[i].Name,
             label: packages[i].Name,
             // Display attributes:
-            y: 0+offset,
+            y: Math.random()+offset,
             x: 0+packages[i].Level/2,
             size: 1
         })
@@ -283,6 +246,28 @@ function drawGraph(packages, dependencies, nodesPer){
             color: '#ccc'
         });
     }
+
+    s.graph.edges().forEach(edge => {
+        let source;
+        let target;
+        s.graph.nodes().forEach(node => {
+          if(edge.source == node.label){
+            source = node;
+          }else if(edge.target == node.label){
+            target = node;  
+          }  
+          if(typeof source == "object" && typeof target == "object"){
+              if(source.x == target.x){
+                  target.x++;;
+                }
+              if(target.x<source.x){
+                  target.x = source.x+1;
+                }
+            console.log(source.x)
+            console.log(target.x)
+          }
+        })
+    });
 
     s.refresh();
 }
