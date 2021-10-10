@@ -164,20 +164,11 @@ function drawDepGraph(event){
         document.getElementById("container").innerHTML = "";
     }
 
-    for(dep of packages){
-        console.log(dep);
-    }
-    //Some advancements, still needs work
-      
-
-    
-    console.log(packages);
-
     drawGraph(packages, dependencies);
-    analyseGraph(packages, dependencies);
 }
 
-function drawGraph(packages, dependencies, nodesPer){
+function drawGraph(packages, dependencies){
+    var colors = ['#2e946d','#F0A30A','#2980B9','#A20025','#FFAB91','yellow','blue','pink','#795548','#607D8B'];
     //Creates a new sigma.js instance, and configures it
     var s = new sigma({ 
         container: 'container',
@@ -189,52 +180,23 @@ function drawGraph(packages, dependencies, nodesPer){
             defaultEdgeType: "arrow",
             minArrowSize: 5,
             sideMargin: 5,
+            defaultNodeColor: '#ccc',
             defaultLabelColor: '#ccc',
-            defaultNodeColor: '#2e946d',
-            defaultLabelColor: '#2e946d',
         }
     }); 
-    
-    var offset = 0;
-    var divided = 0;
-    var nodesPerLevel = [];
-    var pckCount = 0;
-    var currentLevel = 0;
-
-    // Array of how many packages are there on each level
-    packages.forEach(pckg => {
-        if(currentLevel == pckg.Level){
-            pckCount++;
-            nodesPerLevel[currentLevel] = pckCount;
-        }
-        else{
-            pckCount=1;
-            currentLevel = pckg.Level;
-            nodesPerLevel[currentLevel] = pckCount;
-        }
-    });
 
     // Create graph nodes from packages
     for (let i = 0; i < packages.length; i++) {
-        if(i>0 && packages[i].Level != packages[i-1].Level){
-            offset = 0;
-            divided = packages[i].Level/nodesPerLevel[packages[i].Level];
-        }
-        if(divided==0 || divided==2){
-            offset=0.5;
-        }
 
         s.graph.addNode({
             // Main attributes:
             id: packages[i].Name,
             label: packages[i].Name,
             // Display attributes:
-            y: 0+offset,
-            x: 0+packages[i].Level/2,
+            y: 0,
+            x: 0+packages[i].Level,
             size: 1
-        })
-        offset+=divided;
-        
+        })        
     }
   
     // Create graph edges from dependencies
@@ -243,13 +205,13 @@ function drawGraph(packages, dependencies, nodesPer){
         s.graph.addEdge({
             id: 'edge_'+i,
             source: dependencies[i].Parent,
-            target: dependencies[i].Name,
-            color: '#ccc'
+            target: dependencies[i].Name
         });
     }
-    var changes = 1;
 
     // MY Graph layout algorithm for arranging nodes to their proper level
+    // Positioning nodes vertically
+    var changes = 1;
     while(changes>0){
         changes=0;
         for(let edge of s.graph.edges()) {
@@ -264,112 +226,137 @@ function drawGraph(packages, dependencies, nodesPer){
                 if(typeof source == "object" && typeof target == "object"){
                     
                     if(source.x == target.x){
-                        target.x+=0.5;;
+                        target.x+=1;;
                         changes++;    
                     }
                     else if(target.x<source.x){
-                        target.x = source.x+0.5;
+                        target.x = source.x+1;
                         changes++;
-                    }                        
+                    }
+                    edge.color = colors[source.x];                       
                     break;
                 }
             }
         }
     }
 
+    // Positioning nodes horizontally
     let nodes = s.graph.nodes().sort((a,b) => (a.x > b.x) ? 1 : ((b.x > a.x) ? -1 : 0))
-    console.log(nodes);
     let nArray = [];
     for(let i = 0; i<nodes.length; i++){
-        if(i>0 && nodes[i].x == nodes[i-1].x){
-            if(i==2){
-                nArray.push(nodes[i-1]);
-                nArray.push(nodes[i-1]);
-            }else if(i==nodes.length-1){
-                nArray.push(nodes[i]);
-            }else{
-                nArray.push(nodes[i-1]);
-            }
-            
-        }
-        else if(nArray.length>0){
-            nArray.push(nodes[i-1]);
-            console.log(nArray);
-            let offset = 1/nArray.length;
-            console.log(offset);
-            
+        
+        if(i<nodes.length-1 && nodes[i].x == nodes[i+1].x){
+            nArray.push(nodes[i]);
+        }else if(nArray.length>0){
+            nArray.push(nodes[i]);
+
+            let offset = 2/nArray.length;
             for(let j=0; j<nArray.length; j++){
                 if(j==0){
-                    nArray[j].y = offset;
+                    nArray[j].y = Math.random() * (0.5 - -0.5) -0.5;
                 }else{
-                    nArray[j].y = nArray[j-1].y + offset;
+                    if(j%2 == 0){
+                        nArray[j].y = nArray[j-2].y+offset;
+                    }else{
+                        if(j==1){
+                            nArray[j].y = nArray[j-1].y-offset;
+                        }else{
+                            nArray[j].y = nArray[j-2].y-offset;
+                        }
+                    }
+                    
                 }
-                
-                
+                               
             }
+            console.log(nArray); 
             nArray=[];
         } 
+        
     }
+    console.log(nodes);
 
+    analyseGraph(nodes, s.graph.edges());
     s.refresh();
 }
 
 
-function analyseGraph(packages, dependencies){
+function analyseGraph(nodes, edges){
     var graphData = [];
-    graphData[0] = document.createElement('h3');
-    graphData[0].innerHTML = "Number of nodes: <b nowrap>"+packages.length+"</b>";
-    graphData[1] = document.createElement('h3');
-    graphData[1].innerHTML = "Number of links: <b nowrap>"+dependencies.length+"</b>";
-    graphData[2] = document.createElement('h3');
-    graphData[2].innerHTML = "Type of graph: <b nowrap>"+getGraphType(packages, dependencies)+"</b>";
-    graphData[3] = document.createElement('h3');
-    graphData[3].innerHTML = "Depth of graph: <b nowrap>"+dependencies[dependencies.length-1].Depth+"</b>";
-    graphData[4] = document.createElement('h3');
-    graphData[4].innerHTML = "Dependency distribution:";
+    var linksPerDepth = getLinksPerDepth(nodes, edges);
     
-    var linksPerDepth = [];
-
-    for(dep of dependencies){
-        if(isNaN(linksPerDepth[dep.Depth])){
-            linksPerDepth[dep.Depth] = 0;
-        }
-        linksPerDepth[dep.Depth]++;
-    }
-
     dataDom = document.getElementById("graphData");
+    listElement = document.createElement('ul');
+
     if(dataDom.innerHTML!=""){
         dataDom.innerHTML=""
     }
     
-    listElement = document.createElement('ul');
-
+    graphData[0] = document.createElement('h3');
+    graphData[0].innerHTML = "Number of nodes: <b nowrap>"+nodes.length+"</b>";
+    graphData[1] = document.createElement('h3');
+    graphData[1].innerHTML = "Number of links: <b nowrap>"+edges.length+"</b>";
+    graphData[2] = document.createElement('h3');
+    graphData[2].innerHTML = "Depth of graph: <b nowrap>"+getMaxDepth(nodes)+"</b>";
+    graphData[3] = document.createElement('h3');
+    graphData[3].innerHTML = "Dependency distribution:";    
+    console.log(getNodeDegrees(nodes, edges));
+    
     for (let i = 1; i < linksPerDepth.length; i++) {
-        console.log("Dependecies on the "+i+". depth level: "+linksPerDepth[i]);
-        
         listItem = document.createElement('li');
         listItem.innerHTML = "Dependecies on the "+i+". depth level: <b nowrap style=\"color: #2e946d;\">"+linksPerDepth[i];
         listElement.appendChild(listItem);
     }
-    graphData[5] = listElement;
+    graphData[4] = listElement;
 
     for(let i= 0; i<graphData.length; i++){
         dataDom.appendChild(graphData[i]);
     }
 }
 
-function getGraphType(packages, dependencies){
-    //Since the program checks the dependencies of certain packages there's only one root in each case
-    for(pack of packages){
-        var parentNum = 0;
-        for(dep of dependencies){
-            if(parentNum>1){
-                return "Net";
-            }
-            if(pack.Name == dep.Name){
-                parentNum++;
-            }
+function getMaxDepth(nodes){
+    let maxDepth=0;
+    for(let node of nodes){
+        if(node.x>maxDepth){
+            maxDepth = node.x;
         }
     }
-    return "Tree";
+    return maxDepth;
+}
+
+function getLinksPerDepth(nodes, edges){
+    let array = [];
+
+    for(let edge of edges) {
+        for(let node of nodes){
+            if(edge.target==node.label){
+                if(isNaN(array[node.x])){
+                    array[node.x] = 1;
+                }
+                else{
+                    array[node.x]++;
+                }
+                
+            }   
+        }
+    }
+    return array;
+}
+
+function getNodeDegrees(nodes, edges){
+    let array = [];
+
+    for(let i = 0; i<nodes.length; i++){
+        for(let edge of edges) {
+            if(array[i]==undefined){
+                array[i] = {Name: nodes[i].label, In: 0, Out:0};
+            }            
+            if(edge.target==nodes[i].label){
+                array[i].In++;
+            }
+            if(edge.source==nodes[i].label){
+                array[i].Out++;
+            }   
+        }
+    }
+    return array;
 }
