@@ -211,9 +211,9 @@ function drawGraph(packages, dependencies){
 
     // MY Graph layout algorithm for arranging nodes to their proper level
     // Positioning nodes vertically
-    var changes = 1;
-    while(changes>0){
-        changes=0;
+    var changes = true;
+    while(changes){
+        changes=false;
         for(let edge of s.graph.edges()) {
             let source;
             let target;
@@ -227,11 +227,11 @@ function drawGraph(packages, dependencies){
                     
                     if(source.x == target.x){
                         target.x+=1;;
-                        changes++;    
+                        changes=true;    
                     }
                     else if(target.x<source.x){
                         target.x = source.x+1;
-                        changes++;
+                        changes=true;
                     }
                     edge.color = colors[source.x];                       
                     break;
@@ -249,8 +249,13 @@ function drawGraph(packages, dependencies){
             nArray.push(nodes[i]);
         }else if(nArray.length>0){
             nArray.push(nodes[i]);
-
-            let offset = 2/nArray.length;
+            let offset;
+            if(nArray[0].x%2==0){
+                offset = 2/nArray.length;
+            }else{
+                offset = 3/nArray.length;
+            }
+            
             for(let j=0; j<nArray.length; j++){
                 if(j==0){
                     nArray[j].y = Math.random() * (0.5 - -0.5) -0.5;
@@ -263,34 +268,30 @@ function drawGraph(packages, dependencies){
                         }else{
                             nArray[j].y = nArray[j-2].y-offset;
                         }
-                    }
-                    
-                }
-                               
+                    }  
+                }             
             }
-            console.log(nArray); 
             nArray=[];
-        } 
-        
+        }    
     }
-    console.log(nodes);
 
-    analyseGraph(nodes, s.graph.edges());
     s.refresh();
+    analyseGraph(nodes, s.graph.edges());
 }
 
 
 function analyseGraph(nodes, edges){
     var graphData = [];
+    var nodeDegrees = getNodeDegrees(nodes,edges);
     var linksPerDepth = getLinksPerDepth(nodes, edges);
-    
+
     dataDom = document.getElementById("graphData");
     listElement = document.createElement('ul');
 
     if(dataDom.innerHTML!=""){
         dataDom.innerHTML=""
     }
-    
+
     graphData[0] = document.createElement('h3');
     graphData[0].innerHTML = "Number of nodes: <b nowrap>"+nodes.length+"</b>";
     graphData[1] = document.createElement('h3');
@@ -298,19 +299,23 @@ function analyseGraph(nodes, edges){
     graphData[2] = document.createElement('h3');
     graphData[2].innerHTML = "Depth of graph: <b nowrap>"+getMaxDepth(nodes)+"</b>";
     graphData[3] = document.createElement('h3');
-    graphData[3].innerHTML = "Dependency distribution:";    
-    console.log(getNodeDegrees(nodes, edges));
-    
-    for (let i = 1; i < linksPerDepth.length; i++) {
-        listItem = document.createElement('li');
-        listItem.innerHTML = "Dependecies on the "+i+". depth level: <b nowrap style=\"color: #2e946d;\">"+linksPerDepth[i];
-        listElement.appendChild(listItem);
-    }
-    graphData[4] = listElement;
+    graphData[3].innerHTML = "Dependency distribution:";
+    graphData[4] = document.createElement('canvas');
+    graphData[4].id = "depDistHistogram"
+    graphData[5] = document.createElement('h3');
+    graphData[5].innerHTML = "Graph Node Degrees (Incoming and Outgoing):";
+    graphData[6] = document.createElement('canvas');
+    graphData[6].id = "nodeDegHistogramIn"
+    graphData[7] = document.createElement('canvas');
+    graphData[7].id = "nodeDegHistogramOut"
 
     for(let i= 0; i<graphData.length; i++){
         dataDom.appendChild(graphData[i]);
     }
+
+    makeGraphDataHistogram("depDistHistogram",linksPerDepth);
+    makeGraphDataHistogram("nodeDegHistogramIn",nodeDegrees);
+    makeGraphDataHistogram("nodeDegHistogramOut",nodeDegrees);
 }
 
 function getMaxDepth(nodes){
@@ -359,4 +364,73 @@ function getNodeDegrees(nodes, edges){
         }
     }
     return array;
+}
+
+function makeGraphDataHistogram(id, inputArray){
+    const ctx = document.getElementById(id).getContext('2d');
+    let labArray = [];
+    let dataArray = [];
+    var label;
+    
+    switch (id) {
+        case "depDistHistogram":
+            console.log(inputArray);
+            for(let i=1; i<inputArray.length; i++){
+                labArray.push(i);
+                dataArray.push(inputArray[i]);
+            }
+            label="Number of Dependencies"
+            break;
+        case "nodeDegHistogramIn":
+            for(let data of inputArray){
+                labArray.push(data.Name);
+                dataArray.push(data.In);
+            }
+            label="Number of Incoming Edges"
+            break;
+        case "nodeDegHistogramOut":
+            for(let data of inputArray){
+                labArray.push(data.Name);
+                dataArray.push(data.Out);
+            }
+            label="Number of Outgoing Edges"
+            break;    
+        default:
+            break;
+    }
+
+    const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labArray,
+        datasets: [{
+        label: label,
+        data: dataArray,
+        backgroundColor: '#2e946d',
+        }]
+    },
+    options: {
+        scales: {
+        xAxes: [{
+            display: false,
+            barPercentage: 1.3,
+            ticks: {
+            max: 3,
+            }
+        }, {
+            display: true,
+            ticks: {
+            autoSkip: false,
+            max: 4,
+            }
+        }],
+        yAxes: [{
+            ticks: {
+            beginAtZero: true,
+            max: 2,
+            }
+        }]
+        }
+    }
+    });
 }
