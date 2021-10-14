@@ -1,2 +1,4 @@
-img/
-app.js
+node_modules
+.cache/
+development
+dist

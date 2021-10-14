@@ -1,19 +1,36 @@
 {
   "name": "package-examiner",
   "version": "1.0.0",
-  "description": "To be changed",
-  "main": "app.js",
+  "description": "To be changed later",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npm run clean && parcel public/index.html --out-dir development -p 3000",
+    "build": "rimraf ./dist && parcel build public/*.html --out-dir dist --public-url ./",
+    "clean": "rimraf ./development && rimraf ./.cache"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Petee99/package-examiner.git"
+    "url": ""
   },
-  "author": "Makó Péter",
+  "keywords": [
+    "parcel"
+  ],
+  "author": "Peter Mako",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Petee99/package-examiner/issues"
   },
-  "homepage": "https://github.com/Petee99/package-examiner#readme"
+  "homepage": "https://github.com/Petee99/package-examiner#readme",
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-transform-runtime": "^7.9.0",
+    "@babel/runtime-corejs2": "^7.9.2",
+    "parcel-bundler": "^1.12.4",
+    "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "chart.js": "^3.5.1",
+    "semver": "^7.3.5",
+    "sigma": "^1.2.1"
+  }
 }

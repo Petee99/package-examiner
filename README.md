@@ -1,4 +1,4 @@
-Szakdolgozat feladat
+# Szakdolgozat feladat
 
 Makó Péter (E8HZ8D) BSc programtervező informatikus jelölt részére.
 A szakdolgozat tárgyköre: Szoftverfejlesztés
@@ -13,3 +13,24 @@ Témavezető(k): Piller Imre, egyetemi tanársegéd
 Konzulens(ek):  Piller Imre, egyetemi tanársegéd
 
 A feladat kiadásának ideje: 2021.február 26.
+
+
+# Használata
+
+Függőségek telepítése
+
+```
+npm install
+```
+
+Fejlesztői szerver futtatása - http://localhost:3000
+
+```
+npm run dev
+```
+
+Kiadásra alkalmas build készítés
+
+```
+npm run build
+```
