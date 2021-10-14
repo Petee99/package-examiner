@@ -4,7 +4,7 @@ const semver = require('semver')
 This function returns an array containing all of the dependencies of a package till the given depth with each entry containing the package's name, version, dependent,
     dependent's version, and depth level, as well as an array containing the package names
 */
-export function getDependenciesTillDepth(pckg, depth){ 
+export async function getDependenciesTillDepth(pckg, depth){ 
     pckg = {Name: pckg[0], Version: pckg[1]};
     
     var packages = [];
@@ -13,7 +13,7 @@ export function getDependenciesTillDepth(pckg, depth){
 
     do{
         if(i==0){ //First level, there probably won't be any duplicate package names
-            dependencies = dependencies.concat(populateDependencies(pckg, i));
+            dependencies = dependencies.concat(await populateDependencies(pckg, i));
             packages.push({Name: pckg.Name.replace('%2f','/'), Version: pckg.Version, Level: i});
         }
         else{ //The rest of the levels. The function checks for duplicate packagenames, so it won't search for dependencies of a package, when it's already been done             
@@ -31,7 +31,7 @@ export function getDependenciesTillDepth(pckg, depth){
                         packages.push({Name: pckg.Name.replace('%2f','/'), Version: pckg.Version, Level: dep.Depth}); 
                         
                         if(i+1<=depth || depth==0){ //If the there are no more iterations, don't add new dependencies
-                            dependencies = dependencies.concat(populateDependencies(pckg, i)); 
+                            dependencies = dependencies.concat(await populateDependencies(pckg, i)); 
                         }   
                     }
                 }
@@ -45,13 +45,35 @@ export function getDependenciesTillDepth(pckg, depth){
 }
 
 /*
+This function returns a subarray for getDependenciesTillDepth() containing the dependencies of a current package, but with the date represented in a more sophisticated way,
+    with each entry containing the package's name, version, dependent, dependent's version, and depth level
+*/
+async function populateDependencies(pckg, depth){
+    var dependencies = [];
+    var currentDependencies = await getDependencies(pckg);
+    if (!currentDependencies){
+        return [];
+    }
+    for(const dep of currentDependencies){ //Populates the dependencies array of the current package, also includes the current depth level
+       dependencies.push({
+            Name: dep.Name, 
+            Version: semver.valid(semver.coerce(dep.Version)), 
+            Depth: depth+1, 
+            Parent: pckg.Name.replace('%2f', '/'), 
+            ParentVersion: pckg.Version
+        });
+    }
+    return dependencies;
+}
+
+/*
 This function returns all dependencies of the given package, if there's any
 */
-function getDependencies(pckg){   
+async function getDependencies(pckg){   
     pckg.Name = pckg.Name.replace('/', '%2f');
     pckg.Version = semver.valid(semver.coerce(pckg.Version));
 
-    var directDependencies = getPackage(pckg.Name, pckg.Version, "dependencies");
+    var directDependencies = await getPackage(pckg.Name, pckg.Version, "dependencies");
     var returnDeps = [];
 
     if(typeof(directDependencies) == "undefined"){
@@ -65,32 +87,6 @@ function getDependencies(pckg){
         returnDeps.push({Name: dep, Version: depVersions[vCount]});
         vCount++;
     }
-
     return returnDeps;
 }
 
-/*
-This function returns a subarray for getDependenciesTillDepth() containing the dependencies of a current package, but with the date represented in a more sophisticated way,
-    with each entry containing the package's name, version, dependent, dependent's version, and depth level
-*/
-function populateDependencies(pckg, depth){
-    var dependencies = [];
-    console.log(pckg);
-    console.log(pckg.Version);
-    console.log(semver.valid(semver.coerce(pckg.Version)));
-    var currentDependencies = getDependencies(pckg);
-    if (!currentDependencies){
-        return [];
-    }
-    for(const dep of currentDependencies){ //Populates the dependencies array of the current package, also includes the current depth level
-        
-        dependencies.push({
-            Name: dep.Name, 
-            Version: semver.valid(semver.coerce(dep.Version)), 
-            Depth: depth+1, 
-            Parent: pckg.Name.replace('%2f', '/'), 
-            ParentVersion: pckg.Version
-        });
-    }
-    return dependencies;
-}

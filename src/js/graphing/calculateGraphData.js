@@ -1,9 +1,7 @@
 const sigma = require("sigma");
 const colors = ['#2e946d','#F0A30A','#2980B9','#A20025','#FFAB91','yellow','blue','pink','#795548','#607D8B'];
-import analyseGraph from "./analyseGraph";
 
-
-export function drawGraph(packages, dependencies){
+export function calculateGraphData(packages, dependencies, drawGraph = true){
     //Creates a new sigma.js instance, and configures it
     var s = new sigma({ 
         container: 'container',
@@ -110,9 +108,10 @@ export function drawGraph(packages, dependencies){
         }    
     }
 
-    s.refresh();
+
+    if(drawGraph){
+        s.refresh();
+    }
 
     return [nodes, s.graph.edges()];
-    analyseGraph(nodes, s.graph.edges());
-    
 }

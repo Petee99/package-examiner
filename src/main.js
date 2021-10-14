@@ -6,8 +6,3 @@ const app = async () => {
 
 app();
 
-function handleFormEvents(event){
-  event.preventDefault();
-  console.log(event);
-}
-

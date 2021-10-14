@@ -17,10 +17,9 @@ export function submitForm(form){
 /*
 This function handles the package search form, once it is called with a proper package name, it will populate a dropdown list on the page.
 */
-function getPackageData(){
+async function getPackageData(){
     var packageName = document.getElementsByName("pname")[0].value;
-    var packageObject = getPackage(packageName);
-    console.log(packageObject);
+    var packageObject = await getPackage(packageName);
     populateVersionDOM(packageName, packageObject.versions);
 }
 

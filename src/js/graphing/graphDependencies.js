@@ -1,12 +1,14 @@
+import { Graph } from "./Graph";
 import { getDependenciesTillDepth } from "../getDependencies";
 import { analyseGraph } from "./analyseGraph";
-import { drawGraph } from "./drawGraph";
+import { calculateGraphData } from "./calculateGraphData";
 
-export function graphDependencies(pckg, dDepth){
-    var dependencies = getDependenciesTillDepth(pckg, dDepth);
+export async function graphDependencies(pckg, dDepth){
+    var dependencies = await getDependenciesTillDepth(pckg, dDepth);
     var packages = dependencies[dependencies.length-1];
     dependencies.pop(dependencies[dependencies.length-1]);
-
-    var graphEntities = drawGraph(packages, dependencies);
-    var graphData = analyseGraph(graphEntities[0], graphEntities[1]);
+    
+    var graphEntities = calculateGraphData(packages, dependencies);
+    var currentGraph = new Graph(graphEntities[0], graphEntities[1]);
+    analyseGraph(currentGraph);
 }
