@@ -18,6 +18,7 @@ export function submitForm(form){
 This function handles the package search form, once it is called with a proper package name, it will populate a dropdown list on the page.
 */
 async function getPackageData(){
+    document.getElementById("pklabel").innerHTML="Package Version";
     var packageName = document.getElementsByName("pname")[0].value;
     var packageObject = await getPackage(packageName);
     populateVersionDOM(packageName, packageObject.versions);
@@ -60,4 +61,5 @@ function populateVersionDOM(packageName, versions){
         option.text = versionArray[i];
         selectList.appendChild(option);
     }
+    document.getElementById("pklabel").innerHTML="<nobr><b style=\"color:#2e946d\">"+packageName+"</b> Version:</nobr>"
 }

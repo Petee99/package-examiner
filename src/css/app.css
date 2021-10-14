@@ -10,10 +10,16 @@ html{
     border-radius: 1em;
     box-sizing: border-box;
     background-color: rgb(43, 43, 43);
-    border-color: rgb(29, 29, 29);
+    border-width: 0;
     color:#ccc;
     max-width:70%;
     min-width: 70%;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    margin-bottom: 3%;
+  }
+
+  input[type=text]:focus, select:focus, input[type=number]:focus, input[type=date]:focus {
+    border-width: 0;
   }
   
   input[type=submit], button {
@@ -25,6 +31,8 @@ html{
     border: none;
     border-radius: 1em;
     cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    margin-bottom: 3%;
   }
   
   input[type=submit]:hover, button:hover {
@@ -99,4 +107,58 @@ html{
   canvas{
     margin-right:5%;
   }
+  
+  /* Dark Mode - Light Mode switch */
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-bottom: 5%;
+  }
+  
+  .switch input {display:none;}
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ff7961;
+    -webkit-transition: .4s;
+    transition: .4s;
+     border-radius: 24px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #2e946d;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(25px);
+  }
+  
+  /*------ ADDED CSS ---------*/
   

@@ -1,14 +1,15 @@
-const https = require('https');
 const semver = require('semver')
 const registryUrl = "https://registry.npmjs.cf/";
 /*
 This is responsible for searching the registry for the given package, optionally you can set which version do you want and which data do you want back.
+
+The fetching uses the semantic versioning system of NPM, and always looks for the latest possible package version, when searching for dependencies
 */
 
 async function getPackage(packageName, packageVersion="", requiredData=""){  
     if(packageVersion!=""){
         let strArray = packageVersion.split('.');
-        
+
         if(strArray.length!=3 || isNaN(strArray[0]) || isNaN(strArray[1]) || isNaN(strArray[2])){
             packageVersion = await findMaxSatisfying(packageName, packageVersion);
         }
@@ -23,10 +24,12 @@ async function getPackage(packageName, packageVersion="", requiredData=""){
             return resPKG;
         }
     })
+    .catch((error) => {
+        console.error(error);
+    });
 
     return pkg;
 }
-
 
 async function findMaxSatisfying(packageName, range){
     let pkg = await fetchData(registryUrl+packageName);
@@ -51,22 +54,3 @@ async function fetchData(url){
 }
 
 export default getPackage;
-
-/*
-var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", registryUrl+packageName+"/"+packageVersion, false ); // false for synchronous request
-    
-    xmlHttp.onreadystatechange = () => {
-        if (xmlHttp.status === 404) {
-            alert("There's no such package!");
-        }
-    };
-    
-    xmlHttp.send( null );   
-
-    if(requiredData.length>0){
-        return JSON.parse(xmlHttp.responseText)[requiredData];
-    }else{
-        return JSON.parse(xmlHttp.responseText);
-    }
-*/
