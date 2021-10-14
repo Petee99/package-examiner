@@ -1,5 +1,4 @@
 import getPackage from "./getPackage";
-const semver = require('semver')
 /*
 This function returns an array containing all of the dependencies of a package till the given depth with each entry containing the package's name, version, dependent,
     dependent's version, and depth level, as well as an array containing the package names
@@ -57,7 +56,7 @@ async function populateDependencies(pckg, depth){
     for(const dep of currentDependencies){ //Populates the dependencies array of the current package, also includes the current depth level
        dependencies.push({
             Name: dep.Name, 
-            Version: semver.valid(semver.coerce(dep.Version)), 
+            Version: dep.Version,
             Depth: depth+1, 
             Parent: pckg.Name.replace('%2f', '/'), 
             ParentVersion: pckg.Version
@@ -71,7 +70,7 @@ This function returns all dependencies of the given package, if there's any
 */
 async function getDependencies(pckg){   
     pckg.Name = pckg.Name.replace('/', '%2f');
-    pckg.Version = semver.valid(semver.coerce(pckg.Version));
+    pckg.Version = pckg.Version;
 
     var directDependencies = await getPackage(pckg.Name, pckg.Version, "dependencies");
     var returnDeps = [];
