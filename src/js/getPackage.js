@@ -6,6 +6,8 @@ This is responsible for searching the registry for the given package, optionally
 The fetching uses the semantic versioning system of NPM, and always looks for the latest possible package version, when searching for dependencies
 */
 
+//Note: check package fetching when range is sg like y >= x < z 
+
 async function getPackage(packageName, packageVersion="", requiredData=""){  
     if(packageVersion!=""){
         let strArray = packageVersion.split('.');
