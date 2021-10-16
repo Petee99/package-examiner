@@ -1,8 +1,5 @@
 const registryUrl = "https://libraries.io/api/search";
 
-//SORT parameter: one of rank, stars, dependents_count, dependent_repos_count, latest_release_published_at, contributions_count, created_at.
-//ORDER parameter: ascending/descending
-
 async function searchPackages(size, sortBy, order){  
     let url = new URL(registryUrl);
     let pkgs = [];

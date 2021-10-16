@@ -1,5 +1,5 @@
-import Sidebar from './components/Sidebar'
-import Canvas from './components/Canvas'
+import Sidebar from './templates/Sidebar'
+import Canvas from './templates/Canvas'
 
 async function App() {
   const template = document.createElement('template')
