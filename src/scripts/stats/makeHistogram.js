@@ -1,41 +1,6 @@
-import Chart from 'chart.js/auto';
+// I'm tired, postponing this until tomorrow
 
-export function analyseGraph(thisGraph){
-    document.getElementById("graphData").innerHTML = "";
-    var graphData = [];
-    let dataDom = document.getElementById("graphData");
-
-    if(dataDom.innerHTML!=""){
-        dataDom.innerHTML=""
-    }
-
-    graphData[0] = document.createElement('h3');
-    graphData[0].innerHTML = "Number of nodes: <b nowrap>"+thisGraph.nodes.length+"</b>";
-    graphData[1] = document.createElement('h3');
-    graphData[1].innerHTML = "Number of links: <b nowrap>"+thisGraph.edges.length+"</b>";
-    graphData[2] = document.createElement('h3');
-    graphData[2].innerHTML = "Depth of graph: <b nowrap>"+thisGraph.getMaxDepth()+"</b>";
-    graphData[3] = document.createElement('h3');
-    graphData[3].innerHTML = "Dependency distribution:";
-    graphData[4] = document.createElement('canvas');
-    graphData[4].id = "depDistHistogram"
-    graphData[5] = document.createElement('h3');
-    graphData[5].innerHTML = "Graph Node Degrees (Incoming and Outgoing):";
-    graphData[6] = document.createElement('canvas');
-    graphData[6].id = "nodeDegHistogramIn"
-    graphData[7] = document.createElement('canvas');
-    graphData[7].id = "nodeDegHistogramOut"
-
-    for(let i= 0; i<graphData.length; i++){
-        dataDom.appendChild(graphData[i]);
-    }
-
-    makeGraphDataHistogram("depDistHistogram",thisGraph.getLinksPerDepth());
-    makeGraphDataHistogram("nodeDegHistogramIn",thisGraph.getNodeDegrees());
-    makeGraphDataHistogram("nodeDegHistogramOut",thisGraph.getNodeDegrees());
-}
-
-function makeGraphDataHistogram(id, inputArray){
+export function makeHistogram(id, inputArray){
     const ctx = document.getElementById(id).getContext('2d');
     let labArray = [];
     let dataArray = [];

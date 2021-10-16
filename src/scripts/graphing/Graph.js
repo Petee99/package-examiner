@@ -1,5 +1,6 @@
 export class Graph{
     constructor(nodes, edges){
+        this.name = nodes[0].id;
         this.nodes = nodes;
         this.edges = edges;
     }

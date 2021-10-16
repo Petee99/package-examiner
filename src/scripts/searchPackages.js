@@ -1,9 +1,8 @@
 const registryUrl = "https://libraries.io/api/search";
 
 async function searchPackages(size, sortBy, order){  
-    let url = new URL(registryUrl);
     let pkgs = [];
-    let pages = Math.floor(size/100);
+    let pages = Math.floor(size/100)+1;
     let params = {
         sort:sortBy, 
         order:order,
@@ -13,14 +12,19 @@ async function searchPackages(size, sortBy, order){
     }
     
     if(pages>0){
-        for(let i=1; i<=pages+1; i++){
-            params.pages = i;
-            if(i==pages+1){
-                params.per_page=size-pages*100;
+        for(let i=1; i<=pages; i++){
+            params.page = i;
+            if(i==pages){
+                if(size%100>0){
+                    params.per_page=size%100;
+                }else{
+                    break
+                }
             }
             else{
                 params.per_page=100;
             }
+            let url = new URL(registryUrl);
             Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
             pkgs = pkgs.concat(await fetchData(url)
             .then((res) => {
@@ -28,6 +32,7 @@ async function searchPackages(size, sortBy, order){
             }));
         }
     }else{
+        let url = new URL(registryUrl);
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
         pkgs = pkgs.concat(await fetchData(url)
         .then((res) => {

@@ -3,6 +3,8 @@ const colors = ['#2e946d','#F0A30A','#2980B9','#A20025','#FFAB91','yellow','blue
 
 export function calculateGraphData(packages, dependencies, drawGraph = true){
     //Creates a new sigma.js instance, and configures it
+    document.getElementById("container").innerHTML="";
+
     var s = new sigma({ 
         container: 'container',
         renderer: {

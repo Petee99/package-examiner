@@ -1,5 +1,6 @@
 import getPackage from "./getPackage";
 import { graphDependencies } from "./graphing/graphDependencies";
+import createStats from "./stats/createStatistics";
 
 export function submitForm(form){
     switch (form) {
@@ -18,21 +19,30 @@ export function submitForm(form){
 }
 
 /*
-This function handles the package search form, once it is called with a proper package name, it will populate a dropdown list on the page.
+    This function handles the package search form, once it is called with a proper package name, it will populate a dropdown list on the page.
 */
 async function getPackageData(){
     document.getElementById("pklabel").innerHTML="Package Version";
-    var packageName = document.getElementsByName("pname")[0].value;
-    var packageObject = await getPackage(packageName);
+    let packageName = document.getElementsByName("pname")[0].value;
+    let packageObject = await getPackage(packageName);
     populateVersionDOM(packageName, packageObject.versions);
 }
 
+/*
+    This function is responsible for getting a statistical analysis of many packages data, then presenting it with histograms.
+*/
 function makeStat(){
-    if(document.getElementById("container").innerHTML != ""){
-        document.getElementById("container").innerHTML = "";
-    }
+    if(document.getElementById("pQuantity").value>0){
+        document.getElementById("container").innerHTML = `<div class="loader"></div>`;
 
-    
+        let size = document.getElementById("pQuantity").value;
+        let sort = document.getElementById("pSort").value;
+        let order = document.getElementById("pOrder").value;
+
+        createStats(size, sort, order);
+    }else{
+        alert("Choose a number first!");
+    }
 }
 
 
@@ -42,23 +52,28 @@ This function handles the form responsible for getting and graphing the dependen
 function makeGraph(){
     var dDepth = document.getElementsByName("ddepth")[0].value;
     var pckg = document.getElementById("versionSelect").value.split(" ");
-    document.getElementById("dTitle").innerHTML=pckg[0];
 
-    if(document.getElementById("container").innerHTML != ""){
-        document.getElementById("container").innerHTML = "";
+    if(pckg[0]!=""){
+        document.getElementById("dTitle").innerHTML=pckg[0];
+
+        document.getElementById("container").innerHTML = `<div class="loader"></div>`;
+        document.getElementById("graphData").innerHTML = `<div class="loader"></div>`;
+
+        graphDependencies(pckg, dDepth);
     }
-
-    graphDependencies(pckg, dDepth);
+    else{
+        alert("Please select a valid package name!")
+    }
 }
 
 /*
-This function populates the dropdown list on the site with the versions of the given package
+    This function populates the dropdown list on the site with the versions of the given package
 */
 function populateVersionDOM(packageName, versions){ 
 
-    var versionArray =[];
-    var i = 0;
-    var selectList = document.getElementById("versionSelect");
+    let versionArray =[];
+    let i = 0;
+    let selectList = document.getElementById("versionSelect");
     selectList.innerHTML="";
 
     for(let version in versions){ //Populates the version array
@@ -68,7 +83,7 @@ function populateVersionDOM(packageName, versions){
 
     //Since the versions we got back are in ascending order, the program iterates through the array from bottom to top and appends it to the DOM
     for(i=versionArray.length-1; i>=0; i--){ 
-        var option = document.createElement("option");
+        let option = document.createElement("option");
         option.setAttribute("value", packageName+" "+versionArray[i]);
         option.text = versionArray[i];
         selectList.appendChild(option);

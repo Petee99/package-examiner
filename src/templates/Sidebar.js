@@ -23,14 +23,16 @@ const Sidebar = () => {
 };
 
 window.toggleMode = () => {
-
   if (document.getElementById("SidebarContent").getAttribute("name") == "Examiner"){
     document.getElementById("SidebarContent").innerHTML = `${Statistics()}`;
     document.getElementById("SidebarContent").setAttribute("name", "Statistics");
+    document.getElementsByClassName("canvasTitle")[0].innerHTML = `Statistical analysis of the checked packages:`;
   } else {
     document.getElementById("SidebarContent").innerHTML = `${Examiner()}`;
     document.getElementById("SidebarContent").setAttribute("name", "Examiner");
+    document.getElementsByClassName("canvasTitle")[0].innerHTML = `Dependency graph of <b id="dTitle" nowrap>the selected package</b>:`;
   }
+  document.getElementById("container").innerHTML="";
 }
 
 window.handleFormEvents = (event) => {
