@@ -1,4 +1,5 @@
 import { submitForm } from "../scripts/handleSidebarEvents";
+import { drawGraph } from "../scripts/graphing/calculateGraphData";
 import Examiner from "./Sidebar/Examiner";
 import Statistics from "./Sidebar/Statistics";
 
@@ -45,7 +46,6 @@ window.toggleDarkMode = () => {
   if (checkBox.checked == true){
     document.getElementsByClassName("canvas")[0].style.backgroundColor = "rgb(31, 31, 31)";
     document.getElementsByClassName("canvasTitle")[0].style.color = "#ccc";
-    
   } else {
     document.getElementsByClassName("canvas")[0].style.backgroundColor = "white";
     document.getElementsByClassName("canvasTitle")[0].style.color = "rgb(43, 43, 43)";

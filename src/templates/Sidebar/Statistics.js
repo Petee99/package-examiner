@@ -2,6 +2,8 @@ const Statistics = () => {
 	const template = `
     <h1>Statistical analysis of many packages</h1>
 
+    <h5>Please keep in mind, that the process can take several minutes, up to hours, depending on the sample size.</h5>
+
     <form id="statForm" onsubmit="handleFormEvents(event)">
         <label for="pQuantity">How many packages to check:</label><br>
         <input type="number" id="pQuantity" name="pQuantity" min=1 placeholder=""><br>
@@ -16,12 +18,6 @@ const Statistics = () => {
           <option value="latest_release_published_at">Latest Release</option>
           <option value="contributions_count">Contributors</option>
         </select><br>
-
-        <label for="pOrder">In what order should they be checked:</label><br>
-        <select name="pOrder" id="pOrder">
-          <option value="descending">Descending</option>
-          <option value="ascending">Ascending</option>
-        </select>
 
         <input type="submit" value="Check Packages">
     </form>

@@ -1,6 +1,6 @@
 import getPackage from "./getPackage";
-import { graphDependencies } from "./graphing/graphDependencies";
 import createStats from "./stats/createStatistics";
+import { graphDependencies } from "./graphing/graphDependencies";
 
 export function submitForm(form){
     switch (form) {
@@ -22,10 +22,16 @@ export function submitForm(form){
     This function handles the package search form, once it is called with a proper package name, it will populate a dropdown list on the page.
 */
 async function getPackageData(){
-    document.getElementById("pklabel").innerHTML="Package Version";
+    document.getElementById("pklabel").innerHTML="Package Version:";
     let packageName = document.getElementsByName("pname")[0].value;
     let packageObject = await getPackage(packageName);
-    populateVersionDOM(packageName, packageObject.versions);
+
+    if(packageObject.name != "Error"){
+        populateVersionDOM(packageName, packageObject.versions);
+    }
+    else{
+        alert("There's no such package.")
+    }
 }
 
 /*
@@ -37,9 +43,8 @@ function makeStat(){
 
         let size = document.getElementById("pQuantity").value;
         let sort = document.getElementById("pSort").value;
-        let order = document.getElementById("pOrder").value;
 
-        createStats(size, sort, order);
+        createStats(size, sort);
     }else{
         alert("Choose a number first!");
     }
@@ -62,7 +67,7 @@ function makeGraph(){
         graphDependencies(pckg, dDepth);
     }
     else{
-        alert("Please select a valid package name!")
+        alert("Please select a valid package!")
     }
 }
 

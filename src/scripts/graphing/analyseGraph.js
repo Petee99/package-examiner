@@ -1,4 +1,4 @@
-import Chart from 'chart.js/auto';
+import makeHistogram from "../stats/makeHistogram";
 
 export function analyseGraph(thisGraph){
     document.getElementById("graphData").innerHTML = "";
@@ -20,45 +20,47 @@ export function analyseGraph(thisGraph){
     graphData[4] = document.createElement('canvas');
     graphData[4].id = "depDistHistogram"
     graphData[5] = document.createElement('h3');
-    graphData[5].innerHTML = "Graph Node Degrees (Incoming and Outgoing):";
+    graphData[5].innerHTML = "Incoming Node Degrees:";
     graphData[6] = document.createElement('canvas');
     graphData[6].id = "nodeDegHistogramIn"
-    graphData[7] = document.createElement('canvas');
-    graphData[7].id = "nodeDegHistogramOut"
+    graphData[7] = document.createElement('h3');
+    graphData[7].innerHTML = "Outgoing Node Degrees:";
+    graphData[8] = document.createElement('canvas');
+    graphData[8].id = "nodeDegHistogramOut"
 
     for(let i= 0; i<graphData.length; i++){
         dataDom.appendChild(graphData[i]);
+        if(i>2 && i%2==0){
+            setHistogram(graphData[i].id, thisGraph);
+        }
     }
-
-    makeGraphDataHistogram("depDistHistogram",thisGraph.getLinksPerDepth());
-    makeGraphDataHistogram("nodeDegHistogramIn",thisGraph.getNodeDegrees());
-    makeGraphDataHistogram("nodeDegHistogramOut",thisGraph.getNodeDegrees());
 }
 
-function makeGraphDataHistogram(id, inputArray){
-    const ctx = document.getElementById(id).getContext('2d');
+function setHistogram(id, graphData){
     let labArray = [];
     let dataArray = [];
     var label;
     
     switch (id) {
         case "depDistHistogram":
-            console.log(inputArray);
-            for(let i=1; i<inputArray.length; i++){
+            graphData = graphData.getLinksPerDepth();
+            for(let i=1; i<graphData.length; i++){
                 labArray.push(i);
-                dataArray.push(inputArray[i]);
+                dataArray.push(graphData[i]);
             }
             label="Number of Dependencies"
             break;
         case "nodeDegHistogramIn":
-            for(let data of inputArray){
+            graphData = graphData.getNodeDegrees();
+            for(let data of graphData){
                 labArray.push(data.Name);
                 dataArray.push(data.In);
             }
             label="Number of Incoming Edges"
             break;
         case "nodeDegHistogramOut":
-            for(let data of inputArray){
+            graphData = graphData.getNodeDegrees();
+            for(let data of graphData){
                 labArray.push(data.Name);
                 dataArray.push(data.Out);
             }
@@ -67,39 +69,5 @@ function makeGraphDataHistogram(id, inputArray){
         default:
             break;
     }
-
-    const chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: labArray,
-        datasets: [{
-        label: label,
-        data: dataArray,
-        backgroundColor: '#2e946d',
-        }]
-    },
-    options: {
-        scales: {
-        xAxes: [{
-            display: false,
-            barPercentage: 1.3,
-            ticks: {
-            max: 3,
-            }
-        }, {
-            display: true,
-            ticks: {
-            autoSkip: false,
-            max: 4,
-            }
-        }],
-        yAxes: [{
-            ticks: {
-            beginAtZero: true,
-            max: 2,
-            }
-        }]
-        }
-    }
-    });
+    makeHistogram(id, dataArray, label, labArray);
 }

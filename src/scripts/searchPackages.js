@@ -1,13 +1,13 @@
 const registryUrl = "https://libraries.io/api/search";
 
-async function searchPackages(size, sortBy, order){  
+async function searchPackages(size, sortBy){  
     let pkgs = [];
     let pages = Math.floor(size/100)+1;
     let params = {
         sort:sortBy, 
-        order:order,
         per_page:size,
         page:1,
+        platforms:"NPM",
         api_key:"576acbf22232eac6a3a6b05be774eecb"
     }
     

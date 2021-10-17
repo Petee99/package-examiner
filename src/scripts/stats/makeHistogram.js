@@ -1,37 +1,7 @@
-// I'm tired, postponing this until tomorrow
+import Chart from 'chart.js/auto';
 
-export function makeHistogram(id, inputArray){
+function makeHistogram(id, dataArray, label, labArray){
     const ctx = document.getElementById(id).getContext('2d');
-    let labArray = [];
-    let dataArray = [];
-    var label;
-    
-    switch (id) {
-        case "depDistHistogram":
-            console.log(inputArray);
-            for(let i=1; i<inputArray.length; i++){
-                labArray.push(i);
-                dataArray.push(inputArray[i]);
-            }
-            label="Number of Dependencies"
-            break;
-        case "nodeDegHistogramIn":
-            for(let data of inputArray){
-                labArray.push(data.Name);
-                dataArray.push(data.In);
-            }
-            label="Number of Incoming Edges"
-            break;
-        case "nodeDegHistogramOut":
-            for(let data of inputArray){
-                labArray.push(data.Name);
-                dataArray.push(data.Out);
-            }
-            label="Number of Outgoing Edges"
-            break;    
-        default:
-            break;
-    }
 
     const chart = new Chart(ctx, {
     type: 'line',
@@ -68,3 +38,5 @@ export function makeHistogram(id, inputArray){
     }
     });
 }
+
+export default makeHistogram;

@@ -27,7 +27,7 @@ async function getPackage(packageName, packageVersion="", requiredData=""){
         }
     })
     .catch((error) => {
-        console.error(error);
+        return error;
     });
 
     return pkg;

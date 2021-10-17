@@ -3,7 +3,10 @@ const colors = ['#2e946d','#F0A30A','#2980B9','#A20025','#FFAB91','yellow','blue
 
 export function calculateGraphData(packages, dependencies, drawGraph = true){
     //Creates a new sigma.js instance, and configures it
-    document.getElementById("container").innerHTML="";
+    
+    if(drawGraph){
+        document.getElementById("container").innerHTML="";
+    }
 
     var s = new sigma({ 
         container: 'container',
@@ -15,8 +18,11 @@ export function calculateGraphData(packages, dependencies, drawGraph = true){
             defaultEdgeType: "arrow",
             minArrowSize: 5,
             sideMargin: 5,
-            defaultNodeColor: '#ccc',
-            defaultLabelColor: '#ccc',
+            defaultNodeColor: '#757575',
+            defaultLabelColor: '#757575',
+            defaultLabelSize: 15,
+            defaultLabelBGColor: '#ddd',
+            defaultLabelHoverColor: '#000',
         }
     }); 
 
@@ -77,6 +83,7 @@ export function calculateGraphData(packages, dependencies, drawGraph = true){
 
     // Positioning nodes horizontally
     let nodes = s.graph.nodes().sort((a,b) => (a.x > b.x) ? 1 : ((b.x > a.x) ? -1 : 0))
+    let edges = s.graph.edges();
     let nArray = [];
     for(let i = 0; i<nodes.length; i++){
         
@@ -110,10 +117,11 @@ export function calculateGraphData(packages, dependencies, drawGraph = true){
         }    
     }
 
-
     if(drawGraph){
         s.refresh();
+    }else{
+        s.graph.clear();
     }
 
-    return [nodes, s.graph.edges()];
+    return [nodes, edges];
 }
