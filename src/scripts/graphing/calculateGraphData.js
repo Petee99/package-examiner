@@ -42,7 +42,6 @@ export function calculateGraphData(packages, dependencies, drawGraph = true){
   
     // Create graph edges from dependencies
     for (let i = 0; i < dependencies.length; i++) {
-        
         s.graph.addEdge({
             id: 'edge_'+i,
             source: dependencies[i].Parent,
@@ -53,24 +52,41 @@ export function calculateGraphData(packages, dependencies, drawGraph = true){
     // MY Graph layout algorithm for arranging nodes to their proper level
     // Positioning nodes vertically
     var changes = true;
+    let changelog = [];
+    
+    let num = 0;
     while(changes){
         changes=false;
+        let currentlog = [];
+        //console.log("======= Iteration: "+num+" =======");
+        
         for(let edge of s.graph.edges()) {
             let source;
             let target;
             for(let node of s.graph.nodes()){
+
                 if(edge.source == node.label){
                     source = node;
                 }else if(edge.target == node.label){
                     target = node;  
                 }  
-                if(typeof source == "object" && typeof target == "object"){
+                if(typeof source == "object" && typeof target == "object" && target.label!=s.graph.nodes()[0].label){
                     
                     if(source.x == target.x){
+                        //console.log("Same level!!!!!");
+                        //console.log("Source :"+source.label+" lvl: "+source.x)
+                        //console.log("Target :"+target.label+" lvl: "+target.x)
                         target.x+=1;;
+                        currentlog.push(source.label);
+                        currentlog.push(target.label);
                         changes=true;    
                     }
                     else if(target.x<source.x){
+                        //console.log("Different level!!!!!");
+                        //console.log("Source :"+source.label+" lvl: "+source.x)
+                        //console.log("Target :"+target.label+" lvl: "+target.x)
+                        currentlog.push(source.label);
+                        currentlog.push(target.label);
                         target.x = source.x+1;
                         changes=true;
                     }
@@ -79,7 +95,27 @@ export function calculateGraphData(packages, dependencies, drawGraph = true){
                 }
             }
         }
+
+        changelog.push(currentlog);
+
+        if(num>0 && changelog[num].length == changelog[num-1].length){
+            let identical = true;
+            for(let i = 0; i<changelog[num].length; i++){
+                if(changelog[num][i] != changelog[num-1][i]){
+                    identical = false;
+                    break;
+                }
+            }
+            if(identical){
+                break;
+            }
+        }
+        
+        
+        num++;
     }
+    console.log(changelog);
+    
 
     // Positioning nodes horizontally
     let nodes = s.graph.nodes().sort((a,b) => (a.x > b.x) ? 1 : ((b.x > a.x) ? -1 : 0))

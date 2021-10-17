@@ -9,6 +9,7 @@ export async function graphDependencies(pckg, dDepth, singleMode=true){
     dependencies.pop(dependencies[dependencies.length-1]);
     
     var graphEntities = calculateGraphData(packages, dependencies, singleMode);
+    console.log(graphEntities);
     var currentGraph = new Graph(graphEntities[0], graphEntities[1]);
     
     if(singleMode){

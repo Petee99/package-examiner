@@ -7,6 +7,7 @@ async function createStats(size, sort, order){
     let pkgData = [];
     for(let pkg of packages){
         pkg = [pkg.name,pkg.latest_stable_release_number];
+        console.log(pkg);
         pkgData.push(await graphDependencies(pkg, "", false));
     }
 
