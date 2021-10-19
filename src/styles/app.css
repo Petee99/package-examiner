@@ -55,6 +55,16 @@ html{
     padding-left: 1em;
     border-right-color: rgb(43, 43, 43);
   }
+
+  .togDark{
+    right:0;
+    width: 50%;
+  }
+
+  .togMode{
+    left:0;
+    width:50%;
+  }
   
   .desc{
     font-size: 10px;
@@ -116,14 +126,20 @@ html{
     margin-right:5%;
   }
   
-  /* Dark Mode - Light Mode switch */
+  #togMode{
+    height: 34px;
+    margin-top: 1%;
+    display: inline-flex;
+    align-items: center; 
+  }
 
   .switch {
     position: relative;
     display: inline-block;
     width: 60px;
     height: 34px;
-    margin-bottom: 5%;
+    
+    margin-top:1%;
   }
   
   .switch input {display:none;}
@@ -158,10 +174,6 @@ html{
     background-color: #2e946d;
   }
   
-  input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
-  }
-  
   input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
@@ -169,7 +181,7 @@ html{
   }
   
   .loader {
-    border: 6px solid #f3f3f3; /* Light grey */
+    border: 6px solid #99848400; /* Light grey */
     border-top: 6px solid #2e946d; /* Blue */
     border-radius: 50%;
     width: 30px;
@@ -184,4 +196,6 @@ html{
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+  
   
