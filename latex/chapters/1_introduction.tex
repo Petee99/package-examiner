@@ -10,3 +10,10 @@ A weboldalak fejlődésük során kezdetben HTML jelölőnyelven íródtak, kés
 
 A  JavaScript (JS) egy ECMAScript specifikációt követő, magas szintű programozási nyelv. Nagyjából a weboldalak 97\%-a használja, így a legtöbb böngésző rendelkezik dedikált JavaScript motorral is. A JS-ben nincs natív támogatás az I/O-hoz, így azokat többnyire más környezettel biztosítják, például ilyen a Node.Js is. \cite{javascript}
 
+A NodeJS egy aszinkron, eseményvezérelt futtatási környezet, amely alkalmas skálázható webes applikációk fejlesztésére. Csomagkezelője az úgynevezett Node Package Manager, röviden NPM. A csomagkezelő rendszerek közül a legtöbb csomagot az NPM tartalmazza.
+
+Az NPM csomagok méretüket, funkcionalitásukat, felhasználásukat tekitve sokrétűek. Ilyen csomagként tartják nyilván a híresebb JavaScript keretrendszereket is, mint a Vue.JS, az Angular vagy a React. Ezek a keretrendszerek kényelmet biztosítanak a fejlesztő számára, illetve extra funkcionalitást nyújtanak a "vanilla" JavaScript-tel szemben, ehhez azonban sok esetben más NPM csomagokra is támaszkodnak működésük során, azaz függnek tőlük.
+
+A készítendő program a fent említett keretrendszerek, illetve bármely NPM csomag függőségeinek elemzésére fog egy áttekinthető, interaktív és látványos megoldást adni. Az elemzé során a program képes lesz a csomagok függőségi gráfjainak ábrázolására és annak elemzésére, legyen szó egy csomagról vagy több csomag függőségeinek statisztikai elemzéséről.
+
+A függőségek elemzésére azért lehet szükség, mert egy nagy mennyiségű függőséget felsorakoztó projekt fejlesztése során a felhasznált csomagoknál kialakulhat redundancia, azaz olyan eset, amikor két csomag nagyon hasonló problémára kíván megoldást, így célszerű lehet csak az egyiket felhasználni, így csökketve a függőségeket. A program az elemzéseken túl, az említett esetlegesen felesleges függőségek kivonására próbál majd javaslatot adni.
