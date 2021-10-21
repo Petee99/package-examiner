@@ -1,20 +1,37 @@
 \pagestyle{empty}
 
-\noindent \textbf{\Large CD Használati útmutató}
+\noindent \textbf{\Large Használati útmutató}
 
 \vskip 1cm
 
-Ennek a címe lehet például \textit{A mellékelt CD tartalma} vagy \textit{Adathordozó használati útmutató} is.
+A szakdolgozat dokumentum és a program forráskódja a modern szoftver disztribúciós normákat követve megtalálható GitHub-on a következő linken:
 
-Ez jellemzően csak egy fél-egy oldalas leírás.
-Arra szolgál, hogy ha valaki kézhez kapja a szakdolgozathoz tartozó CD-t, akkor tudja, hogy mi hol van rajta.
-Jellemzően elég csak felsorolni, hogy milyen jegyzékek vannak, és azokban mi található.
-Az elkészített programok telepítéséhez, futtatásához tartozó instrukciók kerülhetnek ide.
+\begin{verbatim}
+	https://github.com/Petee99/package-examiner
+\end{verbatim}
 
-A CD lemezre mindenképpen rá kell tenni
+A számítógépen a program működéséhez szükséges a Node.JS megléte, amelyet az alábbi linken lehet elérni:
+
+\begin{verbatim}
+	https://nodejs.org/en/
+\end{verbatim}
+
+A "repository" letöltését követően a program mappájából indított terminálban szükséges a projekt függőségeinek telepítése:
+
+\begin{verbatim}
+	npm install
+\end{verbatim}
+
+A futtatásra két opció van:
+
 \begin{itemize}
-\item a dolgozatot egy \texttt{dolgozat.pdf} fájl formájában,
-\item a LaTeX forráskódját a dolgozatnak,
-\item az elkészített programot, fontosabb futási eredményeket (például ha kép a kimenet),
-\item egy útmutatót a CD használatához (ami lehet ez a fejezet külön PDF-be vagy MarkDown fájlként kimentve).
+	\item Lokális fejlesztői szerver futtatása (\texttt{http://localhost:3000} lokális címen)
+	\begin{verbatim}
+		npm run dev
+	\end{verbatim}
+	\item Kiadásra alkalmas "build" készítés
+	\begin{verbatim}
+		npm run build
+	\end{verbatim}
 \end{itemize}
+

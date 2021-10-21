@@ -4,7 +4,7 @@
 
 Ennek a fejezetnek a célja, hogy az npm technológia a szakdolgozat és a készítendő program szempontjából releváns területei feltárásra és bemutatásra kerüljenek.
 
-Az npm a világ legnagyobb szoftver nyilvántartása. A fejlesztők segítségével megoszthatják az általuk fejleszett csomagokat, használhatják a mások által írtakat, illetve ezen funkcionalitást gyakran kiaknázzák nagyobb szervezetek a belső fejlesztésekhez.
+Az npm a világ legnagyobb szoftver nyilvántartása. A fejlesztők segítségével megoszthatják az általuk fejlesztett csomagokat, használhatják a mások által írtakat, illetve ezen funkcionalitást gyakran kiaknázzák nagyobb szervezetek a belső fejlesztésekhez.
 
 A csomagkezelő három, jól megkülönböztethető részből épül fel:
 \begin{itemize}
@@ -127,7 +127,7 @@ A csomagoknak az \underline{alábbiakat nem szabad / nem célszerű} tartalmazni
 		\item Az elnevezés utaljon a funkcionalitásra
 		\item Ne ütközzön az npm irányelveibe, illetve ne legyen védjegy alatt az elnevezés
 		\item Ne tartalmazzon szóközöket
-		\item Tartalmazhat alsóvonást, illetve kötőjelet
+		\item Tartalmazhat alulvonást, illetve kötőjelet
 		\item "unscoped" csomagok esetében:
 		\begin{itemize}
 			\item Ne legyen az elnevezés más tulajdonában
@@ -216,7 +216,7 @@ A csomagoknak az \underline{alábbiakat nem szabad / nem célszerű} tartalmazni
 
 \Section{npm Registry}
 
-A publikus npm jegyzék egy adatbázis, mely Javascript csomagokat tárol, mely csomagok mindegyike szoftverből és meaadatokból áll.
+A publikus npm jegyzék egy adatbázis, mely Javascript csomagokat tárol, mely csomagok mindegyike szoftverből és metaadatokból áll.
 
 Az npm csomagok nevének, verzióinak és egyéb adatainak felkutatásához az npm egy registry/jegyzék weboldallal kommunikál, amely a CommonJs Csomag Jegyzék specifikációját implementálja, a csomag információk lekérdezéséhez.
  
@@ -261,7 +261,7 @@ A \texttt{$\big[$GET·/-/v1/search$\big]$} végpont a csomagok keresésében kul
 \begin{itemize}
 	\item \texttt{"text"} (a keresés szövege)
 	\item \texttt{"size"} (a találatok száma 20<n<250)
-	\item \texttt{"from"} (honnantól kezdve adja vissza a találatokat)
+	\item \texttt{"from"} (mettől kezdve adja vissza a találatokat)
 	\item \texttt{"quality"} (mennyire befolyásolja a keresést a csomagok minősége [0-1])
 	\item \texttt{"popularity"} (mennyire befolyásolja a keresést a csomagok népszerűsége [0-1])
 	\item \texttt{"maintenance"} (mennyire befolyásolja a keresést a csomagok karbantartása  [0-1])
@@ -269,7 +269,7 @@ A \texttt{$\big[$GET·/-/v1/search$\big]$} végpont a csomagok keresésében kul
 
 \pagebreak
 
-A keresés további finomítására léteznek speciális paraméterek, ezeket azonban csak teljes szöveges lekérdezésnél lehet alkalamazni.
+A keresés további finomítására léteznek speciális paraméterek, ezeket azonban csak teljes szöveges lekérdezésnél lehet alkalmazni.
 \textbf{Ilyen paraméterek:}
 
 \begin{itemize}
@@ -361,7 +361,7 @@ Minden \textbf{csomag verzió objektumnak} tartalmaznia \textbf{kell} a fenti me
 		\item \texttt{"bundleDependencies"} (Függőségek tömbje ehhez a verzióhoz csomagolva)
 		\item \texttt{"peerDependencies"} (Szemantikus verziózással megadott "peer" függőségek)
 		\item \texttt{"bin"} (Ehhez a verzióhoz kötött "bin" parancsok)
-		\item \texttt{"directories"} (Tömb mely olyan könytárakat tartalmaz, amelyeket tartalmaz az adott verzió)
+		\item \texttt{"directories"} (Tömb mely olyan könyvtárakat tartalmaz, amelyeket tartalmaz az adott verzió)
 		\item \texttt{"engines"} (Az adott verzió futtatásához szükséges Node motorok)
 		\item \texttt{"\_hasShrinkwrap: true"} (Ha ismert, hogy a csomag tartalmazza, akkor "true", egyébként "false")
 	\end{itemize}
@@ -384,7 +384,7 @@ Minden \textbf{csomag verzió objektumnak} tartalmaznia \textbf{kell} a fenti me
 
 Az npm CLI (Command Line Interface), azaz parancssoros felület az csomagkezelő használatának alapját adja. Segítségével telepíthetők, publikálhatók a fejlesztők által készített csomagok. Funkcionalitása széleskörű, vannak olyan csomagok, melyek csak a CLI-re támaszkodnak a felhasználóval való kommunikációhoz.
 
-Használata egyszerű, miután települt a céleszközre, globálisan elérhető a rendszeren belül, és a definiált npm parancsokkal azonnnal igénybe vehetők a funkciói.
+Használata egyszerű, miután települt a céleszközre, globálisan elérhető a rendszeren belül, és a definiált npm parancsokkal azonnal igénybe vehetők a funkciói.
 \begin{table}[h]
 	\caption{Releváns npm CLI parancsok, a teljesség igénye nélkül:}
 	\label{tab:npm-cli}
@@ -430,5 +430,5 @@ Az npm CLI alapértelmezett beállításai szerint a publikus npm Registry-t has
 
 \section{Input/Output}
 
-Mivel az \textbf{ECMAScript} standard nem tartalmaz input/output (I/O), azaz bemenet/ kiemenet funkciókat, így a hálózati, tárolási és grafikus elemek megvalósításához böngészőre, vagy más futtatási környezetre van szükség.\cite{javascript} 
+Mivel az \textbf{ECMAScript} standard nem tartalmaz input/output (I/O), azaz bemenet/ kimenet funkciókat, így a hálózati, tárolási és grafikus elemek megvalósításához böngészőre, vagy más futtatási környezetre van szükség.\cite{javascript} 
 
