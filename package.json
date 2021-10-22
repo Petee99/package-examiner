@@ -1,8 +1,8 @@
 {
   "name": "package-examiner",
   "version": "1.0.0",
-  "description": "To be changed later",
-  "main": "index.js",
+  "description": "My diploma project",
+  "main": "main.js",
   "scripts": {
     "dev": "npm run clean && parcel public/index.html --out-dir development -p 3000",
     "build": "rimraf ./dist && rimraf ./.cache && parcel build public/*.html --no-source-maps --out-dir dist --public-url ./",
@@ -10,11 +10,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Petee99/package-examiner.git"
+    "url": "git+https://github.com/Petee99/package-examiner.git"
   },
-  "keywords": [
-    "parcel"
-  ],
   "author": "Peter Mako",
   "license": "ISC",
   "bugs": {

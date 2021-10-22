@@ -107,18 +107,18 @@ A csomagoknak az \underline{alábbiakat nem szabad / nem célszerű} tartalmazni
 	
 	A "scope"-ot vagy "hatáskör"-t akkor célszerű alkalmazni, ha az összetartozó csomagokat szeretnénk egy csoportba rendezni. A csomagnév elé írt '@' karakterrel lehet jelezni, hogy "scoped" csomagról van szó.
 	
-	\begin{cpp}
+	\begin{js}
 @scope/packagename
-	\end{cpp}
+	\end{js}
 
 	Ilyenkor természetesen a "scope" lehet ugyanaz több csomag esetén is, ezzel jelezve, hogy összetartozó csomagokról van szó.
 	Erre példa lehet az Angular keretrendszer esete, ahol a fejlesztői csomagok az @angular-devkit "scope"-ot használják.
 	
-	\begin{cpp}
+	\begin{js}
 @angular-devkit/architect
 @angular-devkit/core
 @angular-devkit/schematics
-	\end{cpp}
+	\end{js}
 
 	Mind a "scoped" és "unscoped" csomagoknak azonban be kell tartaniuk az alapvető \textbf{elnevezési konvenciókat:}
 	
