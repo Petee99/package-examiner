@@ -4,13 +4,14 @@ import { analyseGraph } from "./analyseGraph";
 import { calculateGraphData } from "./calculateGraphData";
 
 export async function graphDependencies(pckg, dDepth, singleMode=true){
-    var dependencies = await getDependenciesTillDepth(pckg, dDepth);
-    var packages = dependencies[dependencies.length-1];
+    let dependencies = await getDependenciesTillDepth(pckg, dDepth);
+    let packages = dependencies[dependencies.length-1];
     dependencies.pop(dependencies[dependencies.length-1]);
     
-    var graphEntities = calculateGraphData(packages, dependencies, singleMode);
     console.log(graphEntities);
-    var currentGraph = new Graph(graphEntities[0], graphEntities[1]);
+
+    let graphEntities = calculateGraphData(packages, dependencies, singleMode);
+    let currentGraph = new Graph(graphEntities[0], graphEntities[1]);
     
     if(singleMode){
         analyseGraph(currentGraph);

@@ -28,12 +28,9 @@ export function calculateGraphData(packages, dependencies, drawGraph = true){
 
     // Create graph nodes from packages
     for (let i = 0; i < packages.length; i++) {
-
         s.graph.addNode({
-            // Main attributes:
             id: packages[i].Name,
             label: packages[i].Name,
-            // Display attributes:
             y: 0,
             x: 0+packages[i].Level,
             size: 1
