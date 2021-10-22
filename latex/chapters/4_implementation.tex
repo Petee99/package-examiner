@@ -467,7 +467,7 @@ Ennek az oka az volt, hogy egyes csomagok olyan verzójú csomagokat fogadtak el
 
 Az ilyen problémák kiszűrésére az algoritmus kapott egy olyan kiegészítést, hogy a gyökércsomag koordinátáit semmiképpen ne lehessen változtatni, illetve ha két iteráció között sem sikerül érdemben javítani az elrendezésen, kilép az algoritmus, mert nem tud tovább rendezni.\\
 
-\subsection{\noindent\textbf{Visszatérés:}\\}
+\subsubsection{Visszatérés}
 
 A calculateGraph() attól függően, hogy szükséges-e, megrajzolja a gráfot, és visszatér a helyes csomópontokkal és élekkel feltöltött tömbbel a \textbf{graphDependencies()} függvénybe, ahol az adatokból létre fog hozni egy gráf objektumot, a gráf osztály példányosításával:
 
@@ -495,6 +495,15 @@ class Graph{
 }
 \end{cpp}
 
+Ez az osztály tartalmaz minden olyan adattagot és metódust, amelyre a függőségi gráf elemzésénél szükség lesz. Vissza fogja adni a fokszámot, a gráf mélységét, és azt is, hogy mélységi szintenként hány függőség van.
+
+\subsection{Gráf Elemzése}
+
+Egy csomagot vizsgáló mód esetén az utolsó előtti lépés a függőségi gráf elemzése, amelynek könnyítésére jött létre a gráf osztály, amellyel egyszerűen tudjuk elemezni a gráfot. Az elemzések eredményeit grafikus módon a \textbf{chart.js} diagram készítő csomaggal fogja majd ábrázolni a program.
+
+\subsection{Javaslattétel}
+
+\section{Függőségi Gráfok Statisztikai Vizsgálata}
 
 
 
