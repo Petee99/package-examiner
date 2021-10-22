@@ -6,10 +6,10 @@ const Statistics = () => {
 
     <form id="statForm" onsubmit="handleFormEvents(event)">
         <label for="pQuantity">How many packages to check:</label><br>
-        <input type="number" id="pQuantity" name="pQuantity" min=1 placeholder=""><br>
+        <input class="inputField" type="number" id="pQuantity" name="pQuantity" min=1 placeholder=""><br>
     
         <label for="pSort">Sort packages by:</label><br>
-        <select name="pSort" id="pSort">
+        <select name="pSort" id="pSort" class="inputField">
           <option value="dependent_repos_count">Most Used</option>
           <option value="stars">Stars</option>
           <option value="created_at">Newest</option>

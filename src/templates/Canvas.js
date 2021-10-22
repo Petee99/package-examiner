@@ -1,6 +1,6 @@
 const Canvas = () => {
 	const template = `
-    <div class="split canvas">
+    <div id="canvas" class="split canvas dark">
     <h1 class="canvasTitle">Dependency graph of <b id="dTitle" nowrap>the selected package</b>:</h1>
     <div id="container"></div>    
     </div>
