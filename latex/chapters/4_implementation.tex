@@ -277,7 +277,7 @@ A \textbf{getDependencies()} függvény a getPackage() requiredDate paraméterek
 
 Amennyiben a keresés szintje megadásra kerül, akkor addig a szintig gyűjti össze az összes ilyen objektumot, ha nem kerül megadásra, akkor addig keres, amíg meg nem találja az összes függőséget, majd visszaadja az objektumokat tartalmazó tömböt.\\
 
-\subsection{Szemantikus verziózás problémája:}
+\subsection{Szemantikus Verziózás Problémája}
 
 A kezdeti futtatások, tesztek során kiderült, hogy nem minden esetben egy konkrét csomag verziót van megjelölve a függőségeknél.\\
 
@@ -309,7 +309,7 @@ function findMaxSatisfying(packageName, range){
 
 A funkció az aktuális csomagot és az elfogadott verziók intervallumát kéri be. Ezek után lekéri az adott csomag minden verzióját. Ezt követően a \textbf{semver} maxSatisfying() függvényének megadva a verziókat tartalmazó tömböt és a szemantikus módon megadott elfogadott verziók intervallumát, visszaadja a legfrissebb verziót. amit még elfogad az intervallum.\\
 
-\subsection{Adatok gráf struktúrába rendezése:}
+\subsection{Adatok Gráf Struktúrába Rendezése:}
 
 Újra a graphDependencies() függvényben van a program, megszerezte a szükséges adatokat a gráf struktúrába rendezéshez.
 
@@ -463,7 +463,7 @@ Ennek megfelelően saját algoritmust írtam a gráf csomópontjainak helyes elr
 \noindent\textbf{Egy nem várt meglepetés:}\\
 
 A tesztelés során akadtak olyan csomagok, ahol a gráf algoritmusa végtelen iterációban futott, ezzel lefagyasztva a programot.
-Ennek az oka az volt, hogy egyes csomagok olyan verzójú csomagokat fogadtak el függőségnként, amelyekben függőségként a gyökércsomag volt megjelölve, vagy esetleg kört eredményeztek a függőségi gráfban, ritkán egy szülő<-->gyermek kölcsönönös függési viszony alakult ki két csomag között. Ezek problémásak lehetnek, mivel elvben egy függőségi gráfban ilyennek nem szabadna előfordulni.
+Ennek az oka az volt, hogy egyes csomagok olyan függőségei között olyan csomagverziók is voltak, amelyekben függőségként a gyökércsomag volt megjelölve, vagy esetleg kört eredményeztek a függőségi gráfban, ritkán egy szülő<-->gyermek kölcsönönös függési viszony alakult ki két csomag között. Ezek problémásak lehetnek, mivel elvben egy függőségi gráfban ilyennek nem szabadna előfordulni.
 
 Az ilyen problémák kiszűrésére az algoritmus kapott egy olyan kiegészítést, hogy a gyökércsomag koordinátáit semmiképpen ne lehessen változtatni, illetve ha két iteráció között sem sikerül érdemben javítani az elrendezésen, kilép az algoritmus, mert nem tud tovább rendezni.\\
 
@@ -514,7 +514,7 @@ A programban ezt a csomagot a \textbf{makeHistogram.js} fájl fogja implementál
 	\item \texttt{"labArray"}: Az x tengely beosztásait tartalmazó tömb.
 \end{itemize} 
 
-A makeHistogram() függvényt az analyseGraph() fogja meghívni, amely előkészíti azokat a HTML elemeket, amik szükségesek lesznek az elemzés eredményeinek a megjelenítésére, majd a különböző eredményeket szövegesen vagy hisztogram formájában fogja megjeleníteni a Sidebar-on. Miután elvégezte az elemzéseket és az adatokat a megjelenítő által elvárt formára hozta, meghívja a makeHistogram() függvényt és kirajzolja a megfelelő reprezentatív hisztogramokat. 
+A makeHistogram() függvényt az analyseGraph() fogja meghívni, amely előkészíti azokat a HTML elemeket, amik szükségesek lesznek az elemzés eredményeinek megjelenítésére. A különböző eredményeket szövegesen vagy hisztogram formájában fogja megjeleníteni a Sidebar-on. Miután elvégezte az elemzéseket és az adatokat a megjelenítő által elvárt formára hozta, meghívja a makeHistogram() függvényt és kirajzolja a megfelelő reprezentatív hisztogramokat. 
 
 \pagebreak
  
@@ -544,21 +544,51 @@ function makeHistogram(id, dataArray, label, labArray){
 }	
 \end{cpp}
 
-
-
-
-
 \subsection{Javaslattétel}
+
+Hamarosan....
 
 \section{Függőségi Gráfok Statisztikai Vizsgálata}
 
+Ebben a szekcióban a program másik felhasználási módja kerül bemutatásra, amely több csomag függőségi gráfjainak statisztikai elemzését teszi lehetővé.
+Ezen mód alapjait nagyrészt lefedi az egy csomagos módnál bemutatott funkcionalitás, néhány kiegészítéssel. Az ismertetés során így a már áttekintet funkciókra csak hivatkozás fog történni.\\
+ 
+A későbbiekben az első 1000 leggyakrabban használt csomagot és azok függőségeit fogjuk tekinteni a reprezentatív módon leszűkített teljes npm Registrynek, mivel a teljes Registry túl nagy lenne az elemzésre, bár a lehetőség meg lenne rá.\\
 
+A program több csomagos módra váltását követően meg lehet adni, hogy hány csomag függőségi gráfjának elemzését szeretnénk kérni, és hogy ezeket milyen paraméter alapján állítsa sorrendben és adja vissza a program. Az elemzést minimum egy csomagra lehet elindítani és az alapértelmezett rangsorolás a leggyakrabban használt csomagok szerint történik.\\
 
+Ezt követően meghívásra kerül a handleSideBarEvents() modulból a \textbf{createStatistics.js} modul createStats() függvénye. Paraméterként a csomagok mennyiségét és a rangsorolási módot fogja kérni.
 
+\subsubsection{Eltérések az egycsomagos módhoz képest:}
 
+\begin{itemize}
+	\item \textbf{searchPackages()} funkció
+	\item A létrehozott függőségi gráfoknak csak felhasználja a szerkezetét, nem rajzolja ki
+	\item Nem fogja az önálló gráfelemzéseket elvégezni
+\end{itemize}
 
+\subsection{searchPackages Modul}
 
+A searchPackages() modul a csomagok sorrendbe rendezett lekérésére alkalmas. A modul implementálja a Libraries.io API-ját, amely lehetővé teszi a csomagkezelő által nyilvántartott csomagok különböző elvek szerint rendezett lekérdezését. Az alapértelmezés a már említett leggyakrabban használt csomagok elve, azonban lehetőség van még SourceRank, csillagok száma, legfrissebb kiadású csomagok, függő csomagok száma, közreműködők száma és legújabb csomagok szerinti rendezésre is.\\
 
+Az API működése paraméterezett kérésekkel történik, a Libraries.io search végpontja felé. Ezekre válaszul csomagokat tartalmazó JSON objektumokat ad vissza. A rangsorolt csomagokat oldalanként tárolja adja vissza, amelynek a mérete maximum 100 elemű lehet. Ennek megfelelően egy 1000 csomagos lekérdezés esetén 10 x 100 csomag lekérdezése fog megtörténni, majd ezeket egy tömbként adja vissza a funkció. A kérések a már ismert fetchData() funkcióval történnek.
 
+\subsubsection{Szükséges paraméterek:}
+\begin{cpp}
+	let params = {
+		sort:sortBy, 
+		per_page:size,
+		page:1,
+		platforms:"NPM",
+		api_key:"576acbf22232eac6a3a6b05be774eecb"
+	}
+\end{cpp}
 
+\subsubsection{Visszatérés}
 
+A visszakapott csomagok függőségi gráfjait a createStats() függvény egyesével lekérdezi, az egy csomagos mód esetében tisztázott lépéssorozat segítségével, majd a visszakapott \textbf{Graph} objektumokat eltárolja egy tömbben.\\
+
+A gráf objektumokat tartalmazó tömb adatait a megjelenítő hisztogramok típusának megfelelő formába rendezése után a korábban már szintén tisztázott makeHistogram() függény segítségével az oldal "Canvas" részén jeleníti meg. Erre azért van szükség, mivel nagy mennyiségű csomagok esetén, itt lehetséges reprezentatív méretű hisztogramokat kirajzolni.
+
+\subsection{Fájlszintű Elemzés} 
+Hamarosan....

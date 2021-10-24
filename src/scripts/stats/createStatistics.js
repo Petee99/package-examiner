@@ -2,8 +2,8 @@ import searchPackages from "../searchPackages"
 import { graphDependencies } from "../graphing/graphDependencies"
 import makeHistogram from "./makeHistogram";
 
-async function createStats(size, sort, order){
-    let packages = await searchPackages(size, sort, order);
+async function createStats(size, order){
+    let packages = await searchPackages(size, order);
     let pkgData = [];
     for(let pkg of packages){
         pkg = [pkg.name,pkg.latest_stable_release_number];
