@@ -99,7 +99,7 @@ window.handleFormEvents = (event) => {
 
 Az adatok lekérésére két különböző modul áll rendelkezésre, a \textbf{getPackage.js} és a \textbf{searchPackages.js}
 
-A program HTML formok küldés eseményére reagál, majd ezeket lekezeli és a form típusától függően hív meg függvényeket. Ezt a \textbf{handleSideBarEvents.js} modul fogja végezni, mely az alábbiak szerint dönti el, hogy mely funkciókat hívja meg:
+A program HTML form-ok küldés eseményére reagál, majd ezeket lekezeli és a form típusától függően hív meg függvényeket. Ezt a \textbf{handleSideBarEvents.js} modul fogja végezni, mely az alábbiak szerint dönti el, hogy mely funkciókat hívja meg:
 
 \begin{cpp}
 function submitForm(form){
@@ -133,11 +133,11 @@ function submitForm(form){
 	\item Közvetetten támaszkodik a \textbf{getPackage.js} modulra
 \end{itemize}
 
-\noindent\textbf{getPackageData()}
+\noindent\textbf{makeStat()}
 \begin{itemize}
 	\item Ez a funkció felelős több csomagos mód esetén a megadott paraméterek szerinti csomagok összegyűjtéséért, függőségi elemzéséért és statisztikai ábrázolásáért.
 	\item Amennyiben nem található a csomag, hibát fog dobni
-	\item Közvetletetten támaszkodik a \textbf{searchPackages.js} modulra
+	\item Közvetetten támaszkodik a \textbf{searchPackages.js} modulra
 \end{itemize}
 
 \pagebreak
@@ -279,7 +279,7 @@ Amennyiben a keresés szintje megadásra kerül, akkor addig a szintig gyűjti �
 
 \subsection{Szemantikus verziózás problémája:}
 
-A kezdeti futtatások, tesztek során kiderült, hogy nem minden esetben egy konkrét csomag verziót van megjelölve a függőségeknél. 
+A kezdeti futtatások, tesztek során kiderült, hogy nem minden esetben egy konkrét csomag verziót van megjelölve a függőségeknél.\\
 
 Természetesen ennek hatására a program hibás HTTP kéréseket intézett a Registry felé, amely 404 vagy 405-ös hibakódokkal reagált a kérésekre, mivel vagy nem létezett a csomag, vagy a megadott csomag nem létezett. 
 
@@ -462,7 +462,7 @@ Ennek megfelelően saját algoritmust írtam a gráf csomópontjainak helyes elr
 
 \noindent\textbf{Egy nem várt meglepetés:}\\
 
-A tesztelés során akadtak olyan csomagok, ahol a a gráf algoritmusa végtelen iterációban futott, ezzel lefagyasztva a programot.
+A tesztelés során akadtak olyan csomagok, ahol a gráf algoritmusa végtelen iterációban futott, ezzel lefagyasztva a programot.
 Ennek az oka az volt, hogy egyes csomagok olyan verzójú csomagokat fogadtak el függőségnként, amelyekben függőségként a gyökércsomag volt megjelölve, vagy esetleg kört eredményeztek a függőségi gráfban, ritkán egy szülő<-->gyermek kölcsönönös függési viszony alakult ki két csomag között. Ezek problémásak lehetnek, mivel elvben egy függőségi gráfban ilyennek nem szabadna előfordulni.
 
 Az ilyen problémák kiszűrésére az algoritmus kapott egy olyan kiegészítést, hogy a gyökércsomag koordinátáit semmiképpen ne lehessen változtatni, illetve ha két iteráció között sem sikerül érdemben javítani az elrendezésen, kilép az algoritmus, mert nem tud tovább rendezni.\\
@@ -500,6 +500,53 @@ Ez az osztály tartalmaz minden olyan adattagot és metódust, amelyre a függő
 \subsection{Gráf Elemzése}
 
 Egy csomagot vizsgáló mód esetén az utolsó előtti lépés a függőségi gráf elemzése, amelynek könnyítésére jött létre a gráf osztály, amellyel egyszerűen tudjuk elemezni a gráfot. Az elemzések eredményeit grafikus módon a \textbf{chart.js} diagram készítő csomaggal fogja majd ábrázolni a program.
+
+\subsubsection{Chart.js csomag}
+
+A Chart.js egy egyszerű, könnyűsúlyú JavaScript csomag interaktív hisztogramok, diagramok létrehozására, ábrázolására.\\
+
+A programban ezt a csomagot a \textbf{makeHistogram.js} fájl fogja implementálni, amelyben található egy makeHistogram() függvény. A funkció a következő adatokat fogja elvárni paraméterként: 
+
+\begin{itemize}
+	\item \texttt{"id"}: A HTML Div elem ID-ja, amelyet canvasként fog használni a hisztogram számára.
+	\item \texttt{"dataArray"}: Az ábrázolandó y adatokat tartalmazó tömb.
+	\item \texttt{"label"}: A hisztogram elnevezése.
+	\item \texttt{"labArray"}: Az x tengely beosztásait tartalmazó tömb.
+\end{itemize} 
+
+A makeHistogram() függvényt az analyseGraph() fogja meghívni, amely előkészíti azokat a HTML elemeket, amik szükségesek lesznek az elemzés eredményeinek a megjelenítésére, majd a különböző eredményeket szövegesen vagy hisztogram formájában fogja megjeleníteni a Sidebar-on. Miután elvégezte az elemzéseket és az adatokat a megjelenítő által elvárt formára hozta, meghívja a makeHistogram() függvényt és kirajzolja a megfelelő reprezentatív hisztogramokat. 
+
+\pagebreak
+ 
+\noindent\textbf{Chart.js szintaktikája:}
+ 
+\begin{cpp}
+function makeHistogram(id, dataArray, label, labArray){
+	const ctx = document.getElementById(id).getContext('2d');
+	const chart = new Chart(ctx, {
+		type: 'line',
+		data: {
+			labels: labArray,
+			datasets: [{
+				label: label,
+				data: dataArray,
+			}]
+		},
+		options: {
+			scales: {
+				xAxes: [{
+				}],
+				yAxes: [{
+				}]
+			}
+		}
+	});
+}	
+\end{cpp}
+
+
+
+
 
 \subsection{Javaslattétel}
 
