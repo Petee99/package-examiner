@@ -1,11 +1,41 @@
 \Chapter{Tesztelés és Eredmények}
 
-A fejezetben be kell mutatni, hogy az elkészült alkalmazás hogyan használható.
-(Az, hogy hogyan kell, hogy működjön, és hogy hogy lett elkészítve, az előző fejezetekben már megtörtént.)
+A program funckiói a fejlesztés során folyamatosan tesztelésre kerültek, alapvetően manuálisan. Az algoritmus, illetve a szemantikus verziózás tesztelése végül a statisztikai vizsgálat során automatikusan is megtörtént, bár nem ez volt annak a résznek a célja. Ennek következtében derült ki az algoritmusnál is tárgyalt hiba, miszerint nem számított bizonyos átlagtól eltér esetekre, amely a ciklus végtelen futását eredményezte.\\
 
-Jellemzően az alábbi dolgok kerülhetnek ide.
+Ebben a szekcióban a program felhasználása, illetve a használatával szerzett eredmények elemzése kerül ismertetésre.
+
+\section{Használat}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.2]{images/examiner.png}
+	\caption{Egy Csomagos Mód}
+	\label{fig:examiner}
+\end{figure}
+
 \begin{itemize}
-\item Tesztfuttatások. Le lehet írni a futási időket, memória és tárigényt.
-\item Felhasználói kézikönyv jellegű leírás. Kifejezetten a végfelhasználó szempontjából lehet azt bemutatni, hogy mit hogy lehet majd használni.
-\item Kutatás kapcsán ide főként táblázatok, görbék és egyéb részletes összesítések kerülhetnek.
+	\item Első lépésként meg kell adni a csomag nevét és keresni a (Search) gombbal.
+	\item Helyes csomagnév esetén feltöltődik a verziók listája, innen tetszőlegesen kell választani egyet.
+	\item Opcionálisan megadható, hogy keresés mennyire legyen mély
+	\item Végül a (Get dependencies) gomb megnyomásával lehet elindítani a folyamatot.
+	\item Az elkészült ábra görgővel és egérgomb lenyomva tartásával interaktívan mozgatható, nagyítható. A Sidebar pedig lefelé görgethető a gráfelemzés információinak megtekintéséhez.
 \end{itemize}
+
+\pagebreak
+
+\textbf{A két mód közötti váltást a (Switch) gomb segítségével lehet megtenni.}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.2]{images/statistics.png}
+	\caption{Több Csomagos Mód}
+	\label{fig:examiner}
+\end{figure}
+
+\begin{itemize}
+	\item Először a vizsgált csomagok mennyiségét szükséges megadni.
+	\item A lefelé gördülő listából pedig a sorrendbe állítási elvet kell kiválasztani, alapértelmezett a leggyakrabban használt csomagok elve.
+	\item A folyamatot a (Check Packages) gombra kattintással lehet elindítani.
+\end{itemize}
+
+\section{Eredmények}

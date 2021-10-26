@@ -5,7 +5,7 @@ const Examiner = () => {
     <form id="packageForm" onsubmit="handleFormEvents(event)">
       <label for="pname">Package Name:</label><br>
       <input class="inputField" type="text" id="pname" name="pname" placeholder="e.g. vue" ><br>
-      <input type="submit" value="Select">
+      <input type="submit" value="Search">
     </form> 
     
     <label id="pklabel" for="versionSelect">Package Version:</label><br>
