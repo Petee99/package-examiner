@@ -13,7 +13,7 @@ export async function getDependenciesTillDepth(pckg, depth){
     do{
         if(i==0){ //First level, there probably won't be any duplicate package names
             dependencies = dependencies.concat(await populateDependencies(pckg, i));
-            packages.push({Name: pckg.Name.replace('%2f','/'), Version: pckg.Version, Level: i});
+            packages.push({Name: pckg.Name.replace('%2f','/'), Version: pckg.Version, Level: i,  Keywords: await getPackage(pckg.Name, pckg.Version, "keywords")});
         }
         else{ //The rest of the levels. The function checks for duplicate packagenames, so it won't search for dependencies of a package, when it's already been done             
             for(const dep of dependencies){  
@@ -27,7 +27,7 @@ export async function getDependenciesTillDepth(pckg, depth){
                     }
                     if(!alrdyExists){
                         pckg = {Name: dep.Name, Version: dep.Version};                        
-                        packages.push({Name: pckg.Name.replace('%2f','/'), Version: pckg.Version, Level: dep.Depth}); 
+                        packages.push({Name: pckg.Name.replace('%2f','/'), Version: pckg.Version, Level: dep.Depth,  Keywords: await getPackage(pckg.Name, pckg.Version, "keywords")}); 
                         
                         if(i+1<=depth || depth==0){ //If the there are no more iterations, don't add new dependencies
                             dependencies = dependencies.concat(await populateDependencies(pckg, i)); 
@@ -38,7 +38,6 @@ export async function getDependenciesTillDepth(pckg, depth){
         }
         i++;
     }while(depth==0 && dependencies[i]!==dependencies[i-1] || depth!=0 && i<=depth); //The loop will stop if it reaches the given depth level or there are no more dependencies
-
     dependencies.push(packages);
     return dependencies;
 }

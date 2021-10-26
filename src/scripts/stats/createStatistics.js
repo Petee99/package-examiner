@@ -1,14 +1,19 @@
 import searchPackages from "../searchPackages"
 import { graphDependencies } from "../graphing/graphDependencies"
 import makeHistogram from "./makeHistogram";
+import { analyseSource } from "./analyseSource";
 
 async function createStats(size, order){
     let packages = await searchPackages(size, order);
     let pkgData = [];
     for(let pkg of packages){
         pkg = [pkg.name,pkg.latest_stable_release_number];
-        console.log(pkg);
         pkgData.push(await graphDependencies(pkg, "", false));
+    }
+    pkgData.sort((a, b) => (a.edges.length < b.edges.length) ? 1 : -1);
+
+    if(downloadTog.checked == true){
+        doSourceAnalysis(pkgData);
     }
 
     var histograms = [];
@@ -70,6 +75,25 @@ function setHistogram(id, pkgData){
     }
 
     makeHistogram(id, dataArray, label, labArray);
+}
+
+function doSourceAnalysis(pkgData){
+    let downloadNames = [];
+    for(let data of pkgData){
+        for(let node of data.nodes){
+            downloadNames.push(node.label);
+        }
+    }
+
+    const unique = (value, index, self) => {
+        return self.indexOf(value) === index
+    }
+    downloadNames = downloadNames.filter(unique);
+
+    if(confirm("Are you sure you want to download "+downloadNames.length+" npm packages?")){
+        //analyseSource(downloadNames);
+        analyseSource('lodash');
+    }
 }
 
 export default createStats;

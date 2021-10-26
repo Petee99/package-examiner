@@ -111,7 +111,6 @@ export function calculateGraphData(packages, dependencies, drawGraph = true){
         
         num++;
     }
-    console.log(changelog);
     
 
     // Positioning nodes horizontally
@@ -126,9 +125,9 @@ export function calculateGraphData(packages, dependencies, drawGraph = true){
             nArray.push(nodes[i]);
             let offset;
             if(nArray[0].x%2==0){
-                offset = 2/nArray.length;
+                offset = nArray.length/5/nArray.length;
             }else{
-                offset = 3/nArray.length;
+                offset = nArray.length/6/nArray.length;
             }
             
             for(let j=0; j<nArray.length; j++){
