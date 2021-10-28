@@ -1,3 +1,9 @@
+/*
+ * Checks if there are packages that have very similar functionality based on their keywords.
+ * @param {Array} packages - Array of objects containing information about the current packages
+ * @param {Array} dependencies - Array of objects containing information about the current dependencies
+ * @returns {Array} matches - Array of objects containing information about possibly redundant package pairs 
+ * */
 function checkKeywords(packages, dependencies){
     let matches = [];
     let nMatches;

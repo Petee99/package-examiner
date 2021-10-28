@@ -2,6 +2,10 @@ import getPackage from "./requests/getPackage";
 import createStats from "./stats/createStatistics";
 import graphDependencies from "./graphing/graphDependencies";
 
+/*
+ * Handles the form submits
+ * @param {string} form - The html form's id
+ * */
 function submitForm(form){
     switch (form) {
         case "packageForm":
@@ -19,8 +23,8 @@ function submitForm(form){
 }
 
 /*
-    This function handles the package search form, once it is called with a proper package name, it will populate a dropdown list on the page.
-*/
+ * Handles the package search form, once it is called with a proper package name, it will populate a dropdown list on the page.
+ * */
 async function getPackageData(){
     document.getElementById("pklabel").innerHTML="Package Version:";
     let packageName = document.getElementsByName("pname")[0].value;
@@ -36,8 +40,8 @@ async function getPackageData(){
 }
 
 /*
-    This function is responsible for getting a statistical analysis of many packages data, then presenting it with histograms.
-*/
+ * Makes a statistical analysis of many packages data, then presents it with histograms.
+ * */
 function makeStat(){
     if(document.getElementById("pQuantity").value>0){
         document.getElementById("container").innerHTML = `<div class="loader"></div>`;
@@ -51,10 +55,9 @@ function makeStat(){
     }
 }
 
-
 /*
-This function handles the form responsible for getting and graphing the dependencies of a package, with the correct version and certain depth selected
-*/
+ * Handles the form responsible for getting and graphing the dependencies of a package, with the correct version and certain depth selected.
+ * */
 function makeGraph(){
     var dDepth = document.getElementsByName("ddepth")[0].value;
     var pckg = document.getElementById("versionSelect").value.split(" ");
@@ -73,8 +76,10 @@ function makeGraph(){
 }
 
 /*
-    This function populates the dropdown list on the site with the versions of the given package
-*/
+ * Populates the dropdown list on the site with the versions of the given package.
+ * @param {string} packageName - The package's name
+ * @param {Array} form - The package's versions
+ * */
 function populateVersionDOM(packageName, versions){ 
 
     let versionArray =[];

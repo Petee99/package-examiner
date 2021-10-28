@@ -1,14 +1,14 @@
 import fetchData from "./fetchData"
 const semver = require('semver')
 const registryUrl = "https://registry.npmjs.cf/";
+
 /*
-This is responsible for searching the registry for the given package, optionally you can set which version do you want and which data do you want back.
-
-The fetching uses the semantic versioning system of NPM, and always looks for the latest possible package version, when searching for dependencies
-*/
-
-//Note: check package fetching when range is sg like y >= x < z 
-
+ * Gets data of a package from npm's registry using semantic versioning rules.
+ * @param {string} packageName - Package's name
+ * @param {string} packageVersion - Package's version, it isn't set by default
+ * @param {string} requiredData - If set, this specific data will be returned
+ * @returns {Object} pkg - Object containing the fetch response data
+ * */
 async function getPackage(packageName, packageVersion="", requiredData=""){  
     if(packageVersion!=""){
         let strArray = packageVersion.split('.');
@@ -36,6 +36,12 @@ async function getPackage(packageName, packageVersion="", requiredData=""){
     return pkg;
 }
 
+/*
+ * Find the highest possbile version number that satisfies the given range.
+ * @param {string} packageName - Package's name
+ * @param {string} range - Required version range
+ * @returns {string} max - The version number that satisfies the criteria
+ * */
 async function findMaxSatisfying(packageName, range){
     let pkg = await fetchData(registryUrl+packageName);
     let versions = [];

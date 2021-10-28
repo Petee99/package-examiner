@@ -1,5 +1,10 @@
 import getGitData from "../requests/getGitData";
 
+/*
+ * Gets data about the package's files.
+ * @param {Array} packages - Array containing objects of pacakge information
+ * @returns {Array} pkgData - Array containing objects with package files data
+ * */
 async function analyseSource(packages){
     let gitData = [];
     let files;
@@ -26,11 +31,9 @@ async function analyseSource(packages){
                 }
             }
         }
-        
         pkgData.push({Package: packages[n].name, Size: (gitData[n].size/1024).toFixed(2), Files: numOfFiles, JS_Files: numOfJS, TS_Files: numOfTS});
         n++;
     }
-
     return pkgData;
 }
 

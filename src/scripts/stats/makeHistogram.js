@@ -1,5 +1,102 @@
 import Chart from 'chart.js/auto';
 
+/*
+ * Sets the data required for making a histogram.
+ * @param {string} id - ID of html element, in which the histogram should be presented
+ * @param {Graph} graphData - Graph object containing the needed data 
+ * */
+function setHistogram(id, pkgData){
+    let label;
+    let labArray = [];
+    let dataArray = [];
+    switch (id) {
+        case "depDistHistogram":
+            graphData = graphData.getLinksPerDepth();
+            for(let i=1; i<graphData.length; i++){
+                labArray.push(i);
+                dataArray.push(graphData[i]);
+            }
+            label="Number of Dependencies per Depth Level"
+            break;
+        case "nodeDegHistogramIn":
+            graphData = graphData.getNodeDegrees();
+            for(let data of graphData){
+                labArray.push(data.Name);
+                dataArray.push(data.In);
+            }
+            label="Number of Incoming Edges"
+            break;
+        case "nodeDegHistogramOut":
+            graphData = graphData.getNodeDegrees();
+            for(let data of graphData){
+                labArray.push(data.Name);
+                dataArray.push(data.Out);
+            }
+            label="Number of Outgoing Edges"
+            break;
+        case "depDistStatHistogram":
+            for(let entry of pkgData.Graphs){
+                labArray.push(entry.name);
+                dataArray.push(entry.edges.length);
+            }
+            label="Number of Dependencies"
+            break;
+        case "depthHistogram":
+            for(let entry of pkgData.Graphs){
+                labArray.push(entry.name);
+                dataArray.push(entry.getMaxDepth());
+            }
+            label="Depth"
+            break;
+        case "avgDegHistogram":
+            for(let entry of pkgData.Graphs){
+                labArray.push(entry.name);
+                dataArray.push(entry.edges.length/entry.nodes.length);
+            }
+            label="Average Node Degree"
+            break;
+        case "pkgSize":
+            for(let entry of pkgData.Files){
+                labArray.push(entry.Package);
+                dataArray.push(entry.Size);
+            }
+            label="Size of Package (MB)"
+            break;
+        case "pkgFiles":
+            for(let entry of pkgData.Files){
+                labArray.push(entry.Package);
+                dataArray.push(entry.Files);
+            }
+            label="Number of Files"
+            break;
+        case "jsFiles":
+            for(let entry of pkgData.Files){
+                labArray.push(entry.Package);
+                dataArray.push((entry.JS_Files/entry.Files*100).toFixed(2));
+            }
+            label="JS File Ratio (%)"
+            break;
+        case "tsFiles":
+            for(let entry of pkgData.Files){
+                labArray.push(entry.Package);
+                dataArray.push((entry.TS_Files/entry.Files*100).toFixed(2));
+            }
+            label="TS File Ratio (%)"
+            break;
+        default:    
+            break;
+    }
+
+    makeHistogram(id, dataArray, label, labArray);
+}
+
+/*
+ * Draws the histogram using Chart.js.
+ * @param {string} id - ID of html element, in which the histogram should be presented
+ * @param {Array} dataArray - Array containing the data to represent 
+ * @param {string} label - Label of the histogram
+ * @param {Array} labArray - Array containing the labels for each entry
+ * */
 function makeHistogram(id, dataArray, label, labArray){
     const ctx = document.getElementById(id).getContext('2d');
 
@@ -39,4 +136,4 @@ function makeHistogram(id, dataArray, label, labArray){
     });
 }
 
-export default makeHistogram;
+export default setHistogram;

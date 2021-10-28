@@ -1,8 +1,11 @@
 import getPackage from "./requests/getPackage";
+
 /*
-This function returns an array containing all of the dependencies of a package till the given depth with each entry containing the package's name, version, dependent,
-    dependent's version, and depth level, as well as an array containing the package names
-*/
+ * Gets dependencies for a given package, with the individual package names as their last entry.
+ * @param {Array} pckg - Array containing the package name and version
+ * @param {number} depth - The given search depth
+ * @returns {Array} - Array containing all dependencies and the individual package name
+ * */
 async function getDependenciesTillDepth(pckg, depth){ 
     pckg = {Name: pckg[0], Version: pckg[1]};
     
@@ -46,8 +49,11 @@ async function getDependenciesTillDepth(pckg, depth){
 }
 
 /*
-This function returns all dependencies of the given package, if there's any
-*/
+ * Returns all keywords and dependencies of the given package, if there's any.
+ * @param {Object} pckg - The package object
+ * @param {number} depth - The current search depth
+ * @returns {Object} - Object containing all keywords and dependencies
+ * */
 async function getData(pckg, depth){   
     pckg.Name = pckg.Name.replace('/', '%2f');
     pckg.Version = pckg.Version;

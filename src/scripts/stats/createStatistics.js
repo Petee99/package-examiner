@@ -1,8 +1,13 @@
 import searchPackages from "../requests/searchPackages"
 import graphDependencies from "../graphing/graphDependencies"
-import makeHistogram from "./makeHistogram";
+import setHistogram from "./makeHistogram";
 import analyseSource from "./analyseSource";
 
+/*
+ * Handles the statistical analysis of the given number of packages.
+ * @param {number} size - Number of packages to return
+ * @param {string} sortBy - Sort packages in the registry by this
+ * */
 async function createStats(size, order){
     let packages = await searchPackages(size, order);
     let pkgData = [];
@@ -63,67 +68,6 @@ async function createStats(size, order){
             setHistogram(histograms[i].id, pkgData);
         }
     }
-}
-
-function setHistogram(id, pkgData){
-    let label;
-    let labArray = [];
-    let dataArray = [];
-    switch (id) {
-        case "depDistHistogram":
-            for(let entry of pkgData.Graphs){
-                labArray.push(entry.name);
-                dataArray.push(entry.edges.length);
-            }
-            label="Number of Dependencies"
-            break;
-        case "depthHistogram":
-            for(let entry of pkgData.Graphs){
-                labArray.push(entry.name);
-                dataArray.push(entry.getMaxDepth());
-            }
-            label="Depth"
-            break;
-        case "avgDegHistogram":
-            for(let entry of pkgData.Graphs){
-                labArray.push(entry.name);
-                dataArray.push(entry.edges.length/entry.nodes.length);
-            }
-            label="Average Node Degree"
-            break;
-        case "pkgSize":
-            for(let entry of pkgData.Files){
-                labArray.push(entry.Package);
-                dataArray.push(entry.Size);
-            }
-            label="Size of Package (MB)"
-            break;
-        case "pkgFiles":
-            for(let entry of pkgData.Files){
-                labArray.push(entry.Package);
-                dataArray.push(entry.Files);
-            }
-            label="Number of Files"
-            break;
-        case "jsFiles":
-            for(let entry of pkgData.Files){
-                labArray.push(entry.Package);
-                dataArray.push((entry.JS_Files/entry.Files*100).toFixed(2));
-            }
-            label="JS File Ratio (%)"
-            break;
-        case "tsFiles":
-            for(let entry of pkgData.Files){
-                labArray.push(entry.Package);
-                dataArray.push((entry.TS_Files/entry.Files*100).toFixed(2));
-            }
-            label="TS File Ratio (%)"
-            break;
-        default:    
-            break;
-    }
-
-    makeHistogram(id, dataArray, label, labArray);
 }
 
 export default createStats;

@@ -1,5 +1,10 @@
-import makeHistogram from "../stats/makeHistogram";
+import setHistogram from "../stats/makeHistogram";
 
+/*
+ * Studies the dependency graph, represents the analysis with histograms.
+ * @param {Graph} thisGraph - The Graph object to be analyzed
+ * @param {Array} kwMatches - Array of objects containing information about possibly redundant package pairs 
+ * */
 function analyseGraph(thisGraph, kwMatches){
     document.getElementById("graphData").innerHTML = "";
     var graphData = [];
@@ -49,49 +54,12 @@ function analyseGraph(thisGraph, kwMatches){
         }
     }
     
-
     for(let i= 0; i<graphData.length; i++){
         dataDom.appendChild(graphData[i]);
         if(i>2 && i%2==0 && i<10){
             setHistogram(graphData[i].id, thisGraph);
         }
     }
-}
-
-function setHistogram(id, graphData){
-    let labArray = [];
-    let dataArray = [];
-    var label;
-    
-    switch (id) {
-        case "depDistHistogram":
-            graphData = graphData.getLinksPerDepth();
-            for(let i=1; i<graphData.length; i++){
-                labArray.push(i);
-                dataArray.push(graphData[i]);
-            }
-            label="Number of Dependencies per Depth Level"
-            break;
-        case "nodeDegHistogramIn":
-            graphData = graphData.getNodeDegrees();
-            for(let data of graphData){
-                labArray.push(data.Name);
-                dataArray.push(data.In);
-            }
-            label="Number of Incoming Edges"
-            break;
-        case "nodeDegHistogramOut":
-            graphData = graphData.getNodeDegrees();
-            for(let data of graphData){
-                labArray.push(data.Name);
-                dataArray.push(data.Out);
-            }
-            label="Number of Outgoing Edges"
-            break;    
-        default:
-            break;
-    }
-    makeHistogram(id, dataArray, label, labArray);
 }
 
 export default analyseGraph;

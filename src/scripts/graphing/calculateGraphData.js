@@ -101,8 +101,6 @@ function calculateGraphData(packages, dependencies, drawGraph = true){
                 break;
             }
         }
-        
-        
         num++;
     }
     

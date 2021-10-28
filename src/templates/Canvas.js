@@ -1,3 +1,8 @@
+/*
+ * Sets up the Canvas template
+ * @returns {template} - Canvas html template
+ * */
+
 const Canvas = () => {
 	const template = `
     <div id="canvas" class="split canvas dark">

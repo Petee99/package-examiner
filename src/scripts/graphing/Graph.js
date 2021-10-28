@@ -1,3 +1,6 @@
+/**
+ * Represents a Graph
+ */
 class Graph{
     constructor(nodes, edges){
         this.name = nodes[0].id;

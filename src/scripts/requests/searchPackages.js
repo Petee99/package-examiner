@@ -1,6 +1,12 @@
 import fetchData from "./fetchData"
 const registryUrl = "https://libraries.io/api/search";
 
+/*
+ * Searches the Libraries.IO registry for packages.
+ * @param {number} size - Number of packages to return
+ * @param {string} sortBy - Sort packages in the registry by this
+ * @returns {Array} pkgs - Array containing objects with each package's information
+ * */
 async function searchPackages(size, sortBy){  
     let pkgs = [];
     let pages = Math.floor(size/100)+1;

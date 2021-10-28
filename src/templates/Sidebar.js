@@ -2,6 +2,10 @@ import submitForm from "../scripts/handleSidebarEvents";
 import Examiner from "./Sidebar/Examiner";
 import Statistics from "./Sidebar/Statistics";
 
+/*
+ * Sets up the Sidebar template
+ * @returns {template} - Sidebar html template
+ * */
 const Sidebar = () => {
 	const template = `
     <div id="sidebar" class="split sidebar dark">
@@ -30,6 +34,9 @@ const Sidebar = () => {
 	return template;
 };
 
+/*
+ * Switches between Single Package and Multi Package modes
+ * */
 window.toggleMode = () => {
   if (document.getElementById("SidebarContent").getAttribute("name") == "Examiner"){
     document.getElementById("SidebarContent").innerHTML = `${Statistics()}`;
@@ -45,11 +52,18 @@ window.toggleMode = () => {
   document.getElementById("container").innerHTML="";
 }
 
+/*
+ * Handles the form submit events
+ * @param {event} event - The event that triggers the function
+ * */
 window.handleFormEvents = (event) => {
   event.preventDefault();
   submitForm(event.target.id);
 };
 
+/*
+ * Switches between Dark and Light display modes
+ * */
 window.toggleDarkMode = () => {
   var checkBox = document.getElementById("togBtn");
   if (checkBox.checked == true){

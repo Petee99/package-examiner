@@ -1,3 +1,7 @@
+/*
+ * Sets up the Examiner Sidebar template
+ * @returns {template} - Examiner html template
+ * */
 const Examiner = () => {
 	const template = `
     <h1>Single Package Analysis</h1>

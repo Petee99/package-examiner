@@ -1,3 +1,7 @@
+/*
+ * Sets up the Statistics Sidebar template
+ * @returns {template} - Statistics html template
+ * */
 const Statistics = () => {
 	const template = `
     <h1>Statistical analysis of many packages</h1>
