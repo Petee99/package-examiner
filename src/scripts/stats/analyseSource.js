@@ -1,6 +1,6 @@
 import getGitData from "../requests/getGitData";
 
-export async function analyseSource(packages){
+async function analyseSource(packages){
     let gitData = [];
     let files;
     let pkgData = [];
@@ -12,7 +12,7 @@ export async function analyseSource(packages){
 
         pkg = pkg.repository_url.replace("https://github.com/","");
         gitData.push(await getGitData(pkg, "data"));
-        files = await getGitData(pkg, "files");
+        files = await getGitData(pkg, "files", gitData[n].default_branch);
         if(files.name != "Error"){
             for(let entry of files.tree){
                 if(entry.type == "blob"){
@@ -27,9 +27,11 @@ export async function analyseSource(packages){
             }
         }
         
-        pkgData.push({Package: packages[n].name, Size: gitData[n].size/1024, Files: numOfFiles, JS_Files: numOfJS, TS_Files: numOfTS});
+        pkgData.push({Package: packages[n].name, Size: (gitData[n].size/1024).toFixed(2), Files: numOfFiles, JS_Files: numOfJS, TS_Files: numOfTS});
         n++;
     }
 
-    console.log(pkgData);
+    return pkgData;
 }
+
+export default analyseSource;

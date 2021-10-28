@@ -1,4 +1,4 @@
-export function checkKeywords(packages, dependencies){
+function checkKeywords(packages, dependencies){
     let matches = [];
     let nMatches;
     for(let pkg of packages){
@@ -10,9 +10,6 @@ export function checkKeywords(packages, dependencies){
                         temp.Keywords.forEach(tempKw => {
                             if(keyword == tempKw){
                                 nMatches++;
-                                console.log(pkg.Name + " - " + temp.Name);
-                                console.log(keyword);
-                                console.log(nMatches);
                             }
                         });
                     });
@@ -39,14 +36,15 @@ export function checkKeywords(packages, dependencies){
                                 mParent.push(dep.Parent);
                             }
                         }
-                        if(parent.length>0){
-                            matches.push({Package: pkg.Name, Parent:parent, Keywords: pkg.Keywords, Match: temp.Name, MParent: mParent, MKeywords: temp.Keywords, IsDependent: isDependent});
+                        if(parent.length>0 && !isDependent){
+                            matches.push({Package: pkg.Name, Parent:parent, Match: temp.Name, MParent: mParent, Overlap: (nMatches/pkg.Keywords.length*100).toFixed(2)+" %"});
                         }
                     }
                 }
             }   
         }
     }
-    console.log(matches);
     return matches;
 }
+
+export default checkKeywords;

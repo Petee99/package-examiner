@@ -1,4 +1,4 @@
-export class Graph{
+class Graph{
     constructor(nodes, edges){
         this.name = nodes[0].id;
         this.nodes = nodes;
@@ -49,5 +49,6 @@ export class Graph{
         }
         return array;
     }
-
 }
+
+export default Graph;

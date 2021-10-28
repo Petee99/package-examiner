@@ -1,30 +1,30 @@
-import { submitForm } from "../scripts/handleSidebarEvents";
+import submitForm from "../scripts/handleSidebarEvents";
 import Examiner from "./Sidebar/Examiner";
 import Statistics from "./Sidebar/Statistics";
 
 const Sidebar = () => {
 	const template = `
     <div id="sidebar" class="split sidebar dark">
+    <div class="sbContainer">
+      <h1>Package Examiner</h1>
+      
+      <div style="width: 50%; float:right">
+        <p>Dark Mode</p>
+        <label id="darkmode" class="switch">
+        <input type="checkbox" id="togBtn" onclick="toggleDarkMode()" checked>
+        <div class="slider round"></div>
+        </label>
+      </div>
 
-    <h1>Package Examiner</h1>
-    
-    <div style="width: 50%; float:right">
-      <p>Dark Mode</p>
-      <label id="darkmode" class="switch">
-      <input type="checkbox" id="togBtn" onclick="toggleDarkMode()" checked>
-      <div class="slider round"></div>
-      </label>
-    </div>
+      <div style="width: 50%; float:left">
+      <p id="modeLabel">Mode: <b style="color: #2e946d" nowrap>Single</b></p>
+      <button id="togMode" onclick="toggleMode()">Switch</button>
+      </div>
 
-    <div style="width: 50%; float:left">
-    <p id="modeLabel">Mode: <b style="color: #2e946d" nowrap>Single</b></p>
-    <button id="togMode" onclick="toggleMode()">Switch</button>
-    </div>
-
-    <br style="clear:both;"/>
-    
-    <div id="SidebarContent" name="Examiner">${Examiner()}</div>
-
+      <br style="clear:both;"/>
+      
+      <div id="SidebarContent" name="Examiner">${Examiner()}</div>
+      </div>
     </div>
   `;
 	return template;

@@ -46,7 +46,10 @@ html{
   .sidebar {
     left: 0;
     width: 26%;
-    padding-left: 1em;
+  }
+
+  .sbContainer{
+    margin-left: 1em;
     margin-right: 1em;
   }
 
@@ -102,6 +105,7 @@ html{
     margin: auto;
     width: 100%;
     padding-left: 2em;
+    margin-right: 1em;
   }
 
   #dTitle{
@@ -120,14 +124,14 @@ html{
    padding-left: 1em;
   }
 
+  #showReq{
+    padding-left: 2em;
+  }
+
   .label{
     font-weight: bolder;
   }
-  
-  canvas{
-    margin-right:5%;
-  }
-  
+    
   #togMode{
     height: 34px;
     margin-top: 1%;

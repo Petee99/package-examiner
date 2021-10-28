@@ -2,11 +2,13 @@ const Statistics = () => {
 	const template = `
     <h1>Statistical analysis of many packages</h1>
 
-    <h5>Please keep in mind, that the process can take several minutes, up to hours, depending on the sample size.</h5>
+    <h5>Please keep in mind, that the process can take several minutes, up to hours, depending on the sample size.<br><br>
+        <i>Min sample size: 1<br>
+        Max sample size: 1000</i></h5>
 
     <form id="statForm" onsubmit="handleFormEvents(event)">
         <label for="pQuantity">How many packages to check:</label><br>
-        <input class="inputField" type="number" id="pQuantity" name="pQuantity" min=1 placeholder=""><br>
+        <input class="inputField" type="number" id="pQuantity" name="pQuantity" min=1 max=1000 placeholder=""><br>
     
         <label for="pSort">Sort packages by:</label><br>
         <select name="pSort" id="pSort" class="inputField">

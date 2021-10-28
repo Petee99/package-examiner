@@ -1,8 +1,8 @@
 import getPackage from "./requests/getPackage";
 import createStats from "./stats/createStatistics";
-import { graphDependencies } from "./graphing/graphDependencies";
+import graphDependencies from "./graphing/graphDependencies";
 
-export function submitForm(form){
+function submitForm(form){
     switch (form) {
         case "packageForm":
             getPackageData();
@@ -32,6 +32,7 @@ async function getPackageData(){
     else{
         alert("There's no such package.")
     }
+    document.getElementById("showReq").innerHTML ="";
 }
 
 /*
@@ -95,3 +96,5 @@ function populateVersionDOM(packageName, versions){
     }
     document.getElementById("pklabel").innerHTML="<nobr><b style=\"color:#2e946d\">"+packageName+"</b> Version:</nobr>"
 }
+
+export default submitForm;

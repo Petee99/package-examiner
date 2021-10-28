@@ -16,8 +16,9 @@ async function getPackage(packageName, packageVersion="", requiredData=""){
         if(strArray.length!=3 || isNaN(strArray[0]) || isNaN(strArray[1]) || isNaN(strArray[2])){
             packageVersion = await findMaxSatisfying(packageName, packageVersion);
         }
-    }
-    
+    }    
+    document.getElementById("showReq").innerHTML = "<b style=\"color:#2e946d\">Currently fetching:</b><br>"+packageName.replace("%2f","/")+" @ "+packageVersion+"'s npm data"
+
     let pkg = await fetchData(registryUrl+packageName+"/"+packageVersion)
     .then((resPKG) => {
         console.log(resPKG);
@@ -42,7 +43,6 @@ async function findMaxSatisfying(packageName, range){
     for(let version in pkg.versions){
         versions.push(version);
     }
-
     let max = semver.maxSatisfying(versions, range);
     return max;
 }

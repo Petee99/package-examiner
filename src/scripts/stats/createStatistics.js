@@ -1,7 +1,7 @@
 import searchPackages from "../requests/searchPackages"
-import { graphDependencies } from "../graphing/graphDependencies"
+import graphDependencies from "../graphing/graphDependencies"
 import makeHistogram from "./makeHistogram";
-import { analyseSource } from "./analyseSource";
+import analyseSource from "./analyseSource";
 
 async function createStats(size, order){
     let packages = await searchPackages(size, order);
@@ -17,13 +17,13 @@ async function createStats(size, order){
 
     packages.sort((a, b) => (a.dependencies < b.dependencies) ? 1 : -1);
     pkgData.sort((a, b) => (a.edges.length < b.edges.length) ? 1 : -1);
-    
-    analyseSource(packages);
+    pkgData = {Graphs: pkgData, Files: await analyseSource(packages)};
 
     var histograms = [];
     let dataDom = document.createElement('div');
     dataDom.id = "histCanvas";
     document.getElementById("container").innerHTML="";
+    document.getElementById("showReq").innerHTML ="";
     document.getElementById("container").appendChild(dataDom);
 
     histograms[0] = document.createElement('h3');
@@ -38,6 +38,23 @@ async function createStats(size, order){
     histograms[4].innerHTML = "Average Node Degree distribution:";
     histograms[5] = document.createElement('canvas');
     histograms[5].id = "avgDegHistogram"
+
+    histograms[6] = document.createElement('h3');
+    histograms[6].innerHTML = "Size of Packages (in MB)";
+    histograms[7] = document.createElement('canvas');
+    histograms[7].id = "pkgSize"
+    histograms[8] = document.createElement('h3');
+    histograms[8].innerHTML = "Number of Files per Package:";
+    histograms[9] = document.createElement('canvas');
+    histograms[9].id = "pkgFiles"
+    histograms[10] = document.createElement('h3');
+    histograms[10].innerHTML = "JavaScript File Ratio (in %):";
+    histograms[11] = document.createElement('canvas');
+    histograms[11].id = "jsFiles"
+    histograms[12] = document.createElement('h3');
+    histograms[12].innerHTML = "TypeScript File Ratio (in %):";
+    histograms[13] = document.createElement('canvas');
+    histograms[13].id = "tsFiles"
 
     for(let i= 0; i<histograms.length; i++){
         dataDom.appendChild(histograms[i]);
@@ -54,27 +71,55 @@ function setHistogram(id, pkgData){
     let dataArray = [];
     switch (id) {
         case "depDistHistogram":
-            for(let data of pkgData){
-                labArray.push(data.name);
-                dataArray.push(data.edges.length);
+            for(let entry of pkgData.Graphs){
+                labArray.push(entry.name);
+                dataArray.push(entry.edges.length);
             }
             label="Number of Dependencies"
             break;
         case "depthHistogram":
-            for(let data of pkgData){
-                labArray.push(data.name);
-                dataArray.push(data.getMaxDepth());
+            for(let entry of pkgData.Graphs){
+                labArray.push(entry.name);
+                dataArray.push(entry.getMaxDepth());
             }
             label="Depth"
             break;
         case "avgDegHistogram":
-            for(let data of pkgData){
-                labArray.push(data.name);
-                dataArray.push(data.edges.length/data.nodes.length);
+            for(let entry of pkgData.Graphs){
+                labArray.push(entry.name);
+                dataArray.push(entry.edges.length/entry.nodes.length);
             }
             label="Average Node Degree"
-            break;    
-        default:
+            break;
+        case "pkgSize":
+            for(let entry of pkgData.Files){
+                labArray.push(entry.Package);
+                dataArray.push(entry.Size);
+            }
+            label="Size of Package (MB)"
+            break;
+        case "pkgFiles":
+            for(let entry of pkgData.Files){
+                labArray.push(entry.Package);
+                dataArray.push(entry.Files);
+            }
+            label="Number of Files"
+            break;
+        case "jsFiles":
+            for(let entry of pkgData.Files){
+                labArray.push(entry.Package);
+                dataArray.push((entry.JS_Files/entry.Files*100).toFixed(2));
+            }
+            label="JS File Ratio (%)"
+            break;
+        case "tsFiles":
+            for(let entry of pkgData.Files){
+                labArray.push(entry.Package);
+                dataArray.push((entry.TS_Files/entry.Files*100).toFixed(2));
+            }
+            label="TS File Ratio (%)"
+            break;
+        default:    
             break;
     }
 

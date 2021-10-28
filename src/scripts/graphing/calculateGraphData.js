@@ -1,11 +1,12 @@
 const sigma = require("sigma");
 const colors = ['#2e946d','#F0A30A','#2980B9','#A20025','#FFAB91','yellow','blue','pink','#795548','#607D8B'];
 
-export function calculateGraphData(packages, dependencies, drawGraph = true){
+function calculateGraphData(packages, dependencies, drawGraph = true){
     //Creates a new sigma.js instance, and configures it
     
     if(drawGraph){
         document.getElementById("container").innerHTML="";
+        document.getElementById("showReq").innerHTML ="";
     }
 
     var s = new sigma({ 
@@ -55,7 +56,6 @@ export function calculateGraphData(packages, dependencies, drawGraph = true){
     while(changes){
         changes=false;
         let currentlog = [];
-        //console.log("======= Iteration: "+num+" =======");
         
         for(let edge of s.graph.edges()) {
             let source;
@@ -70,18 +70,12 @@ export function calculateGraphData(packages, dependencies, drawGraph = true){
                 if(typeof source == "object" && typeof target == "object" && target.label!=s.graph.nodes()[0].label){
                     
                     if(source.x == target.x){
-                        //console.log("Same level!!!!!");
-                        //console.log("Source :"+source.label+" lvl: "+source.x)
-                        //console.log("Target :"+target.label+" lvl: "+target.x)
                         target.x+=1;;
                         currentlog.push(source.label);
                         currentlog.push(target.label);
                         changes=true;    
                     }
                     else if(target.x<source.x){
-                        //console.log("Different level!!!!!");
-                        //console.log("Source :"+source.label+" lvl: "+source.x)
-                        //console.log("Target :"+target.label+" lvl: "+target.x)
                         currentlog.push(source.label);
                         currentlog.push(target.label);
                         target.x = source.x+1;
@@ -157,3 +151,5 @@ export function calculateGraphData(packages, dependencies, drawGraph = true){
 
     return [nodes, edges];
 }
+
+export default calculateGraphData;

@@ -11,8 +11,8 @@ async function searchPackages(size, sortBy){
         platforms:"NPM",
         api_key:"576acbf22232eac6a3a6b05be774eecb"
     }
-    
-    if(pages>0){
+
+    if(pages>1){
         for(let i=1; i<=pages; i++){
             params.page = i;
             if(i==pages){
@@ -26,6 +26,7 @@ async function searchPackages(size, sortBy){
                 params.per_page=100;
             }
             let url = new URL(registryUrl);
+            document.getElementById("showReq").innerHTML = "<b style=\"color:#2e946d\">Currently fetching:</b><br>The "+i+". "+params.per_page+" packages Libraries.IO data"
             Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
             pkgs = pkgs.concat(await fetchData(url)
             .then((res) => {
@@ -34,6 +35,7 @@ async function searchPackages(size, sortBy){
         }
     }else{
         let url = new URL(registryUrl);
+        document.getElementById("showReq").innerHTML = "<b style=\"color:#2e946d\">Currently fetching:</b><br>"+params.per_page+" packages Libraries.IO data"
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
         pkgs = pkgs.concat(await fetchData(url)
         .then((res) => {
