@@ -1,12 +1,21 @@
-/**
- * Represents a Graph
+/* *
+ * Class representing a Graph
  */
 class Graph{
+    /*
+     * Create a Graph.
+     * @param {array} nodes - Graph's nodes
+     * @param {array} edges - Graph's edges
+     * */
     constructor(nodes, edges){
         this.name = nodes[0].id;
         this.nodes = nodes;
         this.edges = edges;
     }
+    /*
+     * Gets the dependency graph's depth
+     * @returns {number} maxdepth - Graph's depth
+     * */
     getMaxDepth(){
         let maxDepth=0;
         for(let node of this.nodes){
@@ -16,6 +25,10 @@ class Graph{
         }
         return maxDepth;
     }
+    /*
+     * Gets the dependency graph's depth
+     * @returns {Array} array - Array containing dependencies per depth level
+     * */
     getLinksPerDepth(){
         let array = [];
     
@@ -34,6 +47,10 @@ class Graph{
         }
         return array;
     }
+    /*
+     * Gets the each node's incoming and outgoing node degrees
+     * @returns {Object} array - Array of objects containing each nodes nodedegrees
+     * */
     getNodeDegrees(){
         let array = [];
     
