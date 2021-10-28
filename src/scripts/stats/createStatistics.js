@@ -34,7 +34,7 @@ async function createStats(size, order){
     histograms[0] = document.createElement('h3');
     histograms[0].innerHTML = "Dependency distribution:";
     histograms[1] = document.createElement('canvas');
-    histograms[1].id = "depDistHistogram"
+    histograms[1].id = "depDistStatHistogram"
     histograms[2] = document.createElement('h3');
     histograms[2].innerHTML = "Graph Depth distribution:";
     histograms[3] = document.createElement('canvas');
