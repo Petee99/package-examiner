@@ -1,4 +1,4 @@
-import getPackage from "./getPackage";
+import getPackage from "./requests/getPackage";
 import createStats from "./stats/createStatistics";
 import { graphDependencies } from "./graphing/graphDependencies";
 

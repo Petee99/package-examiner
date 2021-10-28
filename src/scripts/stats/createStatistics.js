@@ -1,4 +1,4 @@
-import searchPackages from "../searchPackages"
+import searchPackages from "../requests/searchPackages"
 import { graphDependencies } from "../graphing/graphDependencies"
 import makeHistogram from "./makeHistogram";
 import { analyseSource } from "./analyseSource";
@@ -6,15 +6,19 @@ import { analyseSource } from "./analyseSource";
 async function createStats(size, order){
     let packages = await searchPackages(size, order);
     let pkgData = [];
+    let n = 0;
+
     for(let pkg of packages){
         pkg = [pkg.name,pkg.latest_stable_release_number];
         pkgData.push(await graphDependencies(pkg, "", false));
+        packages[n]['dependencies'] = pkgData[n].edges.length;
+        n++;
     }
-    pkgData.sort((a, b) => (a.edges.length < b.edges.length) ? 1 : -1);
 
-    if(downloadTog.checked == true){
-        doSourceAnalysis(pkgData);
-    }
+    packages.sort((a, b) => (a.dependencies < b.dependencies) ? 1 : -1);
+    pkgData.sort((a, b) => (a.edges.length < b.edges.length) ? 1 : -1);
+    
+    analyseSource(packages);
 
     var histograms = [];
     let dataDom = document.createElement('div');
@@ -75,25 +79,6 @@ function setHistogram(id, pkgData){
     }
 
     makeHistogram(id, dataArray, label, labArray);
-}
-
-function doSourceAnalysis(pkgData){
-    let downloadNames = [];
-    for(let data of pkgData){
-        for(let node of data.nodes){
-            downloadNames.push(node.label);
-        }
-    }
-
-    const unique = (value, index, self) => {
-        return self.indexOf(value) === index
-    }
-    downloadNames = downloadNames.filter(unique);
-
-    if(confirm("Are you sure you want to download "+downloadNames.length+" npm packages?")){
-        //analyseSource(downloadNames);
-        analyseSource('lodash');
-    }
 }
 
 export default createStats;

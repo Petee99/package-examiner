@@ -1,4 +1,4 @@
-import getPackage from "./getPackage";
+import getPackage from "./requests/getPackage";
 /*
 This function returns an array containing all of the dependencies of a package till the given depth with each entry containing the package's name, version, dependent,
     dependent's version, and depth level, as well as an array containing the package names

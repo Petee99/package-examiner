@@ -19,14 +19,6 @@ const Statistics = () => {
           <option value="contributions_count">Contributors</option>
         </select><br>
 
-        <p>Perform package source analysis?</p>
-        <h5>Please keep in mind, that this means downloading the missing packages onto your computer.</h5>
-        <label id="download" class="switch">
-        <input type="checkbox" id="downloadTog" onclick="toggleDarkMode()">
-        <div class="slider round"></div>
-        </label>
-        <br><br>
-
         <input type="submit" value="Check Packages">
     </form>
   `;

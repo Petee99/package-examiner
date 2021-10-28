@@ -1,3 +1,4 @@
+import fetchData from "./fetchData"
 const semver = require('semver')
 const registryUrl = "https://registry.npmjs.cf/";
 /*
@@ -44,16 +45,6 @@ async function findMaxSatisfying(packageName, range){
 
     let max = semver.maxSatisfying(versions, range);
     return max;
-}
-
-async function fetchData(url){
-    let response = await fetch(url);
-
-    if (!response.ok) {
-        throw new Error(response.status);
-    }
-
-    return await response.json();
 }
 
 export default getPackage;

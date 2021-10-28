@@ -1,3 +1,4 @@
+import fetchData from "./fetchData"
 const registryUrl = "https://libraries.io/api/search";
 
 async function searchPackages(size, sortBy){  
@@ -42,16 +43,6 @@ async function searchPackages(size, sortBy){
     }
     
     return pkgs;
-}
-
-async function fetchData(url){
-    let response = await fetch(url);
-
-    if (!response.ok) {
-        throw new Error(response.status);
-    }
-    
-    return response.json();
 }
 
 export default searchPackages;
