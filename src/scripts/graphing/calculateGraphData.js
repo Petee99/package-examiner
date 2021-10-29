@@ -1,8 +1,14 @@
 const sigma = require("sigma");
 const colors = ['#2e946d','#F0A30A','#2980B9','#A20025','#FFAB91','yellow','blue','pink','#795548','#607D8B'];
 
+/*
+ * Calculates the dependency graphs nodes and edges. It only draws the graph if shouldDrawGraph is true.
+ * @param {Array} packages - Array of the individual packages from dependencies
+ * @param {Array} dependencies - Array of dependency relations between the packages
+ * @param {boolean} shouldDrawGraph - Boolean which tells the function if it should draw the graph (true by default)
+ * @returns {Array} [nodes, edges] - Array containing the dependency graphs nodes and edges
+ * */
 function calculateGraphData(packages, dependencies, shouldDrawGraph = true){
-    //Creates a new sigma.js instance, and configures it
 
     if(drawGraph){
         document.getElementById("container").innerHTML="";
@@ -123,6 +129,11 @@ function calculateGraphData(packages, dependencies, shouldDrawGraph = true){
     return [nodes, edges];
 }
 
+/*
+ * Draws the dependency graph using the calculated graph data.
+ * @param {Array} graphNodes - Array of objects containing each node's data
+ * @param {Array} graphEdges - Array of objects containing each edge's data
+ * */
 function drawGraph(graphNodes, graphEdges){
     var s = new sigma({
         container: 'container',
