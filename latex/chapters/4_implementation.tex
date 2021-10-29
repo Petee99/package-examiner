@@ -71,7 +71,7 @@ Az Examiner-t egy csomag, a Statistics-t több csomag vizsgálata estén tölti 
 \pagebreak
 
 
-Az \textbf{Single Package Analysis} esetén, ha létező csomagra keresünk rá, akkor automatikusan felölti a Package Version listát. Mivel a Registry-ben szükséges verziók szerint keresni, ez biztosítja a keresés sikerességét.\\
+A \textbf{Single Package Analysis} esetén, ha létező csomagra keresünk rá, akkor automatikusan felölti a Package Version listát. Mivel a Registry-ben szükséges verziók szerint keresni, ez biztosítja a keresés sikerességét.\\
 
 Amennyiben a Registry-ben csak a csomagnévre keresünk rá, akkor nem fogunk függőségeket visszakapni, mivel itt általános információk vannak a csomagról, nem pedig működési információk. Konkrét információt a verzió megadásával tudunk megszerezni.\\
 
@@ -97,7 +97,7 @@ window.handleFormEvents = (event) => {
 
 \section{Adatgyűjtés}
 
-Az adatok lekérésére két különböző modul áll rendelkezésre, a \textbf{getPackage.js} és a \textbf{searchPackages.js}
+Az adatok lekérésére három különböző modul áll rendelkezésre, a \textbf{getPackage.js}, a \textbf{searchPackages.js} és a \textbf{getGitData.js}.
 
 A program HTML form-ok küldés eseményére reagál, majd ezeket lekezeli és a form típusától függően hív meg függvényeket. Ezt a \textbf{handleSideBarEvents.js} modul fogja végezni, mely az alábbiak szerint dönti el, hogy mely funkciókat hívja meg:
 
@@ -122,22 +122,22 @@ function submitForm(form){
 \noindent\textbf{getPackageData()}
 \begin{itemize}
 	\item Ez a funkció felelős a "Package Version" Select DOM elem listájának feltöltéséért. 
-	\item Amennyiben nem található a csomag, hibát fog dobni
-	\item Közvetlenül támaszkodik a \textbf{getPackage.js} modulra
+	\item Amennyiben nem található a csomag, hibát fog dobni.
+	\item Közvetlenül támaszkodik a \textbf{getPackage.js} modulra.
 \end{itemize}
 
 \noindent\textbf{makeGraph()}
 \begin{itemize}
-	\item Ez a funkció felelős a kiválasztott csomag függőségei gráfjának megalkotásáért, megrajzolásáért, majd pedig elemzéséért
+	\item Ez a funkció felelős a kiválasztott csomag függőségei gráfjának megalkotásáért, megrajzolásáért, majd pedig elemzéséért.
 	\item Amennyiben nincs kiválasztva a verzió, hibát fog dobni.
-	\item Közvetetten támaszkodik a \textbf{getPackage.js} modulra
+	\item Közvetetten támaszkodik a \textbf{getPackage.js} modulra.
 \end{itemize}
 
 \noindent\textbf{makeStat()}
 \begin{itemize}
 	\item Ez a funkció felelős több csomagos mód esetén a megadott paraméterek szerinti csomagok összegyűjtéséért, függőségi elemzéséért és statisztikai ábrázolásáért.
-	\item Amennyiben nem található a csomag, hibát fog dobni
-	\item Közvetetten támaszkodik a \textbf{searchPackages.js} modulra
+	\item Amennyiben nem található a csomag, hibát fog dobni.
+	\item Közvetetten támaszkodik a \textbf{searchPackages.js} és \textbf{getGitData.js} modulokra.
 \end{itemize}
 
 \pagebreak
@@ -260,11 +260,11 @@ Először a \textbf{getDependenciesTillDepth()} függvény kerül meghívásra, 
 
 \textbf{Mélység: }A keresés mélysége az a szám, amelyre még kiterjed a keresés. Ez nem a függőségi gráf szintje. Egy szint megfelel az adott csomag közvetlen függőségeinek. Tehát az első szint mindig a gyökérelem direkt függőségei, a második szint a direkt függőségek közvetlen függőségei, és így tovább.\\
 
-A \textbf{getDependenciesTillDepth()} függvény rekurzívan fogja megkeresni a függőségeket, minden szint esetében. Az aktuális mélységi szinten minden csomag esetében meghívásra kerül a \textbf{populateDependencies()} függvény a csomaggal paraméterként, és a keresés aktuális mélységi szintjével.
+A \textbf{getDependenciesTillDepth()} függvény rekurzívan fogja megkeresni a függőségeket, minden szint esetében. Az aktuális mélységi szinten minden csomag esetében meghívásra kerül a \textbf{getData()} függvény a csomaggal paraméterként, és a keresés aktuális mélységi szintjével.
 
 \pagebreak
 
-A \textbf{populateDependencies()} a csomag összes függőségét lekérdezi, a \textbf{getDependencies()} függvény segítségével, majd a visszakapott függőségeken végighaladva egy olyan tömböt fog visszaadni, amely minden függőségről az alábbi adatokat fogja tartalmazni:
+A \textbf{getData()} a csomag adatait fogja lekérdezni, majd visszaadni belőle egy olyan objektumot, amely tartalmazni fogja a csomag összes kulcsszavát és közvetlen függőségét. A csomag minden függőségről az alábbi adatokat fogja tartalmazni:
 \begin{itemize}
 	\item Csomag Neve
 	\item Verzió
@@ -273,9 +273,9 @@ A \textbf{populateDependencies()} a csomag összes függőségét lekérdezi, a 
 	\item Szülő Verziója
 \end{itemize}
 
-A \textbf{getDependencies()} függvény a getPackage() requiredDate paramétereként függőséget megadva csak a függőségeket kéri le az adott csomagról és adja vissza a populateDependencies()-nek.
-
 Amennyiben a keresés szintje megadásra kerül, akkor addig a szintig gyűjti össze az összes ilyen objektumot, ha nem kerül megadásra, akkor addig keres, amíg meg nem találja az összes függőséget, majd visszaadja az objektumokat tartalmazó tömböt.\\
+
+A csomag függőségeinek az összegyűjtése esetében azért van szükség a kulcsszavak letárolására is, mivel így csomagonként megspórol a program egy extra Get Request-et, amely a csomag kulcsszavainak lekérdezésére irányulna.
 
 \subsection{Szemantikus Verziózás Problémája}
 
@@ -290,6 +290,8 @@ A verziók problémája azonban ennél sokkal markánsabb volt. A hiba feltárá
 Kiderült, hogy az npm-nek van egy saját csomagja, amely ismeri és kezelni tudja szemantikus verziózás szintaktikáját, mely csomag neve \textbf{semver}. 
 
 Használata a dokumentáció elolvasását követően nem tűnik összetettnek, a \textbf{getPackage} modulban kerül implementálásra a helyes verzió kiválasztása a lekérdezéshez, a \textbf{findMaxSatisfying()} függvény segítségével.
+
+A függvény implementációjának formája a lekérdézskhez a következő oldalon van prezentálva.
 
 \pagebreak
 
@@ -307,7 +309,7 @@ function findMaxSatisfying(packageName, range){
 }
 \end{cpp}
 
-A funkció az aktuális csomagot és az elfogadott verziók intervallumát kéri be. Ezek után lekéri az adott csomag minden verzióját. Ezt követően a \textbf{semver} maxSatisfying() függvényének megadva a verziókat tartalmazó tömböt és a szemantikus módon megadott elfogadott verziók intervallumát, visszaadja a legfrissebb verziót. amit még elfogad az intervallum.\\
+A funkció az aktuális csomagot és az elfogadott verziók intervallumát kéri be. Ezek után lekéri az adott csomag minden verzióját. Ezt követően a \textbf{semver} maxSatisfying() függvényének megadva a verziókat tartalmazó tömböt és a szemantikus módon megadott elfogadott verziók intervallumát, visszaadja a legfrissebb verziót, amit még elfogad az intervallum.\\
 
 \subsection{Adatok Gráf Struktúrába Rendezése:}
 
@@ -370,7 +372,7 @@ Az így feltöltött függőségi gráf azonban még közel sem reprezentatív. 
 \pagebreak
 
 \subsection{Gráfrendező Algoritmus}
-Mint látható a \ref{fig:graph_wrong} ábrán, a gráf nem valósítja meg a DAG elrendezést. A gráf helyes elrendezését megvalósító már létező algoritmust nem találtam, a legtöbb esetben az \textbf{npmgraph.an} példájához hasonlóan randomizáltan inkább hálós gráfot hoznak létre. \\
+Mint látható a \ref{fig:graph_wrong} ábrán, a gráf nem valósítja meg a DAG elrendezést. A gráf helyes elrendezését megvalósító, már létező algoritmust nem találtam, a legtöbb esetben az \textbf{npmgraph.an} példájához hasonlóan, randomizáltan, inkább hálós gráfot hoznak létre. \\
 
 Ennek megfelelően saját algoritmust írtam a gráf csomópontjainak helyes elrendezésére. Az algoritmus két szakaszból épül fel, az 1. szakaszban (X koordináta) a horizontális rendezés történik a különböző szintekre, majd a 2. szakaszban (Y koordináta) az adott szinteken történik egy vertikális rendezés. 
 
@@ -463,7 +465,7 @@ Ennek megfelelően saját algoritmust írtam a gráf csomópontjainak helyes elr
 \noindent\textbf{Egy nem várt meglepetés:}\\
 
 A tesztelés során akadtak olyan csomagok, ahol a gráf algoritmusa végtelen iterációban futott, ezzel lefagyasztva a programot.
-Ennek az oka az volt, hogy egyes csomagok olyan függőségei között olyan csomagverziók is voltak, amelyekben függőségként a gyökércsomag volt megjelölve, vagy esetleg kört eredményeztek a függőségi gráfban, ritkán egy szülő<-->gyermek kölcsönönös függési viszony alakult ki két csomag között. Ezek problémásak lehetnek, mivel elvben egy függőségi gráfban ilyennek nem szabadna előfordulni.
+Ennek az oka az volt, hogy egyes csomagok függőségei között olyan csomagverziók is voltak, amelyekben függőségként a gyökércsomag volt megjelölve, vagy esetleg kört eredményeztek a függőségi gráfban, ritkán egy szülő<-->gyermek kölcsönönös függési viszony alakult ki két csomag között. Ezek problémásak lehetnek, mivel elvben egy függőségi gráfban ilyennek nem szabadna előfordulni.
 
 Az ilyen problémák kiszűrésére az algoritmus kapott egy olyan kiegészítést, hogy a gyökércsomag koordinátáit semmiképpen ne lehessen változtatni, illetve ha két iteráció között sem sikerül érdemben javítani az elrendezésen, kilép az algoritmus, mert nem tud tovább rendezni.\\
 
@@ -514,7 +516,7 @@ A programban ezt a csomagot a \textbf{makeHistogram.js} fájl fogja implementál
 	\item \texttt{"labArray"}: Az x tengely beosztásait tartalmazó tömb.
 \end{itemize} 
 
-A makeHistogram() függvényt az analyseGraph() fogja meghívni, amely előkészíti azokat a HTML elemeket, amik szükségesek lesznek az elemzés eredményeinek megjelenítésére. A különböző eredményeket szövegesen vagy hisztogram formájában fogja megjeleníteni a Sidebar-on. Miután elvégezte az elemzéseket és az adatokat a megjelenítő által elvárt formára hozta, meghívja a makeHistogram() függvényt és kirajzolja a megfelelő reprezentatív hisztogramokat. 
+A setHistogram() függvényt az analyseGraph() fogja meghívni, amely előkészíti azokat a HTML elemeket, amik szükségesek lesznek az elemzés eredményeinek megjelenítésére. A különböző eredményeket szövegesen vagy hisztogram formájában fogja megjeleníteni a Sidebar-on. Miután elvégezte az elemzéseket meghívja a setHistogram() funkciót, amely az adatokat a megjelenítő által elvárt formára hozza és meghívja a makeHistogram() függvényt, ami pedig kirajzolja a megfelelő reprezentatív hisztogramokat. 
 
 \pagebreak
  
@@ -546,14 +548,27 @@ function makeHistogram(id, dataArray, label, labArray){
 
 \subsection{Javaslattétel}
 
-Hamarosan....
+A csomag függőségeinek lekérdezésénél említésre került a kulcsszavak lekérdezése, ennek az oka a javaslattételhez kapcsolódik. Az eredeti megoldás egy külön lekérdezés volt minden csomag esetében, majd a válaszból kinyerésre kerültek a kulcsszavak. 
+
+Mivel a függőségek esetében küldött kérésre kapott válaszban szintén szerepeltek a kulcsszavak a terhelés csökkentése és a futásidő javítása érdekében ott történik a kulcsszavak kinyerése és eltárolása is.
+
+A megszerzett csomagok adatait tartalmazó objektumok így a kulcsszavakat is tárolni fogják.\\
+
+A kulcsszavak elemzését az analyseGraph() függvény által meghívott \textbf{checkKeywords()} függvény fogja végezni, amely paraméterként bekéri az összegyűjtött csomagokat és függőségeket.
+
+A csomagokat összehasonlítja és amennyiben nincsenek egymással függési viszonyban, illetve több a funkcionalitásukat leíró kulcsszavak több mint 50\%-os átfedésben vannak, esetleges redundanciaként kezeli.
+Az ilyen csomagpárokat visszaadja egy tömbbe rendezve, melynek minden eleme tartalmazza a csomagok nevét, azok szüleit, és az átfedés mértékét \%-ban megadva.
+
+Az analyseGraph() végül ezeket ki fogja írni a Sidebar aljára, mint esetleges redundáns funkcionalitású csomagokat.
+
+A csomagok vizsgálata a fejlesztő feladata, a program funkcionalitása csak a kulcsszavak alapján tesz javaslatot, amely nem jelenti, hogy redundáns a csomagok funkcionalitása, viszont a kulcsszavak egyezése miatt lehetséges. 
 
 \section{Függőségi Gráfok Statisztikai Vizsgálata}
 
 Ebben a szekcióban a program másik felhasználási módja kerül bemutatásra, amely több csomag függőségi gráfjainak statisztikai elemzését teszi lehetővé.
 Ezen mód alapjait nagyrészt lefedi az egy csomagos módnál bemutatott funkcionalitás, néhány kiegészítéssel. Az ismertetés során így a már áttekintet funkciókra csak hivatkozás fog történni.\\
  
-A későbbiekben az első 1000 leggyakrabban használt csomagot és azok függőségeit fogjuk tekinteni a reprezentatív módon leszűkített teljes npm Registrynek, mivel a teljes Registry túl nagy lenne az elemzésre, bár a lehetőség meg lenne rá.\\
+A későbbiekben az első 1000 leggyakrabban használt csomagot és azok függőségeit fogjuk tekinteni a reprezentatív módon leszűkített teljes npm Registrynek, mivel a teljes Registry túl nagy lenne az elemzésre, bár a lehetőség elvben meg lenne rá.\\
 
 A program több csomagos módra váltását követően meg lehet adni, hogy hány csomag függőségi gráfjának elemzését szeretnénk kérni, és hogy ezeket milyen paraméter alapján állítsa sorrendben és adja vissza a program. Az elemzést minimum egy csomagra lehet elindítani és az alapértelmezett rangsorolás a leggyakrabban használt csomagok szerint történik.\\
 
@@ -563,6 +578,7 @@ Ezt követően meghívásra kerül a handleSideBarEvents() modulból a \textbf{c
 
 \begin{itemize}
 	\item \textbf{searchPackages()} funkció
+	\item \textbf{getGitData()} funkció
 	\item A létrehozott függőségi gráfoknak csak felhasználja a szerkezetét, nem rajzolja ki
 	\item Nem fogja az önálló gráfelemzéseket elvégezni
 \end{itemize}
@@ -571,7 +587,7 @@ Ezt követően meghívásra kerül a handleSideBarEvents() modulból a \textbf{c
 
 A searchPackages() modul a csomagok sorrendbe rendezett lekérésére alkalmas. A modul implementálja a Libraries.io API-ját, amely lehetővé teszi a csomagkezelő által nyilvántartott csomagok különböző elvek szerint rendezett lekérdezését. Az alapértelmezés a már említett leggyakrabban használt csomagok elve, azonban lehetőség van még SourceRank, csillagok száma, legfrissebb kiadású csomagok, függő csomagok száma, közreműködők száma és legújabb csomagok szerinti rendezésre is.\\
 
-Az API működése paraméterezett kérésekkel történik, a Libraries.io search végpontja felé. Ezekre válaszul csomagokat tartalmazó JSON objektumokat ad vissza. A rangsorolt csomagokat oldalanként tárolja adja vissza, amelynek a mérete maximum 100 elemű lehet. Ennek megfelelően egy 1000 csomagos lekérdezés esetén 10 x 100 csomag lekérdezése fog megtörténni, majd ezeket egy tömbként adja vissza a funkció. A kérések a már ismert fetchData() funkcióval történnek.
+Az API működése paraméterezett kérésekkel történik, a Libraries.io search végpontja felé. Ezekre válaszul csomagokat tartalmazó JSON objektumokat ad vissza. A rangsorolt csomagokat oldalanként tárolja és adja vissza, amelynek a mérete maximum 100 elemű lehet. Ennek megfelelően egy 1000 csomagos lekérdezés esetén 10 x 100 csomag lekérdezése fog megtörténni, majd ezeket egy tömbként adja vissza a funkció. A kérések a már ismert fetchData() funkcióval történnek.
 
 \subsubsection{Szükséges paraméterek:}
 \begin{cpp}
@@ -584,11 +600,106 @@ Az API működése paraméterezett kérésekkel történik, a Libraries.io searc
 	}
 \end{cpp}
 
-\subsubsection{Visszatérés}
+\subsubsection{Visszatérés és Megjelenítés}
 
 A visszakapott csomagok függőségi gráfjait a createStats() függvény egyesével lekérdezi, az egy csomagos mód esetében tisztázott lépéssorozat segítségével, majd a visszakapott \textbf{Graph} objektumokat eltárolja egy tömbben.\\
 
-A gráf objektumokat tartalmazó tömb adatait a megjelenítő hisztogramok típusának megfelelő formába rendezése után a korábban már szintén tisztázott makeHistogram() függény segítségével az oldal "Canvas" részén jeleníti meg. Erre azért van szükség, mivel nagy mennyiségű csomagok esetén, itt lehetséges reprezentatív méretű hisztogramokat kirajzolni.
+A gráf objektumokat tartalmazó tömb adatait a megjelenítő hisztogramok típusának megfelelő formába rendezése után, a függések száma szerint csökkenő sorrendben a korábban már szintén tisztázott setHistogram() és makeHistogram() függvények segítségével az oldal "Canvas" részén jeleníti meg. Erre azért van szükség, mivel nagy mennyiségű csomagok esetén, itt lehetséges reprezentatív méretű hisztogramokat kirajzolni.
 
 \subsection{Fájlszintű Elemzés} 
-Hamarosan....
+A csomagok statisztikai vizsgálatának egy igen fontos lépése a jegyzék szintű elemzése az adott csomagnak. Az elemzés során ki fog derülni:
+\begin{itemize}
+	\item A csomag mérete
+	\item A csomag fájljainak száma
+	\item A JavaScript fájlok aránya
+	\item A TypeScript fájlok aránya
+\end{itemize}
+
+\subsubsection{Probléma}
+Az elemzés módjának kivitelezésére a terv egy lokális vizsgálat volt, amely a következő okok miatt nem igazán bizonyult kivitelezhetőnek:
+\begin{itemize}
+	\item Minden vizsgálandó csomagnak lokálisan jelen kell lennie a rendszeren, amely nagy mennyiségű npm csomag letöltését eredményezné.
+	\item A letöltéshez gyermek processz-re van szükség, hogy a JavaScript kódból futtatható legyen a telepítés.
+	\item A lokális fájlok vizsgálatához a NodeJS filesystem API-ja szükséges.
+	\item Mind a gyermek processz és filesystem kliens oldali használata biztonságtechnikai okokból korlátozásra került.
+\end{itemize}
+
+\subsubsection{Megoldás}
+A kivitelezés megvalósítására a GitHub API-ja nyújtott lehetőséget, amely tanulmányozásának eredményeként kiderül, hogy képes a program által igényelt adatok szolgáltatására.\\
+
+A program alapvetően két végpont URL címével dolgozik, melyek felé kéréseket intéz a megfelelő "tulajdonos/repo-név", illetve "branch" megadásával.
+\begin{itemize}
+	\item https://api.github.com/repos/\{repo\}
+	\item https://api.github.com/repos/\{repo\}/git/trees/\{branch\}?recursive=1
+\end{itemize}
+
+Az első végpont a repository adatait adja vissza, majd ebből kinyerve az alapértelmezett branchet intéz kérést a program a második végpont felé, amely rekurzívan megkeresi és visszaadja a repository jegyzék struktúráját.
+
+\subsubsection{Implementáció}
+Minden csomag esetében két kérés történik a GitHub api felé, az első az általános adatok lekéréséhez, a második a jegyzék struktúra lekérdezéséhez.\\
+
+A kéréseket a \textbf{getGitData()} függvény fogja elvégezni, majd a választ a megfelelő formában visszaadni.
+
+\begin{cpp}
+	function getGitData(repo, urlType, branch=""){  
+		*do stuff*
+		return pkg;
+	}
+\end{cpp}
+Paraméterként a repository tulajdonosát és nevét kéri be "owner/name" formában, az URL típusát, hogy általános vagy jegyzék lekérdezéshez állítsa be az URL-t, illetve jegyzékek esetén a "branch" nevét.\\
+
+A getGitData() a már ismert fetchData() függvényt fogja alkalmazni a kérésekhez.
+
+\subsubsection{Fetch Korlátozások}
+Az adatok megszerzéséhez szükséges kérések számát a GitHub API limitálja. Alapértelmezetten ez 60 kérés óránként, ami igen kevés, maximum 30 csomag elemzésére elég egy órában.
+
+Azonban, ha authorizált felhasználó intézi a kéréseket akkor ez a szám 5000 kérésre emelkedik óránként, ami már bőven elég az 1000 csomagos vizsgálathoz.\\
+
+A GitHub minden felhasználó számára biztosítja az Auth Tokeneket, amit a kérés Headerjébe helyezve lehet használni. Egy Auth Token igénylésénél meg lehet adni milyen privilégiumokkal rendelkezzen. A programban használt Token semmilyen privilégiummal nem rendelkezik, pusztán jelzi, hogy a lekérdezés felhasználó által történik.\\
+
+A fetchData.js modul így kiegészítésre került a GitHub Token használatával.
+
+\pagebreak
+
+\begin{cpp}
+function fetchData(url, token=false){
+	let headers = {"Content-Type": "application/json"};
+	
+	if(token){
+		headers["Authorization"] = "token "+getToken();
+	}
+	
+	let response = await fetch(url, {headers,});
+	
+	if (!response.ok) {
+		throw new Error(response.status);
+	}
+	
+	return response.json();
+}
+
+function getToken(){
+	const decipher = crypto.createDecipheriv();
+	const decrypted = Buffer.concat([decipher.update(Buffer.from()),
+						decipher.final()]);
+	
+	return decrypted.toString();
+}
+\end{cpp}
+\textbf{Token Probléma:} A kód GitHubra commitolása során észrevette a kódban megadott Token jellegű adatot, így visszavonta a Tokent. 
+
+Ezért szükség volt a Token titkosítására, majd az így titkosított Token került megadásra a kódban és csak futásidőben fog visszafejtésre kerülni, így a GitHub számára nem Token jellegű a karaktersorozat és nem vonja vissza.
+
+A Token egyébként nem okoz biztonsági problémát, mivel már említésre került, hogy a Tokenhez nincs semmilyen privilégium társítva, pusztán arra van használva, hogy a kéréseknél jelezzük, hogy authorizált kérésről van szó.\\
+
+A getGitData() adatait a \textbf{analyseSource()} függvény fogja felhasználni, amely csomagonként az alábbi információt fogja szolgáltatni a createStats() függvény számára:
+
+\begin{cpp}
+	{Package:, Size:, Files:, JS_Files:, TS_Files:}
+\end{cpp}
+Azaz csomagnév, csomagméret MB-ban, fájlok száma, JavaScript fájlok aránya \%-ban megadva, TypeScript fájlok aránya \%-ban megadva.
+
+\subsubsection{Visszatérés}
+
+A fent leírt objektumok tömbjével fog visszatérni a createStats() függvényben, amelyet felhasználva az a setHistogram() és makeHistogram() fügvényekkel ábrázolni fog a függőségek száma szerint csökkenő sorrendben.
+

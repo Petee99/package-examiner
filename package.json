@@ -1,6 +1,6 @@
 {
   "name": "package-examiner",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "My diploma project",
   "main": "main.js",
   "scripts": {
@@ -27,8 +27,13 @@
   },
   "dependencies": {
     "chart.js": "^3.5.1",
-    "npm": "^8.1.1",
     "semver": "^7.3.5",
     "sigma": "^1.2.1"
-  }
+  },
+  "keywords": [
+    "npm",
+    "dependencies",
+    "graphing",
+    "statistics"
+  ]
 }

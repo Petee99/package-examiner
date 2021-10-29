@@ -58,7 +58,7 @@ Mivel mind a dokumentáció, mind az npm interfésze angol nyelvű, így nem ind
 		\item Figyelembe kell még venni azt is, hogy nem minden eszköz támogatja ugyanazt a böngészőt, illetve egyes böngészők funkcionalitása, támogatása eltérő lehet.
 	\end{itemize}
 	
-	A \textbf{cél} egy olyan webszerveren futtatható szoftver fejlesztése, amely képes elvégezni a kutatáshoz kötődő feladatokat, tehát összegyűjti a megfelelő adatokat egy csomag vagy több csomag függőségeiről, azokat képes szofisztikált és informatív ábrákkal prezentálni, majd felhasználva az adatokat, esetleg egyéb vizsgálatok adatait megpróbál javaslatot tenni a csomag függőségeinek csökkentéséről.
+	A \textbf{cél} egy olyan webszerveren futtatható szoftver fejlesztése, amely képes elvégezni a kutatáshoz kötődő feladatokat, tehát összegyűjti a megfelelő adatokat egy vagy több csomag függőségeiről, azokat képes szofisztikált és informatív ábrákkal prezentálni, majd felhasználva az adatokat, esetleg egyéb vizsgálatok adatait megpróbál javaslatot tenni a csomag függőségeinek csökkentéséről.
 
 \section{Hasonló Programok}
 
@@ -151,7 +151,7 @@ A kutatásom eredményeként találtam több olyan alkalmazást is, amelynek mű
 	\textbf{Miért nem megfelelő:}
 	\begin{itemize}
 		\item A vizualizáció hálós gráfként történik, amely nem annyira informatív.
-		\item Bár a gráfélek irányítottak célszerűbb nem látszik jól, ha esetleg valamilyen függőségi anomália van benne.
+		\item Bár a gráfélek irányítottak, nem látszik jól, ha esetleg valamilyen függőségi anomália van benne.
 	\end{itemize}
 	
 	\textbf{Miért hasznos:}
@@ -177,7 +177,7 @@ A kutatásom eredményeként találtam több olyan alkalmazást is, amelynek mű
 
 A program megtervezésének következő lépése a technológiák, programozási nyelvek kiválasztása, amelyek szükségesek a megvalósításhoz.\\
 
-Mivel a \hyperlink{section.2.2}{vízióban} meghatározásra került, hogy az alkalmazás egy web-applikáció lesz, így ez leszűkíti a kört a webes-technológiákra. Mivel a program az adatokat csak feldolgozni fogja, nem pedig tárolni, így se adatbázis, se API, tehát lényegében back-end sem szükséges, azaz egy front-end alkalmazás elkészítésére van szükség.\\
+Mivel a \hyperlink{section.2.2}{vízióban} meghatározásra került, hogy az alkalmazás egy web-applikáció lesz, így ez leszűkíti a kört a webes technológiákra. Mivel a program az adatokat csak feldolgozni fogja, nem pedig tárolni, így sem adatbázis, sem back-end nem szükséges, azaz egy front-end alkalmazás elkészítésére van szükség.\\
 
 A felhasználói interfész lényegében a weboldal felülete lesz, amelynek testreszabása egyértelműen két jelölő nyelvet fog magával vonzani:
 \begin{itemize}
@@ -252,7 +252,7 @@ A program egy npm csomagként fog elkészülni, ennek megfelelően szükség les
 \textbf{Az applikáció jellege:}
 
 \begin{itemize}
-	\item A weboldal "single-page" azaz egy oldalra tartalmat dinamikusan betöltő web alkalmazás lesz.
+	\item A weboldal "single-page", azaz egy oldalra tartalmat dinamikusan betöltő web alkalmazás lesz.
 	\item Az app szerkezetének és a kód strukturálásának az alapját a tervezett felhasználó interfész elrendezése, és működése fogja adni.
 \end{itemize}
 

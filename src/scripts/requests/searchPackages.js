@@ -45,7 +45,6 @@ async function searchPackages(size, sortBy){
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
         pkgs = pkgs.concat(await fetchData(url)
         .then((res) => {
-            console.log(res);
             return res;
         }));
     }

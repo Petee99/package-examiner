@@ -64,7 +64,6 @@ async function createStats(size, order){
     for(let i= 0; i<histograms.length; i++){
         dataDom.appendChild(histograms[i]);
         if(i%2!=0){
-            console.log(histograms[i].id)
             setHistogram(histograms[i].id, pkgData);
         }
     }

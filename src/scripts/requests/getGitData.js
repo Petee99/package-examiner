@@ -26,7 +26,6 @@ async function getGitData(repo, urlType, branch=""){
 
     let pkg = await fetchData(url, true)
     .then((resPKG) => {
-        console.log(resPKG);
         return resPKG;
     })
     .catch((error) => {

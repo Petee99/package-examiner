@@ -21,7 +21,6 @@ async function getPackage(packageName, packageVersion="", requiredData=""){
 
     let pkg = await fetchData(registryUrl+packageName+"/"+packageVersion)
     .then((resPKG) => {
-        console.log(resPKG);
         if(requiredData.length>0){
             return resPKG[requiredData];
         }else{
