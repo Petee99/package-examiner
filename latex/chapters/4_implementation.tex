@@ -585,7 +585,7 @@ Ezt követően meghívásra kerül a handleSideBarEvents() modulból a \textbf{c
 
 \subsection{searchPackages Modul}
 
-A searchPackages() modul a csomagok sorrendbe rendezett lekérésére alkalmas. A modul implementálja a Libraries.io API-ját, amely lehetővé teszi a csomagkezelő által nyilvántartott csomagok különböző elvek szerint rendezett lekérdezését. Az alapértelmezés a már említett leggyakrabban használt csomagok elve, azonban lehetőség van még SourceRank, csillagok száma, legfrissebb kiadású csomagok, függő csomagok száma, közreműködők száma és legújabb csomagok szerinti rendezésre is.\\
+A searchPackages modul a csomagok sorrendbe rendezett lekérésére alkalmas. A modul implementálja a Libraries.io API-ját, amely lehetővé teszi a csomagkezelő által nyilvántartott csomagok különböző elvek szerint rendezett lekérdezését. Az alapértelmezés a már említett leggyakrabban használt csomagok elve, azonban lehetőség van még SourceRank, csillagok száma, legfrissebb kiadású csomagok, függő csomagok száma, közreműködők száma és legújabb csomagok szerinti rendezésre is.\\
 
 Az API működése paraméterezett kérésekkel történik, a Libraries.io search végpontja felé. Ezekre válaszul csomagokat tartalmazó JSON objektumokat ad vissza. A rangsorolt csomagokat oldalanként tárolja és adja vissza, amelynek a mérete maximum 100 elemű lehet. Ennek megfelelően egy 1000 csomagos lekérdezés esetén 10 x 100 csomag lekérdezése fog megtörténni, majd ezeket egy tömbként adja vissza a funkció. A kérések a már ismert fetchData() funkcióval történnek.
 
@@ -686,11 +686,11 @@ function getToken(){
 	return decrypted.toString();
 }
 \end{cpp}
-\textbf{Token Probléma:} A kód GitHubra commitolása során észrevette a kódban megadott Token jellegű adatot, így visszavonta a Tokent. 
+\textbf{Token Probléma:} A kód GitHubra commitolása során a rendszer észrevette a kódban megadott Token jellegű adatot, így visszavonta a Tokent. 
 
 Ezért szükség volt a Token titkosítására, majd az így titkosított Token került megadásra a kódban és csak futásidőben fog visszafejtésre kerülni, így a GitHub számára nem Token jellegű a karaktersorozat és nem vonja vissza.
 
-A Token egyébként nem okoz biztonsági problémát, mivel már említésre került, hogy a Tokenhez nincs semmilyen privilégium társítva, pusztán arra van használva, hogy a kéréseknél jelezzük, hogy authorizált kérésről van szó.\\
+A Token egyébként nem okoz biztonsági problémát, mivel már említésre került, hogy a Tokenhez nincs semmilyen privilégium társítva, pusztán arra alkalmas, hogy a kéréseknél jelezzük, hogy authorizált kérésről van szó.\\
 
 A getGitData() adatait a \textbf{analyseSource()} függvény fogja felhasználni, amely csomagonként az alábbi információt fogja szolgáltatni a createStats() függvény számára:
 

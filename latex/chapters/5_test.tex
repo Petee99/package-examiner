@@ -1,6 +1,6 @@
 \Chapter{Tesztelés és Eredmények}
 
-A program funckiói a fejlesztés során folyamatosan tesztelésre kerültek, alapvetően manuálisan. Az algoritmus, illetve a szemantikus verziózás tesztelése végül a statisztikai vizsgálat során automatikusan is megtörtént, bár nem ez volt annak a résznek a célja. Ennek következtében derült ki az algoritmusnál is tárgyalt hiba, miszerint nem számított bizonyos átlagtól eltér esetekre, amely a ciklus végtelen futását eredményezte.\\
+A program funkciói a fejlesztés során folyamatosan tesztelésre kerültek, alapvetően manuálisan. Az algoritmus, illetve a szemantikus verziózás tesztelése végül a statisztikai vizsgálat során automatikusan is megtörtént, bár nem ez volt annak a résznek a célja. Ennek következtében derült ki az algoritmusnál is tárgyalt hiba, miszerint nem számított bizonyos átlagtól eltérő esetekre, amely a ciklus végtelen futását eredményezte.\\
 
 Ebben a szekcióban a program felhasználása, illetve a használatával szerzett eredmények elemzése kerül ismertetésre.
 
@@ -39,3 +39,61 @@ Ebben a szekcióban a program felhasználása, illetve a használatával szerzet
 \end{itemize}
 
 \section{Eredmények}
+
+A korábban tárgyalt mérete és csomagmennyisége miatt az npm Registry egészét túl hosszas és költségigényes lenne elemezni, így az első ezer leggyakrabban használt csomagról, mint "reprezentatívan leszűkített Registryről" készült statisztikai elemzés, amely a következő eredményeket adta, a függőségek száma szerint csökkenő sorrendben rendezve a csomagadatokat:
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.12]{images/depdist.png}
+	\caption{Függőségek számának eloszlása}
+	\label{fig:depdist}
+\end{figure}  
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.12]{images/graphdepth.png}
+	\caption{Csomagonkénti gráfmélység}
+	\label{fig:graphdepth}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.12]{images/avgdegree.png}
+	\caption{Csomagonkénti átlagos fokszám}
+	\label{fig:avgdegree}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.12]{images/pkgsize.png}
+	\caption{Csomagméret(MB-ban megadott) eloszlás}
+	\label{fig:pkgsize}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.12]{images/numoffiles.png}
+	\caption{Csomagonkénti fájlok száma}
+	\label{fig:numoffiles}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.12]{images/jsratio.png}
+	\caption{Csomagonkénti JavaScript fájlok aránya (\%)}
+	\label{fig:jsratio}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.12]{images/tsratio.png}
+	\caption{Csomagonkénti TypeScript fájlok aránya (\%)}
+	\label{fig:tsratio}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.3]{images/package-examiner.png}
+	\caption{A Package Examiner függőségeinek elemzése}
+	\label{fig:package-examiner}
+\end{figure}
