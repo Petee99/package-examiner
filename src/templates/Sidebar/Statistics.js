@@ -27,6 +27,8 @@ const Statistics = () => {
 
         <input type="submit" value="Check Packages">
     </form>
+
+    <h4 id="progress"></h4>
   `;
 	return template;
 };

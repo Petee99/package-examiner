@@ -11,7 +11,7 @@ const gitFileUrl = "https://api.github.com/repos/{repo}/git/trees/{branch}?recur
  * */
 async function getGitData(repo, urlType, branch=""){  
     let url;
-    document.getElementById("showReq").innerHTML = "<b style=\"color:#2e946d\">Currently fetching:</b><br>"+repo+"'s git data" 
+    document.getElementById("showReq").innerHTML = "<b style=\"color:#2e946d\">Currently fetching:</b><br>"+repo+"'s git data"; 
 
     switch (urlType) {
         case "data":

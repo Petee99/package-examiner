@@ -15,6 +15,7 @@ async function analyseSource(packages){
         let numOfJS=0;
         let numOfTS=0;
 
+        document.getElementById("progress").innerHTML=n+" / "+packages.length+" package's git data is fetched.";
         pkg = pkg.repository_url.replace("https://github.com/","");
         gitData.push(await getGitData(pkg, "data"));
         files = await getGitData(pkg, "files", gitData[n].default_branch);

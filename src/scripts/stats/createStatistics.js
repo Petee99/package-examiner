@@ -14,6 +14,7 @@ async function createStats(size, order){
     let n = 0;
 
     for(let pkg of packages){
+        document.getElementById("progress").innerHTML=n+" / "+packages.length+" graph(s) done.";
         pkg = [pkg.name,pkg.latest_stable_release_number];
         pkgData.push(await graphDependencies(pkg, "", false));
         packages[n]['dependencies'] = pkgData[n].edges.length;
@@ -29,6 +30,7 @@ async function createStats(size, order){
     dataDom.id = "histCanvas";
     document.getElementById("container").innerHTML="";
     document.getElementById("showReq").innerHTML ="";
+    document.getElementById("progress").innerHTML="";
     document.getElementById("container").appendChild(dataDom);
 
     histograms[0] = document.createElement('h3');
