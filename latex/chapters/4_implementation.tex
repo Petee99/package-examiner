@@ -4,7 +4,7 @@ Ebben a fejezetben kerül részletes bemutatásra a program implementációjána
 
 Mivel a csomagadatok lekérdezése egyszerűen megoldható az npm Registrynek köszönhetően, így gond nélkül lehet keresést implementálni, amelynek eredményeként megkaphatjuk egy adott csomag adott verziójának összes függőségét.
 
-\section{Csomag Szerkezet}
+\Section{Csomag Szerkezet}
 Az npm csomagok szerkezetére vannak megkötések, így a projekt szerkezetét is ilyen formára kell hozni. Elkészült hozzá a \texttt{package.json} fájl, amely tartalmaz minden kötelező és releváns opcionális mezőt. A csomag a \textbf{package-examiner} fantázianevet kapta.   
 
 A csomag belépési pontja, a \texttt{package.json}-ban is jelzett \texttt{main.js}. A csomag funkcionális szerkezete az alábbi módon néz ki:
@@ -28,7 +28,7 @@ Mint látható csak az \texttt{index} HTML fájl létezik, ennek oka a következ
 
 \pagebreak
 
-\section{Single-Page UI}
+\Section{Single-Page UI}
 
 A Single Page Application, azaz SPA lényege, hogy egy oldalra dinamikusan tölti be a tartalmat, nem történik új lap nyitása, se újratöltés.
 
@@ -95,7 +95,7 @@ window.handleFormEvents = (event) => {
 
 \pagebreak
 
-\section{Adatgyűjtés}
+\Section{Adatgyűjtés}
 
 Az adatok lekérésére három különböző modul áll rendelkezésre, a \textbf{getPackage.js}, a \textbf{searchPackages.js} és a \textbf{getGitData.js}.
 
@@ -202,7 +202,7 @@ async function fetchData(url){
 	\item Több csomag esete: Libraries.io (https://libraries.io/api/search)
 \end{itemize} 
 
-\section{Gráfalkotás és Elemzés}
+\Section{Gráfalkotás és Elemzés}
 
 A \textbf{makeGraph()} funkció meghívásával kezdődik el a folyamat. A függvény amennyiben ki van választva egy csomag és annak egy verziója, meghívja a \textbf {grahpDependencies.js} modult. 
 
@@ -561,9 +561,11 @@ Az ilyen csomagpárokat visszaadja egy tömbbe rendezve, melynek minden eleme ta
 
 Az analyseGraph() végül ezeket ki fogja írni a Sidebar aljára, mint esetleges redundáns funkcionalitású csomagokat.
 
-A csomagok vizsgálata a fejlesztő feladata, a program funkcionalitása csak a kulcsszavak alapján tesz javaslatot, amely nem jelenti, hogy redundáns a csomagok funkcionalitása, viszont a kulcsszavak egyezése miatt lehetséges. 
+A csomagok vizsgálata a fejlesztő feladata, a program funkcionalitása csak a kulcsszavak alapján tesz javaslatot, amely nem jelenti, hogy redundáns a csomagok funkcionalitása, viszont a kulcsszavak egyezése miatt lehetséges.
 
-\section{Függőségi Gráfok Statisztikai Vizsgálata}
+\pagebreak 
+
+\Section{Függőségi Gráfok Statisztikai Vizsgálata}
 
 Ebben a szekcióban a program másik felhasználási módja kerül bemutatásra, amely több csomag függőségi gráfjainak statisztikai elemzését teszi lehetővé.
 Ezen mód alapjait nagyrészt lefedi az egy csomagos módnál bemutatott funkcionalitás, néhány kiegészítéssel. Az ismertetés során így a már áttekintet funkciókra csak hivatkozás fog történni.\\
