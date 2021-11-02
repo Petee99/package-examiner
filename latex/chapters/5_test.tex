@@ -91,6 +91,28 @@ A korábban tárgyalt mérete és csomagmennyisége miatt az npm Registry egész
 	\label{fig:tsratio}
 \end{figure}
 
+\pagebreak
+
+Az elemzés során minden csomag esetében a legutóbbi stabil verziót vette alapul a program. 
+
+Az ábrázolás előtt a program a csomagokat a függőségek száma szerinti csökkenő sorrendbe rendezte, hogy egyértelműbbek legyenek az esetleges összefüggések.
+
+\begin{itemize}
+	\item Természetesen a gráf mélysége és a csomagok átlagos fokszáma, bár nem szigorúan, de követte a függőségek számának változását.
+	\item A csomagméret esetében már ez a tendencia nem jelenik meg, bár alapvetően a nagyobb mennyiségű függőség esetében gyakoribb a nagy csomagméret.
+	\item A csomagokban található fájlok mennyisége változó, de részben indikálja a csomag méretét.
+	\item A JavaScript és TypeScript fájlok aránya az összes fájlhoz képest erősen inkonzisztens. Alapvetően elmondható, hogy a JavaScript alapú csomagok jóval gyakoribbak, mint a TypeScript alapúak.
+\end{itemize}
+
+\section{Önelemzés}
+
+A szoftver Node.JS csomagként is működik, a publikus npm registry-ben kiadásra került. Ennek köszönhetően a program tudja a saját függőségeit elemezni, amelyre az alábbi eredményt adta:
+
+\begin{itemize}
+	\item A függőségként megjelölt és használt 3 csomag közül a szemantikus verziózásért felelős semver két további függőségi szintet eredményezett, amely nem lett volna egyértelmű pusztán a package.json tartalma alapján.
+	\item Az elemzés során nem talált kulcsszavakban rejlő redundáns funkcionalitásra jeleket.
+\end{itemize}
+
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.3]{images/package-examiner.png}

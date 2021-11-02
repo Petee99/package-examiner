@@ -1,6 +1,6 @@
 % Default fixed font does not support bold face
-%\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{10} % for bold
-%\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{10}  % for normal
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{10} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{10}  % for normal
 
 \usepackage{listings}
 
@@ -13,14 +13,14 @@
 \definecolor{codebg}{rgb}{0.95,0.95,0.95}
 \definecolor{framecolor}{rgb}{0.85,0.85,0.85}
 
-% Java style for highlighting
-\newcommand\javastyle{\lstset{
-language=java,
-%basicstyle=\ttm,
+% C++ style for highlighting
+\newcommand\cppstyle{\lstset{
+language=c++,
+basicstyle=\ttm,
 backgroundcolor=\color{codebg},
-otherkeywords={self},             % Add keywords here
-keywordstyle=\color{deepblue},
-emphstyle=\color{deepred},    % Custom highlighting style
+otherkeywords={self, let, var, function, await, async, push, pop},             % Add keywords here
+keywordstyle=\ttb\color{deepblue},
+emphstyle=\ttb\color{deepred},    % Custom highlighting style
 stringstyle=\color{deepgreen},
 frame=single,                         % Any extra options here
 frameround=tttt,
@@ -29,21 +29,22 @@ showstringspaces=false,            %
 % numberstyle=\color{gray},
 framesep=6pt,
 rulecolor=\color{framecolor},
-numbersep=16pt
+numbersep=12pt
 }}
 
-% Java environment
+% C++ environment
 \lstnewenvironment{js}[1][]
 {
-\javastyle
+\cppstyle
 \lstset{#1}
 }
 {}
 
-% Java for external files
-\newcommand\javaexternal[2][]{{
-\javastyle
+% C++ for external files
+\newcommand\cppexternal[2][]{{
+\cppstyle
 \lstinputlisting[#1]{#2}}}
 
-% Java for inline
-\newcommand\javainline[1]{{\pythonstyle\lstinline!#1!}}
+% C++ for inline
+\newcommand\cppinline[1]{{\pythonstyle\lstinline!#1!}}
+

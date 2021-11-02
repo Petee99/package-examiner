@@ -2,14 +2,14 @@
 
 Ebben a fejezetben kerül részletes bemutatásra a program implementációjának folyamata, kiegészítve a nehézségekkel, problémákkal és azok megoldásával. 
 
-Mivel a csomagadatok lekérdezése egyszerűen megoldható az npm Registrynek köszönhetően, így gond nélkül lehet rekurzív keresést implementálni, amelynek eredményeként megkaphatjuk egy adott csomag adott verziójának összes függőségét.
+Mivel a csomagadatok lekérdezése egyszerűen megoldható az npm Registrynek köszönhetően, így gond nélkül lehet keresést implementálni, amelynek eredményeként megkaphatjuk egy adott csomag adott verziójának összes függőségét.
 
 \section{Csomag Szerkezet}
 Az npm csomagok szerkezetére vannak megkötések, így a projekt szerkezetét is ilyen formára kell hozni. Elkészült hozzá a \texttt{package.json} fájl, amely tartalmaz minden kötelező és releváns opcionális mezőt. A csomag a \textbf{package-examiner} fantázianevet kapta.   
 
 A csomag belépési pontja, a \texttt{package.json}-ban is jelzett \texttt{main.js}. A csomag funkcionális szerkezete az alábbi módon néz ki:
 
-\begin{cpp}
+\begin{js}
 ./	
 	src/
 		- scripts
@@ -22,7 +22,7 @@ A csomag belépési pontja, a \texttt{package.json}-ban is jelzett \texttt{main.
 	package.json
 	package-lock.json
 	README.md	
-\end{cpp}
+\end{js}
 
 Mint látható csak az \texttt{index} HTML fájl létezik, ennek oka a következő szakaszban részletezésre kerül.
 
@@ -36,7 +36,7 @@ Ennek a megvalósítására több technológia létezik, többek között a jQue
 
 \textbf{Egy ilyen exportálható JavaScript Template szintaktikája:}
 
-\begin{cpp}
+\begin{js}
 	const Template = () => {
 		const template = `
 		#Some HTML code
@@ -45,17 +45,17 @@ Ennek a megvalósítására több technológia létezik, többek között a jQue
 	};
 
 	export default Template;
-\end{cpp}
+\end{js}
 
 A program az alábbi sablonokat tartalmazza:
-\begin{cpp}
+\begin{js}
 ./templates/	
 	Sidebar
 	- Examiner.js
 	- Statistics.js
 	Canvas.js
 	Sidebar.js
-\end{cpp}
+\end{js}
 
 A Sidebar és Canvas sablonokat az app.js fájl tölti be automatikusan az index.html-be, ezek konstansan részét képezik az index tartalmának. A Sidebar és a Canvas tartalmának egy része azonban felhasználási módtól függően változik.
 
@@ -86,12 +86,12 @@ A Sidebar továbbá tartalmaz egy konstansan jelen lévő kapcsolót, amellyel a
 
 A csomagok adatainak lekérdezését, függőségek összegyűjtését, elemzését és ábrázolását végző funkciókat a következő "lekezelő" funkció indítja el, amint a szükséges információk ki vannak gyűjtve:
 
-\begin{cpp}
+\begin{js}
 window.handleFormEvents = (event) => {
 	event.preventDefault();
 	submitForm(event.target.id);
 };
-\end{cpp}
+\end{js}
 
 \pagebreak
 
@@ -101,7 +101,7 @@ Az adatok lekérésére három különböző modul áll rendelkezésre, a \textb
 
 A program HTML form-ok küldés eseményére reagál, majd ezeket lekezeli és a form típusától függően hív meg függvényeket. Ezt a \textbf{handleSideBarEvents.js} modul fogja végezni, mely az alábbiak szerint dönti el, hogy mely funkciókat hívja meg:
 
-\begin{cpp}
+\begin{js}
 function submitForm(form){
 	switch (form) {
 		case "packageForm":
@@ -117,7 +117,7 @@ function submitForm(form){
 		break;
 	}
 }
-\end{cpp}
+\end{js}
 
 \noindent\textbf{getPackageData()}
 \begin{itemize}
@@ -152,12 +152,12 @@ Az applikáció minden lekérdezése aszinkron, hogy ne befolyásolja a végfelh
 
 \noindent 1) \underline{getPackage()}\\
 
-\begin{cpp}
+\begin{js}
 function getPackage(packageName, packageVersion="", requiredData=""){
 	*do stuff*
 	return pkg;
 }
-\end{cpp}
+\end{js}
 
 Ez a funkció egy csomagnevet vár el, illetve opcionálisan megadható a csomagverzió és arra is van lehetőség, hogy megadjuk, hogy a válaszként kapott objektumból milyen adatra van szükségünk.
 
@@ -165,12 +165,12 @@ A visszatérési érték a megadott paramétereknek megfelelő objektum lesz.
 
 \noindent 2) \underline{searchPackages()}\\
 
-\begin{cpp}
+\begin{js}
 function searchPackages(size, sortBy){
 	*do stuff*
 	return pkgs;
 }
-\end{cpp}
+\end{js}
 
 Ez a funkció a lekérdezendő csomagok számát várja el, illetve, hogy mi alapján állítsa sorrendbe és adja vissza a tárolt adatokat.
 
@@ -182,7 +182,7 @@ A visszatérési érték a megadott paramétereknek megfelelő csomagokat tartal
 
 A programon belül a HTTP kérések a fetch API segítségével valósulnak meg, amely a következő módon működik:
 
-\begin{cpp}
+\begin{js}
 async function fetchData(url){
 	let response = await fetch(url);
 	
@@ -192,7 +192,7 @@ async function fetchData(url){
 	
 	return response.json();
 }
-\end{cpp}
+\end{js}
 
 \textbf{async/await} módon működik, ígéretet ad arra, hogy fog adni adatot a meghívója számára, amely addig vár a futásával, de közben más feladatok futását nem akadályozza.
 
@@ -206,7 +206,7 @@ async function fetchData(url){
 
 A \textbf{makeGraph()} funkció meghívásával kezdődik el a folyamat. A függvény amennyiben ki van választva egy csomag és annak egy verziója, meghívja a \textbf {grahpDependencies.js} modult. 
 
-\begin{cpp}
+\begin{js}
 function graphDependencies(pckg, dDepth, singleMode=true){
 	
 	let dependencies = await getDependenciesTillDepth(pckg, dDepth);
@@ -224,7 +224,7 @@ function graphDependencies(pckg, dDepth, singleMode=true){
 	
 	return currentGraph;
 }	
-\end{cpp}
+\end{js}
 
 Egy és több csomagos módban is a makeGraph() a kiindulópont, mivel ez a funkció felelős egy adott csomag függőségeinek összegyűjtéséért, azok gráf struktúrába rendezéséért.
 Visszatérési értékként a csomag függőségi gráf struktúráját adja vissza.\\
@@ -235,9 +235,9 @@ A \textbf{singleMode} boolean jellegű változó 'igaz' (alapértelmezett) ért�
 		\item A gráf analizálása
 	\end{itemize}
 
-Következő lépésként fog megtörténni az adott csomag függőségeinek rekurzív keresése. Ezt a \textbf{getDependencies.js} modul fogja teljesíteni, amely az alábbi 3 függvényt tartalmazza:
+Következő lépésként fog megtörténni az adott csomag függőségeinek megkeresése. Ezt a \textbf{getDependencies.js} modul fogja teljesíteni, amely az alábbi 3 függvényt tartalmazza:
 
-\begin{cpp}
+\begin{js}
 function getDependenciesTillDepth(pckg, depth){
 	*do stuff*
 	return dependencies;
@@ -252,7 +252,7 @@ function getDependencies(pckg){
 	*do stuff*
 	return returnDeps;
 }
-\end{cpp}
+\end{js}
 
 \subsection{A getDependencies modul}
 
@@ -260,7 +260,7 @@ Először a \textbf{getDependenciesTillDepth()} függvény kerül meghívásra, 
 
 \textbf{Mélység: }A keresés mélysége az a szám, amelyre még kiterjed a keresés. Ez nem a függőségi gráf szintje. Egy szint megfelel az adott csomag közvetlen függőségeinek. Tehát az első szint mindig a gyökérelem direkt függőségei, a második szint a direkt függőségek közvetlen függőségei, és így tovább.\\
 
-A \textbf{getDependenciesTillDepth()} függvény rekurzívan fogja megkeresni a függőségeket, minden szint esetében. Az aktuális mélységi szinten minden csomag esetében meghívásra kerül a \textbf{getData()} függvény a csomaggal paraméterként, és a keresés aktuális mélységi szintjével.
+A \textbf{getDependenciesTillDepth()} függvény fogja megkeresni a függőségeket, minden szint esetében. Az aktuális mélységi szinten minden csomag esetében meghívásra kerül a \textbf{getData()} függvény a csomaggal paraméterként, és a keresés aktuális mélységi szintjével.
 
 \pagebreak
 
@@ -295,7 +295,7 @@ A függvény implementációjának formája a lekérdézskhez a következő olda
 
 \pagebreak
 
-\begin{cpp}
+\begin{js}
 function findMaxSatisfying(packageName, range){
 	let pkg = await fetchData(registryUrl+packageName);
 	let versions = [];
@@ -307,7 +307,7 @@ function findMaxSatisfying(packageName, range){
 	let max = semver.maxSatisfying(versions, range);
 	return max;
 }
-\end{cpp}
+\end{js}
 
 A funkció az aktuális csomagot és az elfogadott verziók intervallumát kéri be. Ezek után lekéri az adott csomag minden verzióját. Ezt követően a \textbf{semver} maxSatisfying() függvényének megadva a verziókat tartalmazó tömböt és a szemantikus módon megadott elfogadott verziók intervallumát, visszaadja a legfrissebb verziót, amit még elfogad az intervallum.\\
 
@@ -321,7 +321,7 @@ A gráf rajzolásához és szerkezetének meghatározásához a \textbf{sigma.js
 
 \textbf{Egy sigma példányosítás:
 }
-\begin{cpp}
+\begin{js}
 var s = new sigma({ 
 	container: 'container',
 	renderer: {
@@ -331,7 +331,7 @@ var s = new sigma({
 	settings: {
 	}
 }); 
-\end{cpp}
+\end{js}
 
 A sigma.js canvason rajzolja meg a gráfot, beállításként meg lehet adni a csomópontok és élek attribútumait, élek típusát és egyéb opcionális attribútumokat.
 
@@ -339,7 +339,7 @@ A sigma.js canvason rajzolja meg a gráfot, beállításként meg lehet adni a c
 
 \textbf{Csomópontok és gráfélek megadása, a csomagokkal és függőségekkel:}
 
-\begin{cpp}
+\begin{js}
 for (let i = 0; i < packages.length; i++) { 
 	s.graph.addNode({
 		id: packages[i].Name,
@@ -356,7 +356,7 @@ for (let i = 0; i < dependencies.length; i++) {
 		target: dependencies[i].Name
 	});
 } // Create graph edges from dependencies
-\end{cpp}
+\end{js}
 
 Az így feltöltött függőségi gráf azonban még közel sem reprezentatív. A cél ennek a gráfnak egy olyan felépítést adni, amely DAG jellegű. A DAG egy "Directed acyclic graph", azaz irányított körmentes gráfot jelent. Elméletileg minden függőségi gráf meg kell, hogy feleljen ennek, ha nem, akkor hiba van a függőségek megadásánál. Jelenlegi állapotban valahogy így nézne ki a gráf:\\
 
@@ -473,15 +473,15 @@ Az ilyen problémák kiszűrésére az algoritmus kapott egy olyan kiegészíté
 
 A calculateGraph() attól függően, hogy szükséges-e, megrajzolja a gráfot, és visszatér a helyes csomópontokkal és élekkel feltöltött tömbbel a \textbf{graphDependencies()} függvénybe, ahol az adatokból létre fog hozni egy gráf objektumot, a gráf osztály példányosításával:
 
-\begin{cpp}
+\begin{js}
 let currentGraph = new Graph(graphEntities[0], graphEntities[1]);
-\end{cpp}
+\end{js}
 
 \pagebreak
 
 \subsection{Gráf Osztály}
 
-\begin{cpp}
+\begin{js}
 class Graph{
 	constructor(nodes, edges){
 		this.name = nodes[0].id;
@@ -495,7 +495,7 @@ class Graph{
 	getNodeDegrees(){
 	}	
 }
-\end{cpp}
+\end{js}
 
 Ez az osztály tartalmaz minden olyan adattagot és metódust, amelyre a függőségi gráf elemzésénél szükség lesz. Vissza fogja adni a fokszámot, a gráf mélységét, és azt is, hogy mélységi szintenként hány függőség van.
 
@@ -522,7 +522,7 @@ A setHistogram() függvényt az analyseGraph() fogja meghívni, amely előkész�
  
 \noindent\textbf{Chart.js szintaktikája:}
  
-\begin{cpp}
+\begin{js}
 function makeHistogram(id, dataArray, label, labArray){
 	const ctx = document.getElementById(id).getContext('2d');
 	const chart = new Chart(ctx, {
@@ -544,7 +544,7 @@ function makeHistogram(id, dataArray, label, labArray){
 		}
 	});
 }	
-\end{cpp}
+\end{js}
 
 \subsection{Javaslattétel}
 
@@ -590,7 +590,7 @@ A searchPackages modul a csomagok sorrendbe rendezett lekérésére alkalmas. A 
 Az API működése paraméterezett kérésekkel történik, a Libraries.io search végpontja felé. Ezekre válaszul csomagokat tartalmazó JSON objektumokat ad vissza. A rangsorolt csomagokat oldalanként tárolja és adja vissza, amelynek a mérete maximum 100 elemű lehet. Ennek megfelelően egy 1000 csomagos lekérdezés esetén 10 x 100 csomag lekérdezése fog megtörténni, majd ezeket egy tömbként adja vissza a funkció. A kérések a már ismert fetchData() funkcióval történnek.
 
 \subsubsection{Szükséges paraméterek:}
-\begin{cpp}
+\begin{js}
 	let params = {
 		sort:sortBy, 
 		per_page:size,
@@ -598,7 +598,7 @@ Az API működése paraméterezett kérésekkel történik, a Libraries.io searc
 		platforms:"NPM",
 		api_key:"576acbf22232eac6a3a6b05be774eecb"
 	}
-\end{cpp}
+\end{js}
 
 \subsubsection{Visszatérés és Megjelenítés}
 
@@ -640,12 +640,12 @@ Minden csomag esetében két kérés történik a GitHub api felé, az első az 
 
 A kéréseket a \textbf{getGitData()} függvény fogja elvégezni, majd a választ a megfelelő formában visszaadni.
 
-\begin{cpp}
+\begin{js}
 	function getGitData(repo, urlType, branch=""){  
 		*do stuff*
 		return pkg;
 	}
-\end{cpp}
+\end{js}
 Paraméterként a repository tulajdonosát és nevét kéri be "owner/name" formában, az URL típusát, hogy általános vagy jegyzék lekérdezéshez állítsa be az URL-t, illetve jegyzékek esetén a "branch" nevét.\\
 
 A getGitData() a már ismert fetchData() függvényt fogja alkalmazni a kérésekhez.
@@ -661,7 +661,7 @@ A fetchData.js modul így kiegészítésre került a GitHub Token használatáva
 
 \pagebreak
 
-\begin{cpp}
+\begin{js}
 function fetchData(url, token=false){
 	let headers = {"Content-Type": "application/json"};
 	
@@ -685,7 +685,7 @@ function getToken(){
 	
 	return decrypted.toString();
 }
-\end{cpp}
+\end{js}
 \textbf{Token Probléma:} A kód GitHubra commitolása során a rendszer észrevette a kódban megadott Token jellegű adatot, így visszavonta a Tokent. 
 
 Ezért szükség volt a Token titkosítására, majd az így titkosított Token került megadásra a kódban és csak futásidőben fog visszafejtésre kerülni, így a GitHub számára nem Token jellegű a karaktersorozat és nem vonja vissza.
@@ -694,9 +694,9 @@ A Token egyébként nem okoz biztonsági problémát, mivel már említésre ker
 
 A getGitData() adatait a \textbf{analyseSource()} függvény fogja felhasználni, amely csomagonként az alábbi információt fogja szolgáltatni a createStats() függvény számára:
 
-\begin{cpp}
+\begin{js}
 	{Package:, Size:, Files:, JS_Files:, TS_Files:}
-\end{cpp}
+\end{js}
 Azaz csomagnév, csomagméret MB-ban, fájlok száma, JavaScript fájlok aránya \%-ban megadva, TypeScript fájlok aránya \%-ban megadva.
 
 \subsubsection{Visszatérés}
