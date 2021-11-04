@@ -153,29 +153,37 @@ Az applikáció minden lekérdezése aszinkron, hogy ne befolyásolja a végfelh
 \noindent 1) \underline{getPackage()}\\
 
 \begin{js}
-function getPackage(packageName, packageVersion="", requiredData=""){
-	*do stuff*
-	return pkg;
-}
+function getPackage(packageName, packageVersion="", requiredData="")
 \end{js}
 
-Ez a funkció egy csomagnevet vár el, illetve opcionálisan megadható a csomagverzió és arra is van lehetőség, hogy megadjuk, hogy a válaszként kapott objektumból milyen adatra van szükségünk.
+\noindent \textbf{Paraméterei:}
 
-A visszatérési érték a megadott paramétereknek megfelelő objektum lesz.
+\begin{itemize}
+	\item \textbf{packageName:} A csomag neve, amelynek az npm adatait szeretnénk megkapni.
+	\item \textbf{packageVersion:} A csomag verziója, amellyel összefűzve intézi a kérést az npm registry felé. Alapértelmezetten üres String.
+	\item \textbf{requiredData:} Amennyiben csak egy fajta adatra vagyunk kíváncsiak a csomag adatai közül, akkor itt megadható, hogy melyet adja vissza. Alapértelmezetten üres String.
+\end{itemize}
+
+\noindent \textbf{Visszatérési értéke:} \\
+
+\textbf{pkg:} A csomag adatait tartalmazó objektum.\\
 
 \noindent 2) \underline{searchPackages()}\\
 
 \begin{js}
-function searchPackages(size, sortBy){
-	*do stuff*
-	return pkgs;
-}
+function searchPackages(size, sortBy)
 \end{js}
 
-Ez a funkció a lekérdezendő csomagok számát várja el, illetve, hogy mi alapján állítsa sorrendbe és adja vissza a tárolt adatokat.
+\noindent \textbf{Paraméterei:}
 
-A visszatérési érték a megadott paramétereknek megfelelő csomagokat tartalmazó objektum lesz.
+\begin{itemize}
+	\item \textbf{size:} Az a mintaméret (csomagmennyiség) amelyet a felhasználó megad a Statisztikai módban.
+	\item \textbf{sortBy:} Egy olyan String, mely megadja, hogy a Libraries.IO API-ja milyen rendezési elvet használjon a keresés során. 
+\end{itemize}
 
+\noindent \textbf{Visszatérési értéke:} \\
+
+\textbf{pkgs:} A megadott mennyiségű csomagok Libraries.IO adatait tartalmazó objektum.\\
 \pagebreak
 
 \subsection{HTTP Kérés}
@@ -226,7 +234,7 @@ function graphDependencies(pckg, dDepth, singleMode=true){
 }	
 \end{js}
 
-Egy és több csomagos módban is a makeGraph() a kiindulópont, mivel ez a funkció felelős egy adott csomag függőségeinek összegyűjtéséért, azok gráf struktúrába rendezéséért.
+Egy és több csomagos módban is a graphDependencies() a kiindulópont, mivel ez a funkció felelős egy adott csomag függőségeinek összegyűjtéséért, azok gráf struktúrába rendezéséért.
 Visszatérési értékként a csomag függőségi gráf struktúráját adja vissza.\\
 
 A \textbf{singleMode} boolean jellegű változó 'igaz' (alapértelmezett) érték esetén a következő extra funkciók is végrehajtásra kerülnek:
@@ -235,36 +243,46 @@ A \textbf{singleMode} boolean jellegű változó 'igaz' (alapértelmezett) ért�
 		\item A gráf analizálása
 	\end{itemize}
 
-Következő lépésként fog megtörténni az adott csomag függőségeinek megkeresése. Ezt a \textbf{getDependencies.js} modul fogja teljesíteni, amely az alábbi 3 függvényt tartalmazza:
+Következő lépésként fog megtörténni az adott csomag függőségeinek megkeresése. Ezt a \textbf{getDependencies.js} modul fogja teljesíteni, amely az alábbi 2 függvényt tartalmazza:
 
 \begin{js}
-function getDependenciesTillDepth(pckg, depth){
-	*do stuff*
-	return dependencies;
-}
+function getDependenciesTillDepth(pckg, depth)
 
-function populateDependencies(pckg, depth){
-	*do stuff*
-	return dependencies;
-}
-
-function getDependencies(pckg){
-	*do stuff*
-	return returnDeps;
-}
+function getData(pck, depth)
 \end{js}
 
 \subsection{A getDependencies modul}
 
-Először a \textbf{getDependenciesTillDepth()} függvény kerül meghívásra, ez attól függően, hogy megadták-e hogy milyen mélyen keressen fogja megkeresni az adott csomag függőségeit, majd ezeket egy tömbként fogja visszaadni. A tömb utolsó elemét mindig a csomagok tömbje képzi, amelyektől függ a kiinduló csomag.\\
+Először a \textbf{getDependenciesTillDepth()} függvény kerül meghívásra, ez attól függően, hogy megadták-e hogy milyen mélyen keressen fogja megkeresni az adott csomag függőségeit.\\
 
-\textbf{Mélység: }A keresés mélysége az a szám, amelyre még kiterjed a keresés. Ez nem a függőségi gráf szintje. Egy szint megfelel az adott csomag közvetlen függőségeinek. Tehát az első szint mindig a gyökérelem direkt függőségei, a második szint a direkt függőségek közvetlen függőségei, és így tovább.\\
+\noindent \textbf{Paraméterei:}
 
-A \textbf{getDependenciesTillDepth()} függvény fogja megkeresni a függőségeket, minden szint esetében. Az aktuális mélységi szinten minden csomag esetében meghívásra kerül a \textbf{getData()} függvény a csomaggal paraméterként, és a keresés aktuális mélységi szintjével.
+\begin{itemize}
+	\item \textbf{pckg: }A csomag neve, amelynek a függőségi gráfját szeretnénk megkapni.
+	\item \textbf{depth: }A keresés mélysége, az a szám, amelyre még kiterjed a keresés. Ez nem a függőségi gráf szintje. Egy szint megfelel az adott csomag közvetlen függőségeinek. Tehát az első szint mindig a gyökérelem direkt függőségei, a második szint a direkt függőségek közvetlen függőségei, és így tovább.	Amennyiben a keresés szintje megadásra kerül, akkor addig a szintig gyűjti össze az összes ilyen objektumot, ha nem kerül megadásra, akkor addig keres, amíg meg nem találja az összes függőséget, majd visszaadja az objektumokat tartalmazó tömböt.
+\end{itemize}
 
+\noindent \textbf{Visszatérési értéke:} \\
+
+Az üsszegyűjtött függőségeket egy \textbf{dependencies} tömbként fogja visszaadni. A tömb utolsó elemét mindig a csomagok tömbje képzi, amelyektől függ a kiinduló csomag.\\
+
+A \textbf{getDependenciesTillDepth()} függvény fogja megkeresni a függőségeket, minden szint esetében. Az aktuális mélységi szinten minden csomag esetében meghívásra kerül a \textbf{getData()} függvény.
 \pagebreak
 
-A \textbf{getData()} a csomag adatait fogja lekérdezni, majd visszaadni belőle egy olyan objektumot, amely tartalmazni fogja a csomag összes kulcsszavát és közvetlen függőségét. A csomag minden függőségről az alábbi adatokat fogja tartalmazni:
+A \textbf{getData()} a csomag adatait fogja lekérdezni, majd elkülöníti belőle csomag összes kulcsszavát és közvetlen függőségét.\\ 
+
+\noindent \textbf{Paraméterei:}
+
+\begin{itemize}
+	\item \textbf{pckg: }Az aktuális csomag neve, amelynek a közvetlen függőségeit keressük.
+	\item \textbf{depth: }A keresés aktuális mélységi szintje.
+\end{itemize}
+
+\noindent \textbf{Visszatérési értéke:} \\
+
+Egy olyan objektum mely tartalmazza az adott csomag kulcsszavait (\textbf{Keywords}) és közvetlen függőségeit (\textbf{Dependencies}).\\
+
+\noindent A csomag minden \textbf{függőségről} az alábbi adatokat fogja tartalmazni:
 \begin{itemize}
 	\item Csomag Neve
 	\item Verzió
@@ -272,8 +290,6 @@ A \textbf{getData()} a csomag adatait fogja lekérdezni, majd visszaadni belőle
 	\item Szülő
 	\item Szülő Verziója
 \end{itemize}
-
-Amennyiben a keresés szintje megadásra kerül, akkor addig a szintig gyűjti össze az összes ilyen objektumot, ha nem kerül megadásra, akkor addig keres, amíg meg nem találja az összes függőséget, majd visszaadja az objektumokat tartalmazó tömböt.\\
 
 A csomag függőségeinek az összegyűjtése esetében azért van szükség a kulcsszavak letárolására is, mivel így csomagonként megspórol a program egy extra Get Request-et, amely a csomag kulcsszavainak lekérdezésére irányulna.
 
@@ -309,54 +325,63 @@ function findMaxSatisfying(packageName, range){
 }
 \end{js}
 
-A funkció az aktuális csomagot és az elfogadott verziók intervallumát kéri be. Ezek után lekéri az adott csomag minden verzióját. Ezt követően a \textbf{semver} maxSatisfying() függvényének megadva a verziókat tartalmazó tömböt és a szemantikus módon megadott elfogadott verziók intervallumát, visszaadja a legfrissebb verziót, amit még elfogad az intervallum.\\
+A funkció az aktuális csomagot és az elfogadott verziók intervallumát kéri be. Ezek után lekéri az adott csomag minden verzióját. Ezt követően a \textbf{semver} maxSatisfying() függvényének megadva a verziókat tartalmazó tömböt és a szemantikus módon megadott elfogadott verziók intervallumát, visszaadja a legfrissebb verziót, amit még elfogad az intervallum.
 
 \subsection{Adatok Gráf Struktúrába Rendezése:}
 
-Újra a graphDependencies() függvényben van a program, megszerezte a szükséges adatokat a gráf struktúrába rendezéshez.
+Újra a graphDependencies() függvényben van a program, megszerezte a szükséges adatokat a gráf struktúrába rendezéshez. Ekkor hívja meg a \textbf{calculateGraphData()} függvényt amely a csomagokat, a függőségeket kéri paraméterként, illetve azt, hogy kirajzolja-e a gráfot vagy sem. Ez egycsomagos mód esetén 'igaz' lesz.
 
-Ekkor hívja meg a \textbf{calculateGraphData()} függvényt amely a csomagokat, a függőségeket kéri paraméterként, illetve azt, hogy kirajzolja-e a gráfot vagy sem. Ez egycsomagos mód esetén 'igaz' lesz.
+\noindent\textbf{Csomópontok és gráfélek megadása, a csomagokból és függőségekből:}
 
-A gráf rajzolásához és szerkezetének meghatározásához a \textbf{sigma.js} nevű gráfkészítő csomagot használja a program. A sigma objektum a gráf megrajzolásához két adathalmazt használ, az egyik a Node-ok azaz csomópontok, a másik az Edge-k, azaz gráfélek.\\
+\begin{js}
+	// Create graph nodes from packages
+	for (let i = 0; i < packages.length; i++) {
+		graphNodes[i] =  {
+			id: packages[i].Name, 
+			label: packages[i].Name, 
+			y:0, 
+			x:0+packages[i].Level, 
+			size:1
+		};
+	}
+	// Create graph edges from dependencies
+	for (let i = 0; i < dependencies.length; i++) {
+		graphEdges[i] =  {
+			id: 'edge_'+i, 
+			source: dependencies[i].Parent, 
+			target: dependencies[i].Name, 
+			color:"#333"};
+	}
+	
+	if(shouldDrawGraph){
+		drawGraph(graphNodes, graphEdges);
+	}
+\end{js}
+
+A gráf rajzolásához a \textbf{sigma.js} nevű gráfkészítő csomagot használja a program. A sigma objektum a gráf megrajzolásához két adathalmazt használ, az egyik a Node-ok azaz csomópontok, a másik az Edge-k, azaz gráfélek.\\
 
 \textbf{Egy sigma példányosítás:
 }
 \begin{js}
-var s = new sigma({ 
-	container: 'container',
-	renderer: {
-		container: document.getElementById('container'),
-		type: sigma.renderers.canvas,
-	},
-	settings: {
-	}
-}); 
-\end{js}
-
-A sigma.js canvason rajzolja meg a gráfot, beállításként meg lehet adni a csomópontok és élek attribútumait, élek típusát és egyéb opcionális attribútumokat.
-
-\pagebreak
-
-\textbf{Csomópontok és gráfélek megadása, a csomagokkal és függőségekkel:}
-
-\begin{js}
-for (let i = 0; i < packages.length; i++) { 
-	s.graph.addNode({
-		id: packages[i].Name,
-		label: packages[i].Name,
-		y: 0,
-		x: 0+packages[i].Level,
-		size: 1
-	})        
-}// Create graph nodes from packages
-for (let i = 0; i < dependencies.length; i++) {
-	s.graph.addEdge({
-		id: 'edge_'+i,
-		source: dependencies[i].Parent,
-		target: dependencies[i].Name
+function drawGraph(graphNodes, graphEdges){	
+	var s = new sigma({ 
+		container: 'container',
+		renderer: {
+			container: document.getElementById('container'),
+			type: sigma.renderers.canvas,
+		},
+		settings: {}
 	});
-} // Create graph edges from dependencies
+	for(let node of graphNodes){
+		s.graph.addNode(node);
+	}
+	for(let edge of graphEdges){
+		s.graph.addEdge(edge);
+	}
+}
 \end{js}
+
+A sigma.js canvason rajzolja meg a gráfot, beállításként meg lehet adni a csomópontok és élek attribútumait, élek típusát és egyéb opcionális attribútumokat.\\
 
 Az így feltöltött függőségi gráf azonban még közel sem reprezentatív. A cél ennek a gráfnak egy olyan felépítést adni, amely DAG jellegű. A DAG egy "Directed acyclic graph", azaz irányított körmentes gráfot jelent. Elméletileg minden függőségi gráf meg kell, hogy feleljen ennek, ha nem, akkor hiba van a függőségek megadásánál. Jelenlegi állapotban valahogy így nézne ki a gráf:\\
 
@@ -364,7 +389,7 @@ Az így feltöltött függőségi gráf azonban még közel sem reprezentatív. 
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=0.4]{images/graph_wrong.png}
+	\includegraphics[scale=0.35]{images/graph_wrong.png}
 	\caption{Rossz gráf elrendezés}
 	\label{fig:graph_wrong}
 \end{figure}
@@ -488,12 +513,11 @@ class Graph{
 		this.nodes = nodes;
 		this.edges = edges;
 	}
-	getMaxDepth(){
-	}
-	getLinksPerDepth(){
-	}
-	getNodeDegrees(){
-	}	
+	getMaxDepth();
+	
+	getLinksPerDepth();
+	
+	getNodeDegrees();
 }
 \end{js}
 
