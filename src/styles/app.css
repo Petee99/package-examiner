@@ -203,6 +203,10 @@ html{
     100% { transform: rotate(360deg); }
   }
 
+  #showReq{
+    margin-left: 2em;
+  }
+
   @media only screen and (max-width:1100px){
     .sidebar, .canvas{
       width: 100%;

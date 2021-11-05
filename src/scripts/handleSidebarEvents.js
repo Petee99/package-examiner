@@ -44,6 +44,7 @@ async function getPackageData(){
  * */
 function makeStat(){
     if(document.getElementById("pQuantity").value>0){
+        document.getElementById("progress").innerHTML="";
         document.getElementById("container").innerHTML = `<div class="loader"></div>`;
 
         let size = document.getElementById("pQuantity").value;
