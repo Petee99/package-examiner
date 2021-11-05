@@ -9,11 +9,12 @@ async function analyseSource(packages){
     let gitData = [];
     let files;
     let pkgData = [];
-    let n=0;
+    let n = 0;
     for(let pkg of packages){
-        let numOfFiles=0;
-        let numOfJS=0;
-        let numOfTS=0;
+        let numOfFiles = 0;
+        let numOfJS = 0;
+        let numOfTS = 0;
+        let pkgSize = 0;
 
         document.getElementById("progress").innerHTML=n+" / "+packages.length+" package's git data is fetched.";
         pkg = pkg.repository_url.replace("https://github.com/","");
@@ -32,7 +33,10 @@ async function analyseSource(packages){
                 }
             }
         }
-        pkgData.push({Package: packages[n].name, Size: (gitData[n].size/1024).toFixed(2), Files: numOfFiles, JS_Files: numOfJS, TS_Files: numOfTS});
+        if(!isNaN((gitData[n].size/1024).toFixed(2))){
+            pkgSize = (gitData[n].size/1024).toFixed(2);
+        }
+        pkgData.push({Package: packages[n].name, Size: pkgSize, Files: numOfFiles, JS_Files: numOfJS, TS_Files: numOfTS});
         n++;
     }
     return pkgData;

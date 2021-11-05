@@ -82,7 +82,7 @@ async function createStats(size, order){
         histogramStats[hgIndex] += "Average: "+histogramData.Averages[key];
         hgIndex++;
     });
-    
+
     hgIndex = 0;
     Object.keys(histogramData.StandardDeviations).forEach(function(key){ 
         histogramStats[hgIndex] += "<br>Standard Deviation: "+histogramData.StandardDeviations[key];
@@ -90,7 +90,6 @@ async function createStats(size, order){
     });
 
     for(let entry of histogramStats){
-        console.log(entry);
         histogramDataDom.innerHTML += entry;
     }
 }
@@ -124,13 +123,19 @@ function analyseHistograms(data){
     // Calculate Means
     for(let index = 0; index < data.Graphs.length; index++){
 
+        if(isNaN(data.Files[index].Size)){
+            console.log("isnan: "+data.Files[index].Size)
+        }
+
         averages.AvgDependencies += data.Graphs[index].edges.length;
         averages.AvgDepth += data.Graphs[index].getMaxDepth();
         averages.AvgNodeDegree += data.Graphs[index].edges.length / data.Graphs[index].nodes.length;
         averages.AvgSize += parseFloat(data.Files[index].Size);
         averages.AvgFileNum += data.Files[index].Files;
-        averages.AvgJsRatio += data.Files[index].JS_Files / data.Files[index].Files;
-        averages.AvgTsRatio += data.Files[index].TS_Files / data.Files[index].Files;
+        if(data.Files[index].Files > 0){
+            averages.AvgJsRatio += data.Files[index].JS_Files / data.Files[index].Files;
+            averages.AvgTsRatio += data.Files[index].TS_Files / data.Files[index].Files;
+        }
     
         if(index == data.Graphs.length-1){
             averages.AvgDependencies = averages.AvgDependencies / data.Graphs.length; 
@@ -150,11 +155,13 @@ function analyseHistograms(data){
             - averages.AvgNodeDegree, 2);
         sDeviations.SizeDeviation += Math.pow(data.Files[index].Size - averages.AvgSize, 2);
         sDeviations.FileNumDeviation += Math.pow(data.Files[index].Files - averages.AvgFileNum, 2);
-        sDeviations.JsRatioDeviation += Math.pow(data.Files[index].JS_Files / data.Files[index].Files * 100 
-            - averages.AvgJsRatio, 2);
-        sDeviations.TsRatioDeviation += Math.pow(data.Files[index].TS_Files / data.Files[index].Files * 100
-            - averages.AvgTsRatio, 2);
-    
+        if(data.Files[index].Files > 0){
+            sDeviations.JsRatioDeviation += Math.pow(data.Files[index].JS_Files / data.Files[index].Files * 100 
+                - averages.AvgJsRatio, 2);
+            sDeviations.TsRatioDeviation += Math.pow(data.Files[index].TS_Files / data.Files[index].Files * 100
+                - averages.AvgTsRatio, 2);
+        }
+
         if(index == data.Graphs.length-1){
             sDeviations.DependenciesDeviation = Math.sqrt(sDeviations.DependenciesDeviation / index).toFixed(2); 
             sDeviations.DepthDeviation = Math.sqrt(sDeviations.DepthDeviation / index).toFixed(2); 
@@ -166,6 +173,9 @@ function analyseHistograms(data){
         }
     }
     Object.keys(averages).forEach(function(key){ averages[key] = averages[key].toFixed(2)});
+
+    console.log(averages);
+    console.log(sDeviations);
 
     return {Averages: averages, StandardDeviations: sDeviations};
 }
