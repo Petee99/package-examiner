@@ -37,14 +37,14 @@ Ennek a megvalósítására több technológia létezik, többek között a jQue
 \textbf{Egy ilyen exportálható JavaScript Template szintaktikája:}
 
 \begin{js}
-	const Template = () => {
-		const template = `
-		#Some HTML code
-		`;
-		return template;
-	};
+const Template = () => {
+	const template = `
+	#Some HTML code
+	`;
+	return template;
+};
 
-	export default Template;
+export default Template;
 \end{js}
 
 A program az alábbi sablonokat tartalmazza:
@@ -334,28 +334,28 @@ A funkció az aktuális csomagot és az elfogadott verziók intervallumát kéri
 \noindent\textbf{Csomópontok és gráfélek megadása, a csomagokból és függőségekből:}
 
 \begin{js}
-	// Create graph nodes from packages
-	for (let i = 0; i < packages.length; i++) {
-		graphNodes[i] =  {
-			id: packages[i].Name, 
-			label: packages[i].Name, 
-			y:0, 
-			x:0+packages[i].Level, 
-			size:1
-		};
-	}
-	// Create graph edges from dependencies
-	for (let i = 0; i < dependencies.length; i++) {
-		graphEdges[i] =  {
-			id: 'edge_'+i, 
-			source: dependencies[i].Parent, 
-			target: dependencies[i].Name, 
-			color:"#333"};
-	}
-	
-	if(shouldDrawGraph){
-		drawGraph(graphNodes, graphEdges);
-	}
+// Create graph nodes from packages
+for (let i = 0; i < packages.length; i++) {
+	graphNodes[i] =  {
+		id: packages[i].Name, 
+		label: packages[i].Name, 
+		y:0, 
+		x:0+packages[i].Level, 
+		size:1
+	};
+}
+// Create graph edges from dependencies
+for (let i = 0; i < dependencies.length; i++) {
+	graphEdges[i] =  {
+		id: 'edge_'+i, 
+		source: dependencies[i].Parent, 
+		target: dependencies[i].Name, 
+		color:"#333"};
+}
+
+if(shouldDrawGraph){
+	drawGraph(graphNodes, graphEdges);
+}
 \end{js}
 
 A gráf rajzolásához a \textbf{sigma.js} nevű gráfkészítő csomagot használja a program. A sigma objektum a gráf megrajzolásához két adathalmazt használ, az egyik a Node-ok azaz csomópontok, a másik az Edge-k, azaz gráfélek.\\
@@ -617,13 +617,13 @@ Az API működése paraméterezett kérésekkel történik, a Libraries.io searc
 
 \subsubsection{Szükséges paraméterek:}
 \begin{js}
-	let params = {
-		sort:sortBy, 
-		per_page:size,
-		page:1,
-		platforms:"NPM",
-		api_key:"576acbf22232eac6a3a6b05be774eecb"
-	}
+let params = {
+	sort:sortBy, 
+	per_page:size,
+	page:1,
+	platforms:"NPM",
+	api_key:"576acbf22232eac6a3a6b05be774eecb"
+}
 \end{js}
 
 \subsubsection{Visszatérés és Megjelenítés}
@@ -667,12 +667,11 @@ Minden csomag esetében két kérés történik a GitHub api felé, az első az 
 A kéréseket a \textbf{getGitData()} függvény fogja elvégezni, majd a választ a megfelelő formában visszaadni.
 
 \begin{js}
-	function getGitData(repo, urlType, branch=""){  
-		*do stuff*
-		return pkg;
-	}
+function getGitData(repo, urlType, branch="")
 \end{js}
-Paraméterként a repository tulajdonosát és nevét kéri be "owner/name" formában, az URL típusát, hogy általános vagy jegyzék lekérdezéshez állítsa be az URL-t, illetve jegyzékek esetén a "branch" nevét.\\
+\textbf{Paraméterként} a repository \textbf{(repo)} tulajdonosát és nevét kéri be "owner/name" formában, az URL típusát \textbf{urlType}, hogy általános vagy jegyzék lekérdezéshez állítsa be az URL-t, illetve jegyzékek esetén a \textbf{branch} (ág) nevét.\\
+
+\noindent\textbf{Visszatérési értéke} annak a csomagnak a GitHub adatait tartalmazó objektum, amelynek nevét megkapta a repo paraméterként.\\
 
 A getGitData() a már ismert fetchData() függvényt fogja alkalmazni a kérésekhez.
 
@@ -721,7 +720,7 @@ A Token egyébként nem okoz biztonsági problémát, mivel már említésre ker
 A getGitData() adatait a \textbf{analyseSource()} függvény fogja felhasználni, amely csomagonként az alábbi információt fogja szolgáltatni a createStats() függvény számára:
 
 \begin{js}
-	{Package:, Size:, Files:, JS_Files:, TS_Files:}
+{Package:, Size:, Files:, JS_Files:, TS_Files:}
 \end{js}
 Azaz csomagnév, csomagméret MB-ban, fájlok száma, JavaScript fájlok aránya \%-ban megadva, TypeScript fájlok aránya \%-ban megadva.
 

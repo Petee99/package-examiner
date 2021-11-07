@@ -40,7 +40,7 @@ Ebben a szekcióban a program felhasználása, illetve a használatával szerzet
 
 \Section{Eredmények}
 
-A korábban tárgyalt mérete és csomagmennyisége miatt az npm Registry egészét túl hosszas és költségigényes lenne elemezni, így az első ezer leggyakrabban használt csomagról, mint "reprezentatívan leszűkített Registryről" készült statisztikai elemzés, amely a következő eredményeket adta, a függőségek száma szerint csökkenő sorrendben rendezve a csomagadatokat:
+A korábban tárgyalt mérete és csomagmennyisége miatt az npm Registry egészét túl hosszas és költségigényes lenne elemezni, így az első ezer leggyakrabban használt csomagról, mint "reprezentatívan leszűkített Registryről" készült statisztikai elemzés. A vizsgálat előtt a program a \textbf{csomagokat a függőségek száma szerint csökkenő sorrendbe állította}, majd elvégezte a szükséges számításokat és az eredményeket a következő hisztogramokon ábrázolta:
 
 \begin{figure}[!h]
 	\centering
@@ -93,9 +93,20 @@ A korábban tárgyalt mérete és csomagmennyisége miatt az npm Registry egész
 
 \pagebreak
 
-Az elemzés során minden csomag esetében a legutóbbi stabil verziót vette alapul a program. 
+\subsubsection{Eredmények Elemzése}
 
-Az ábrázolás előtt a program a csomagokat a függőségek száma szerinti csökkenő sorrendbe rendezte, hogy egyértelműbbek legyenek az esetleges összefüggések.
+A program a számított hisztogramokat maga is elemezte, minden ábra esetében kiszámolta a prezentált adatok átlagát és szórását, melyet a Sidebar-ra írt ki az alábbi módon (Average = Átlag, Standard Deviation = Szórás):
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.35]{images/hg_data.png}
+	\caption{Hisztogramok Elemzése}
+	\label{fig:hg_data}
+\end{figure}
+
+A vizsgálat során minden csomag esetében a legutóbbi stabil verziót vette alapul a program. 
+
+Az számítások és ábrázolás előtt a program \textbf{a csomagokat a függőségek száma szerinti csökkenő sorrendbe rendezte}, hogy egyértelműbbek legyenek az esetleges összefüggések.
 
 \begin{itemize}
 	\item Természetesen a gráf mélysége és a csomagok átlagos fokszáma, bár nem szigorúan, de követte a függőségek számának változását.
@@ -103,6 +114,20 @@ Az ábrázolás előtt a program a csomagokat a függőségek száma szerinti cs
 	\item A csomagokban található fájlok mennyisége változó, de részben indikálja a csomag méretét.
 	\item A JavaScript és TypeScript fájlok aránya az összes fájlhoz képest erősen inkonzisztens. Alapvetően elmondható, hogy a JavaScript alapú csomagok jóval gyakoribbak, mint a TypeScript alapúak.
 \end{itemize}
+
+\subsubsection{Érdekességek, kiugrások az ábrákon:}
+
+\begin{itemize}
+	\item \textbf{Függőségek száma:} A legtöbb (400 feletti) függőséggel a \textbf{jest} (677), \textbf{jest-config} (569) és \textbf{gulp} (491) rendelkezik.
+	\item \textbf{Gráf mélysége:} A \textbf{jest} 21 mélységű függőségi gráffal rendelkezik, amelyet indokol a függőségeinek száma, azonban a \textbf{gulp} érdekesebb, itt a kirívó 36-os mélység annak köszönhető, hogy található függőségi gráfjában nem várt kör, amely miatt az algoritmus tovább próbálta rendezni, sikertelenül a pontokat, míg végül feladta.
+	\item \textbf{Átlagos fokszám}:  A \textbf{crypto-browserify} a maga 2.842-es átlagával volt a legmagasabb, de kirívónak nem nevezhető.
+	\item \textbf{Csomagméret:} Két feltűnően nagy méretű csomag a \textbf{typescript} (1.541,57 MB) és a \textbf{@types/node} (746,19 MB) amik maguk a TypeScript csomag és a Type-Script által használt Node.JS típusdefiníciókat tartalmazó csomag.
+	\item \textbf{Fájlok száma:} Természetesen a két legnagyobb csomag kirívó itt is: \textbf{typescript:} 54.554 fájl, \textbf{@types/node:} 58.643 fájl.
+	\item \textbf{TypeScript arány:} A JavaScript fájlok aránya változó, nincs kifejezettem kirívó eset, viszont a TypeScript esetében a \textbf{@types/node} típusdefiníciók 71,45\%-a TS fájl, illetve az ajv-keyword 79,74\%-a.
+	\item \textbf{jest és babel: }A jest és babel scope-pal rendelkező csomagok és alcsomagok mind ugyanarra a GitHub linkre mutatnak a package.json fájlban, mivel ugyanazon repositoryban található minden alcsomag, így a fájlszintű elemzések esetében (csomagméret, fájlok száma, TS és JS arányok) ugyanazokat az értékeket hozzák. Ez magyarázza ezeknek az ábráknál a több azonosan magas pontot.
+	
+\end{itemize}
+
 
 \Section{Önelemzés}
 
@@ -115,7 +140,7 @@ A szoftver Node.JS csomagként is működik, a publikus npm registry-ben kiadás
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=0.3]{images/package-examiner.png}
+	\includegraphics[scale=0.25]{images/package-examiner.png}
 	\caption{A Package Examiner függőségeinek elemzése}
 	\label{fig:package-examiner}
 \end{figure}
