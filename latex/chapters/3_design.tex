@@ -53,7 +53,7 @@ Mivel mind a dokumentáció, mind az npm interfésze angol nyelvű, így nem ind
 	\noindent A webes applikáció fejlesztése természetesen hordoz \textbf{nehézségeket} is magában:
 	\begin{itemize}
 		\item A JavaScriptnek vannak korlátai, amelyeknek átlépése vagy kikerülése implementációs kérdés lesz.
-		\item El kell dönteni, hogy szükséges és indokol-e JavaScript keretrendszert használni a fejlesztéshez, vagy sem.
+		\item El kell dönteni, hogy szükséges és indokolt-e JavaScript keretrendszert használni a fejlesztéshez, vagy sem.
 	\end{itemize}
 	
 	A \textbf{cél} egy olyan webszerveren futtatható szoftver fejlesztése, amely képes elvégezni a kutatáshoz kötődő feladatokat, tehát összegyűjti a megfelelő adatokat egy vagy több csomag függőségeiről, azokat képes szofisztikált és informatív ábrákkal prezentálni, majd felhasználva az adatokat, esetleg egyéb vizsgálatok adatait, megpróbál javaslatot tenni a csomag függőségeinek csökkentéséről.
@@ -75,7 +75,7 @@ A kutatásom eredményeként találtam több olyan alkalmazást is, amelynek mű
 	\textbf{Miért nem megfelelő}
 	\begin{itemize}
 		\item Alapvetően CLI-s használatra lett tervezve. Ez probléma mivel a JavaScript kódból összetett lenne kifelé intézni parancsokat, mindeközben fenntartani a program interaktivitását.
-		\item Csak azokkal a csomagokkal tud dolgozni, amelyek fent vannak a rendszeren lokálisan, így eltűnik a lehetőség, hogy bármely csomagot, a reqgistryből lekérhessük.
+		\item Csak azokkal a csomagokkal tud dolgozni, amelyek fent vannak a rendszeren lokálisan, így eltűnik a lehetőség, hogy bármely csomagot, a registryből lekérhessük.
 		\item Csak rendszerre telepített csomagverziót ismeri, így nem tud korábbi verziók esetében függőségeket visszaadni.
 		\item A név és verziónál több adatra van szükség a későbbi elemzésekhez.
 	\end{itemize}
