@@ -59,7 +59,7 @@ A program az alábbi sablonokat tartalmazza:
 
 A Sidebar és Canvas sablonokat az app.js fájl tölti be automatikusan az index.html-be, ezek konstansan részét képezik az index tartalmának. A Sidebar és a Canvas tartalmának egy része azonban felhasználási módtól függően változik.
 
-Az Examiner-t egy csomag, a Statistics-t több csomag vizsgálata estén tölti be. A két funkcionalitási mód közötti váltást egy "Switch Mode" gomb teszi lehetővé.\\
+Az Examiner-t egy csomag, a Statistics-t több csomag vizsgálata esetén tölti be. A két funkcionalitási mód közötti váltást egy "Switch Mode" gomb teszi lehetővé.\\
 
 \begin{figure}[!h]
 	\centering
@@ -71,7 +71,7 @@ Az Examiner-t egy csomag, a Statistics-t több csomag vizsgálata estén tölti 
 \pagebreak
 
 
-A \textbf{Single Package Analysis} esetén, ha létező csomagra keresünk rá, akkor automatikusan felölti a Package Version listát. Mivel a Registry-ben szükséges verziók szerint keresni, ez biztosítja a keresés sikerességét.\\
+A \textbf{Single Package Analysis} esetén, ha létező csomagra keresünk rá, akkor automatikusan feltölti a Package Version listát. Mivel a Registry-ben szükséges verziók szerint keresni, ez biztosítja a keresés sikerességét.\\
 
 Amennyiben a Registry-ben csak a csomagnévre keresünk rá, akkor nem fogunk függőségeket visszakapni, mivel itt általános információk vannak a csomagról, nem pedig működési információk. Konkrét információt a verzió megadásával tudunk megszerezni.\\
 
@@ -234,7 +234,7 @@ function graphDependencies(pckg, dDepth, singleMode=true){
 }	
 \end{js}
 
-Egy és több csomagos módban is a graphDependencies() a kiindulópont, mivel ez a funkció felelős egy adott csomag függőségeinek összegyűjtéséért, azok gráf struktúrába rendezéséért.
+Egy és több csomagos módban is a graphDependencies() az egyik alappillér, mivel ez a funkció felelős egy adott csomag függőségeinek összegyűjtéséért, azok gráf struktúrába rendezéséért.
 Visszatérési értékként a csomag függőségi gráf struktúráját adja vissza.\\
 
 A \textbf{singleMode} boolean jellegű változó 'igaz' (alapértelmezett) érték esetén a következő extra funkciók is végrehajtásra kerülnek:
@@ -264,7 +264,7 @@ Először a \textbf{getDependenciesTillDepth()} függvény kerül meghívásra, 
 
 \noindent \textbf{Visszatérési értéke:} \\
 
-Az üsszegyűjtött függőségeket egy \textbf{dependencies} tömbként fogja visszaadni. A tömb utolsó elemét mindig a csomagok tömbje képzi, amelyektől függ a kiinduló csomag.\\
+Az összegyűjtött függőségeket egy \textbf{dependencies} tömbként fogja visszaadni. A tömb utolsó elemét mindig a csomagok tömbje képzi, amelyektől függ a kiinduló csomag.\\
 
 A \textbf{getDependenciesTillDepth()} függvény fogja megkeresni a függőségeket, minden szint esetében. Az aktuális mélységi szinten minden csomag esetében meghívásra kerül a \textbf{getData()} függvény.
 \pagebreak
@@ -307,7 +307,7 @@ Kiderült, hogy az npm-nek van egy saját csomagja, amely ismeri és kezelni tud
 
 Használata a dokumentáció elolvasását követően nem tűnik összetettnek, a \textbf{getPackage} modulban kerül implementálásra a helyes verzió kiválasztása a lekérdezéshez, a \textbf{findMaxSatisfying()} függvény segítségével.
 
-A függvény implementációjának formája a lekérdézskhez a következő oldalon van prezentálva.
+A függvény implementációjának formája a lekérdezésekhez a következő oldalon van prezentálva.
 
 \pagebreak
 
@@ -540,7 +540,7 @@ A programban ezt a csomagot a \textbf{makeHistogram.js} fájl fogja implementál
 	\item \texttt{"labArray"}: Az x tengely beosztásait tartalmazó tömb.
 \end{itemize} 
 
-A setHistogram() függvényt az analyseGraph() fogja meghívni, amely előkészíti azokat a HTML elemeket, amik szükségesek lesznek az elemzés eredményeinek megjelenítésére. A különböző eredményeket szövegesen vagy hisztogram formájában fogja megjeleníteni a Sidebar-on. Miután elvégezte az elemzéseket meghívja a setHistogram() funkciót, amely az adatokat a megjelenítő által elvárt formára hozza és meghívja a makeHistogram() függvényt, ami pedig kirajzolja a megfelelő reprezentatív hisztogramokat. 
+A setHistogram() függvényt az analyseGraph() fogja meghívni, amely előkészíti azokat a HTML elemeket, amik szükségesek lesznek az elemzés eredményeinek megjelenítésére. A különböző eredményeket szövegesen vagy hisztogram formájában fogja megjeleníteni a Sidebar-on. Miután elvégezte az elemzéseket, meghívja a setHistogram() funkciót, amely az adatokat a megjelenítő által elvárt formára hozza és meghívja a makeHistogram() függvényt, ami pedig kirajzolja a megfelelő reprezentatív hisztogramokat. 
 
 \pagebreak
  
@@ -580,7 +580,7 @@ A megszerzett csomagok adatait tartalmazó objektumok így a kulcsszavakat is t�
 
 A kulcsszavak elemzését az analyseGraph() függvény által meghívott \textbf{checkKeywords()} függvény fogja végezni, amely paraméterként bekéri az összegyűjtött csomagokat és függőségeket.
 
-A csomagokat összehasonlítja és amennyiben nincsenek egymással függési viszonyban, illetve több a funkcionalitásukat leíró kulcsszavak több mint 50\%-os átfedésben vannak, esetleges redundanciaként kezeli.
+A csomagokat összehasonlítja és amennyiben nincsenek egymással függési viszonyban, illetve a funkcionalitásukat leíró kulcsszavak több mint 50\%-os átfedésben vannak, esetleges redundanciaként kezeli.
 Az ilyen csomagpárokat visszaadja egy tömbbe rendezve, melynek minden eleme tartalmazza a csomagok nevét, azok szüleit, és az átfedés mértékét \%-ban megadva.
 
 Az analyseGraph() végül ezeket ki fogja írni a Sidebar aljára, mint esetleges redundáns funkcionalitású csomagokat.
@@ -596,7 +596,7 @@ Ezen mód alapjait nagyrészt lefedi az egy csomagos módnál bemutatott funkcio
  
 A későbbiekben az első 1000 leggyakrabban használt csomagot és azok függőségeit fogjuk tekinteni a reprezentatív módon leszűkített teljes npm Registrynek, mivel a teljes Registry túl nagy lenne az elemzésre, bár a lehetőség elvben meg lenne rá.\\
 
-A program több csomagos módra váltását követően meg lehet adni, hogy hány csomag függőségi gráfjának elemzését szeretnénk kérni, és hogy ezeket milyen paraméter alapján állítsa sorrendben és adja vissza a program. Az elemzést minimum egy csomagra lehet elindítani és az alapértelmezett rangsorolás a leggyakrabban használt csomagok szerint történik.\\
+A program több csomagos módra váltását követően meg lehet adni, hogy hány csomag függőségi gráfjának elemzését szeretnénk kérni, és hogy ezeket milyen paraméter alapján állítsa sorrendbe és adja vissza a program. Az elemzést minimum egy csomagra lehet elindítani és az alapértelmezett rangsorolás a leggyakrabban használt csomagok szerint történik.\\
 
 Ezt követően meghívásra kerül a handleSideBarEvents() modulból a \textbf{createStatistics.js} modul createStats() függvénye. Paraméterként a csomagok mennyiségét és a rangsorolási módot fogja kérni.
 
@@ -630,7 +630,7 @@ let params = {
 
 A visszakapott csomagok függőségi gráfjait a createStats() függvény egyesével lekérdezi, az egy csomagos mód esetében tisztázott lépéssorozat segítségével, majd a visszakapott \textbf{Graph} objektumokat eltárolja egy tömbben.\\
 
-A gráf objektumokat tartalmazó tömb adatait a megjelenítő hisztogramok típusának megfelelő formába rendezése után, a függések száma szerint csökkenő sorrendben a korábban már szintén tisztázott setHistogram() és makeHistogram() függvények segítségével az oldal "Canvas" részén jeleníti meg. Erre azért van szükség, mivel nagy mennyiségű csomagok esetén, itt lehetséges reprezentatív méretű hisztogramokat kirajzolni.
+A gráf objektumokat tartalmazó tömb adatait a megjelenítő hisztogramok típusának megfelelő formába rendezése után, a függőségek száma szerint csökkenő sorrendben a korábban már szintén tisztázott setHistogram() és makeHistogram() függvények segítségével az oldal "Canvas" részén jeleníti meg. Erre azért van szükség, mivel nagy mennyiségű csomag esetén, itt lehetséges reprezentatív méretű hisztogramokat kirajzolni.
 
 \subsection{Fájlszintű Elemzés} 
 A csomagok statisztikai vizsgálatának egy igen fontos lépése a jegyzék szintű elemzése az adott csomagnak. Az elemzés során ki fog derülni:
@@ -651,7 +651,7 @@ Az elemzés módjának kivitelezésére a terv egy lokális vizsgálat volt, ame
 \end{itemize}
 
 \subsubsection{Megoldás}
-A kivitelezés megvalósítására a GitHub API-ja nyújtott lehetőséget, amely tanulmányozásának eredményeként kiderül, hogy képes a program által igényelt adatok szolgáltatására.\\
+A kivitelezés megvalósítására a GitHub API-ja nyújtott lehetőséget, amely tanulmányozásának eredményeként kiderült, hogy képes a program által igényelt adatok szolgáltatására.\\
 
 A program alapvetően két végpont URL címével dolgozik, melyek felé kéréseket intéz a megfelelő "tulajdonos/repo-név", illetve "branch" megadásával.
 \begin{itemize}
@@ -659,7 +659,7 @@ A program alapvetően két végpont URL címével dolgozik, melyek felé kérés
 	\item https://api.github.com/repos/\{repo\}/git/trees/\{branch\}?recursive=1
 \end{itemize}
 
-Az első végpont a repository adatait adja vissza, majd ebből kinyerve az alapértelmezett branchet intéz kérést a program a második végpont felé, amely rekurzívan megkeresi és visszaadja a repository jegyzék struktúráját.
+Az első végpont a repository adatait adja vissza, majd ebből kinyerve az alapértelmezett branchet, intéz kérést a program a második végpont felé, amely rekurzívan megkeresi és visszaadja a repository jegyzék struktúráját.
 
 \subsubsection{Implementáció}
 Minden csomag esetében két kérés történik a GitHub api felé, az első az általános adatok lekéréséhez, a második a jegyzék struktúra lekérdezéséhez.\\
@@ -669,7 +669,7 @@ A kéréseket a \textbf{getGitData()} függvény fogja elvégezni, majd a válas
 \begin{js}
 function getGitData(repo, urlType, branch="")
 \end{js}
-\textbf{Paraméterként} a repository \textbf{(repo)} tulajdonosát és nevét kéri be "owner/name" formában, az URL típusát \textbf{urlType}, hogy általános vagy jegyzék lekérdezéshez állítsa be az URL-t, illetve jegyzékek esetén a \textbf{branch} (ág) nevét.\\
+\textbf{Paraméterként} a repository \textbf{(repo)} tulajdonosát és nevét kéri be "owner/name" formában, az URL típusát \textbf{(urlType)}, hogy általános vagy jegyzék lekérdezéshez állítsa be az URL-t, illetve jegyzékek esetén a \textbf{branch} (ág) nevét.\\
 
 \noindent\textbf{Visszatérési értéke} annak a csomagnak a GitHub adatait tartalmazó objektum, amelynek nevét megkapta a repo paraméterként.\\
 
@@ -715,7 +715,7 @@ function getToken(){
 
 Ezért szükség volt a Token titkosítására, majd az így titkosított Token került megadásra a kódban és csak futásidőben fog visszafejtésre kerülni, így a GitHub számára nem Token jellegű a karaktersorozat és nem vonja vissza.
 
-A Token egyébként nem okoz biztonsági problémát, mivel már említésre került, hogy a Tokenhez nincs semmilyen privilégium társítva, pusztán arra alkalmas, hogy a kéréseknél jelezzük, hogy authorizált kérésről van szó.\\
+A Token egyébként nem okoz biztonsági problémát, mivel már említésre került, hogy nincs semmilyen privilégium hozzá társítva, pusztán arra alkalmas, hogy a kéréseknél jelezzük, hogy authorizált kérésről van szó.\\
 
 A getGitData() adatait a \textbf{analyseSource()} függvény fogja felhasználni, amely csomagonként az alábbi információt fogja szolgáltatni a createStats() függvény számára:
 

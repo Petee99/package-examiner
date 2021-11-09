@@ -6,7 +6,7 @@ Mivel a szakdolgozat egyszerre foglalkozik kutatási és szoftverfejlesztési t�
 
 A kutatás alapvetően a \hyperlink{chapter.2}{Node Package Manager (npm)} megismeréséhez, működésének megértéséhez fűződik, míg a fejlesztés egy olyan program megtervezése, amely megfelelően implementálja az npm funkcióit a feladatai elvégzéséhez.
 
-A kutatás másik fontos mérföldköve volt felmérni a \hyperlink{section.3.2}{hasonló programok} meglétét, kivitelezésének formáját. A tapasztalatok alapján érdekes, de alapvető funkcionalitásában eltérő alkalmazások készültek eddig hasonló témában. A ténylegesen kivitelezett feladataik azonban nem terjednek ki a szakdolgozatban említett problémákra.\\
+A kutatás másik fontos mérföldköve volt felmérni a \hyperlink{section.3.2}{hasonló programok} meglétét, kivitelezésének formáját. A tapasztalatok alapján érdekes, de alapvető funkcionalitásában eltérő alkalmazások készültek eddig hasonló témában. A ténylegesen kivitelezett feladataik nem terjednek ki a szakdolgozatban említett problémákra.\\
 
 \textbf{A készítendő programnak az alábbi feladatai lesznek:}
 \begin{itemize}
@@ -45,12 +45,12 @@ Mivel mind a dokumentáció, mind az npm interfésze angol nyelvű, így nem ind
 	\textbf{Webes kivitelezés előnyei:}
 	\begin{itemize}
 		\item Platformfüggetlenség: A program függetlenül fog futni az operációs rendszertől a böngésző környezetében.
-		\item Elterjedt technológia a Node.Js így rengeteg lefejlesztett csomag áll rendelkezésre.
+		\item Elterjedt technológia a Node.Js, így rengeteg lefejlesztett csomag áll rendelkezésre.
 		\item A JavaScript fejlődésének köszönhetően megkönnyíti a HTTP kérések implementálását.
 		\item Az aszinkron kérések implementálása is egyszerűen kivitelezhető, amitől a felhasználói élmény javulni fog. 
 	\end{itemize}
 	
-	\noindent A webes applikáció fejlesztése természetesen hordoz \textbf{nehézségeket} is magában:
+	\noindent Egy webes applikáció fejlesztése természetesen hordoz \textbf{nehézségeket} is magában:
 	\begin{itemize}
 		\item A JavaScriptnek vannak korlátai, amelyeknek átlépése vagy kikerülése implementációs kérdés lesz.
 		\item El kell dönteni, hogy szükséges és indokolt-e JavaScript keretrendszert használni a fejlesztéshez, vagy sem.
@@ -138,12 +138,12 @@ A kutatásom eredményeként találtam több olyan alkalmazást is, amelynek mű
 	
 	\subsection{npmgraph.an}
 	
-	A \textbf{npmgraph.an} egy olyan JavaScript alapú szoftver, Angular.JS keretrendszert használó, interaktív webes szoftver, amely képes vizualizálni egy adott csomag függőségeit gráf formában. A kutatás során ez a szoftver állt a legközelebb az általam tervezett program jellegéhez.	Fejlesztése szintén \textbf{Andrei Kashcha ("anvaka")} nevéhez fűződik.	\\
+	A \textbf{npmgraph.an} egy olyan JavaScript alapú, Angular.JS keretrendszert használó, interaktív webes szoftver, amely képes vizualizálni egy adott csomag függőségeit gráf formában. A kutatás során ez a szoftver állt a legközelebb az általam tervezett program jellegéhez.	Fejlesztése szintén \textbf{Andrei Kashcha ("anvaka")} nevéhez fűződik.	\\
 	
 	\textbf{Miért hasznos:}
 	\begin{itemize}
 		\item A megközelítés hasonló a vízióban felvázolthoz. Azaz kérésekkel, a lokális fájlrendszertől függetlenül szerzi meg rekurzívan a szükséges információt, majd ezeket egy gráfként reprezentálja, verziófüggően.
-		\item A program által intézett kérések vizsgálata során kiderül, hogy létezik egy publikus npm registry API, amellyel minden szükséges csomaginformáció lekérhető.
+		\item A program által intézett kérések vizsgálata során kiderült, hogy létezik egy publikus npm registry API, amellyel minden szükséges csomaginformáció lekérhető.
 	\end{itemize}
 	
 	\textbf{Miért nem megfelelő:}
@@ -190,7 +190,7 @@ A jelölőnyelvekkel szép, áttekinthető UI hozható létre, azonban mivel nem
 	\cite{javascript}
 \end{flushright}
 
-A program továbbá Node.JS-t is alkalmazni fogja, amely a 2. fejezetben bemutatott, aszinkron JavaScript futtatási környezet.
+A program továbbá a Node.JS-t is alkalmazni fogja, amely a 2. fejezetben bemutatott, aszinkron JavaScript futtatási környezet.
 
 A JavaScript fontos jellemzője az említetteken kívül, hogy egy olyan programozási nyelv, amely az ECMAScript specifikációit követi. A legújabb ECMAScript verzió az ES12 (2021), azonban a legszéleskörűbb támogatást egyelőre az ES6 élvezi a böngészők nagy hányadánál. 
 
@@ -276,7 +276,7 @@ A program egy npm csomagként fog elkészülni, ennek megfelelően szükség les
 \noindent A tervezett funkcionalitás megvalósításához felhasznált csomagok:
 \begin{itemize}
 	\item \textbf{Babel}, a már korábban leírt funkciók kivitelezéséhez
-	\item Valamilyen publikus "build"-be rendszerező csomag
+	\item \textbf{Parcel}, publikus "build"-be rendszerező csomag
 	\item Valamilyen ábrák készítésére alkalmas csomag
 \end{itemize}
 
