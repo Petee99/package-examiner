@@ -1,109 +1,98 @@
-\Chapter{Node Package Manager (npm)}
+\Chapter{Node Package Manager}
 
-\Section{Bevezetés}
-
-Ennek a fejezetnek a célja, hogy az npm technológia a szakdolgozat és a készítendő program szempontjából releváns területei feltárásra és bemutatásra kerüljenek.
+A fejezet célja, hogy az npm technológia a szakdolgozat és a készítendő program szempontjából releváns területei feltárásra és bemutatásra kerüljenek.
 
 Az npm a világ legnagyobb szoftver nyilvántartása. A fejlesztők segítségével megoszthatják az általuk fejlesztett csomagokat, használhatják a mások által írtakat, illetve ezen funkcionalitást gyakran kiaknázzák nagyobb szervezetek a belső fejlesztésekhez.
 
-A csomagkezelő három, jól megkülönböztethető részből épül fel:
+A csomagkezelő három, jól megkülönböztethető részből épül fel \cite{npm-about}.
 \begin{itemize}
-	\item A weboldal
-	\begin{itemize}
-		\item Alapvetően itt lehet megkeresni különböző csomagokat, lehetséges saját profil létrehozása, illetve az npm használatának aspektusait is be lehet állítani.
-	\end{itemize}
-	\item A CLI (Command Line Interface, azaz parancssoros felület)
-	\item Az npm registry (Adatbázis)
+	\item A weboldal: Alapvetően itt lehet megkeresni különböző csomagokat, lehetséges saját profil létrehozása, illetve az npm használatának aspektusait is be lehet állítani.
+	\item A CLI: Command Line Interface, azaz parancssoros felület.
+	\item Az npm registry, amely a csomag adatokat és metaadatokat kezelő adatbázis.
 \end{itemize}
 
-\begin{flushright}
-\cite{npm-about}
-\end{flushright}
+\Section{npm csomagok}
 
-\Section{npm Csomagok}
-
-Egy csomag egy \emph{package.json} fájl által megadott fájl vagy könyvtár. A csomagnak így mindenképpen tartalmaznia kell a korábban említett \emph{package.json} fájlt, mivel enélkül nem lehetséges az npm nyilvántartásba feltölteni.\\
+Egy csomag egy \emph{package.json} fájl által megadott fájl vagy könyvtár. A csomagnak így mindenképpen tartalmaznia kell egy \emph{package.json} fájlt, mivel enélkül nem lehetséges az npm nyilvántartásba feltölteni.\\
 
 Általánosságban egy csomag legalább az alábbiakat tartalmazza: 
 
 \begin{itemize}
-	\item Belépési pont (Pl. \emph{index.js})
-	\item \emph{package.json}
-	\item README (Információk a csomagról)
-	\item CHANGELOG (A csomagverziók szerinti változtatások nyilvántartása)
-	\item LICENSE (A csomag licensze)
+	\item belépési pont (Pl. \emph{index.js}),
+	\item \emph{package.json},
+	\item README (Információk a csomagról),
+	\item CHANGELOG (A csomagverziók szerinti változtatások nyilvántartása),
+	\item LICENSE (A csomag licensze).
 \end{itemize}
 
-A csomagoknak az \underline{alábbiakat nem szabad / nem célszerű} tartalmaznia:
+\pagebreak
+
+A csomagoknak az alábbiakat nem szabad / nem célszerű tartalmaznia:
 
 \begin{itemize}
-	\item Nagy méretű fájlok
-	\item Érzékeny információk
-	\item Csak a fejlesztéshez szükséges eszközök
-	\item Eszköz konfigurációs fájlok (Pl. \emph{babel.config.json})
-	\item Log fájlok
+	\item nagy méretű fájlok,
+	\item érzékeny információk,
+	\item csak a fejlesztéshez szükséges eszközök,
+	\item eszköz konfigurációs fájlok (Pl. \emph{babel.config.json}),
+	\item log fájlok.
 \end{itemize}
 
 \begin{flushright}
 	\cite{npm-packages}
 \end{flushright}
 
-	\subsection{package.json}
+	\subsection{A package.json fájl felépítése}
 	
-	A \emph{package.json} fájl a legfontosabb a csomagok pubkilálása szempontjából. Amennyiben egy fejlesztő közzé szeretné tenni egyik csomagját, akkor az a minimális követelmény a fájllal szemben, hogy tartalmazza a kötelező mezőket.
+	A \emph{package.json} fájl a legfontosabb a csomagok publikálása szempontjából. Amennyiben egy fejlesztő közzé szeretné tenni egyik csomagját, akkor az a minimális követelmény a fájllal szemben, hogy tartalmazza a kötelező mezőket.
 	
-	Nagyon sok mezőt tartalmazhat, akár felhasználó által definiáltakat is, kulcsfontosságú a készítendő program szempontjából is, mivel tartalmazza a csomag függőségeit, hogy ezek mely verziói elfogadottak.
+	Nagyon sok mezőt tartalmazhat, akár felhasználó által definiáltakat is. Kulcsfontosságú a készítendő program szempontjából, mivel tartalmazza a csomag függőségeit, hogy ezek mely verziói elfogadottak.
 	
-	A \emph{package.json} az alábbi mezőket tartalmazhatja (a teljesség igénye nélkül):
+	A \emph{package.json} a következőkben felsorolt mezőket tartalmazhatja (a teljesség igénye nélkül). \cite{npm-package.json}
 	
 	\begin{itemize}
 		\item \textbf{Kötelező:}
 		\begin{itemize}
-			\item \texttt{"name"} (Csomagnév)
+			\item \texttt{name}: csomagnév,
 			\begin{itemize}
-				\item Ez a mező tartalmazza a csomag nevét, melynek az npm elnevezési konvenciót kell követnie. (Bővebben: \hyperlink{subsection.2.2.2}{\underline{Csomag Elnevezési Konvenciók}})
+				\item Ez a mező tartalmazza a csomag nevét, melynek az npm elnevezési konvenciót kell követnie (Bővebben: \hyperlink{subsection.2.2.2}{2.2.2-es pont}).
 			\end{itemize}
-			\item \texttt{"version"} (Csomag verzió)
+			\item \texttt{version}: csomag verzió.
 			\begin{itemize}
-				\item Követnie kell az npm szemantikus verziózási szabályait. (Bővebben: \hyperlink{subsection.2.2.3}{\underline{Szemantikus Verziózási Szabályok}}) 
-				\item x.x.x formában kell megadni
+				\item Követnie kell az npm szemantikus verziózás szabályait (Bővebben: \hyperlink{subsection.2.2.3}{2.2.3-as pont}).
+				\item x.x.x formában kell megadni.
 			\end{itemize}
 		\end{itemize}
 		\item \textbf{Opcionális:}
 		\begin{itemize}
-			\item \texttt{"description"} (A csomag keresését könnyítő leírás)	
-			\item \texttt{"scripts"} (Futtatható npm scriptek)
-			\item \texttt{"repository"} (A csomag GitHub-on vagy egyéb verziókezelő rendszerben nyilvántartott repositoryja)
-			\item \texttt{"keywords"} (A csomag funkcionalitását leíró kulcsszavak)
-			\item \texttt{"license"} (Licensz a csomag felhasználásának szabályairól)
-			\item \texttt{"author"} (Csomag tulajdonos, szerző)
-			\item \texttt{"contributors"} (Közreműködők)
-			\item \texttt{"bugs"} (Ismert hibák)
-			\item \texttt{"homepage"} (A csomagot ismertető weboldal)
-			\item \texttt{"files"} (Megadható, hogy a csomag csak megadott fájlokat  tartalmazzon)
+			\item \texttt{description}: a csomag keresését könnyítő leírás,	
+			\item \texttt{scripts}: futtatható npm szkriptek,
+			\item \texttt{repository}: a csomag GitHub-on vagy egyéb verziókezelő rendszerben nyilvántartott repositoryja,
+			\item \texttt{keywords}: a csomag funkcionalitását leíró kulcsszavak,
+			\item \texttt{license}: licensz a csomag felhasználásának szabályairól,
+			\item \texttt{author}: csomag tulajdonos, szerző,
+			\item \texttt{contributors}: közreműködő felhasználók,
+			\item \texttt{bugs}: ismert hibák,
+			\item \texttt{homepage}: a csomagot ismertető weboldal,
+			\item \texttt{files}: megadható, hogy a csomag csak megadott fájlokat tartalmazzon.
 			
 			\clearpage
 			
-			\item \texttt{"dependencies"} (A csomag használatához szükséges függőségek)
+			\item \texttt{dependencies}: a csomag használatához szükséges függőségek,
 			\begin{itemize}
 				\item Nem kötelező, azonban, ha van függőség, a csomag telepítése során csak az itt megjelölt csomagokat fogja telepíteni a csomagon kívül, így ha itt nincs megjelölve egy csomag melynek funkcionalitására épül az aktuális projekt, könnyen lehet, hogy futás közben hibába fog ütközni.
 			\end{itemize}
-			\item \texttt{"devDependencies"} (A csomag fejlesztéséhez, fordításához szükséges függőségek)
-			\item \texttt{"optionalDependencies"} (Opcionális függőségek)
+			\item \texttt{devDependencies}: a csomag fejlesztéséhez, fordításához szükséges függőségek,
+			\item \texttt{optionalDependencies}: opcionális függőségek.
 		\end{itemize}
 		\item \textbf{Továbbiak:}
 		\begin{itemize}
-			\item A lehetőségek tárháza nagy, akár saját adatokkal is bővíthetjük a \emph{package.json} fájlt 
+			\item A lehetőségek tárháza nagy, akár saját adatokkal is bővíthetjük a \emph{package.json} fájlt. 
 		\end{itemize}
 	\end{itemize}
 
-	\begin{flushright}
-		\cite{npm-package.json}
-	\end{flushright}
+	\subsection{Csomag elnevezési konvenciók}
 	
-	\subsection{Csomag Elnevezési Konvenciók}
-	
-	Az npm csomagok elnevezésénél első lépésként meg szükséges határozni, hogy úgynevezett "scoped" vagy "unscoped" csomagról beszélünk.
+	Az npm csomagok elnevezésénél első lépésként meg szükséges határozni, hogy úgynevezett "scoped" vagy "unscoped" csomagról beszélünk \cite{npm-scope}.
 	
 	A "scope"-ot vagy "hatáskör"-t akkor célszerű alkalmazni, ha az összetartozó csomagokat szeretnénk egy csoportba rendezni. A csomagnév elé írt '@' karakterrel lehet jelezni, hogy "scoped" csomagról van szó.
 	
@@ -120,37 +109,33 @@ A csomagoknak az \underline{alábbiakat nem szabad / nem célszerű} tartalmazni
 @angular-devkit/schematics
 	\end{js}
 
-	Mind a "scoped" és "unscoped" csomagoknak azonban be kell tartaniuk az alapvető \textbf{elnevezési konvenciókat:}
+	Mind a "scoped" és "unscoped" csomagoknak azonban be kell tartaniuk az alapvető elnevezési konvenciókat \cite{npm-naming}.
 	
 	\begin{itemize}
-		\item A csomagnévnek egyedinek kell lennie
-		\item Az elnevezés utaljon a funkcionalitásra
-		\item Ne ütközzön az npm irányelveibe, illetve ne legyen védjegy alatt az elnevezés
-		\item Ne tartalmazzon szóközöket
-		\item Tartalmazhat alulvonást, illetve kötőjelet
-		\item "unscoped" csomagok esetében:
+		\item A csomagnévnek egyedinek kell lennie.
+		\item Az elnevezés utaljon a funkcionalitásra.
+		\item Ne ütközzön az npm irányelveibe, illetve ne legyen védjegy alatt az elnevezés.
+		\item Ne tartalmazzon szóközöket.
+		\item Tartalmazhat alulvonást, illetve kötőjelet.
+		\item "unscoped" csomagok esetében az alábbiakra kell figyelni:
 		\begin{itemize}
-			\item Ne legyen az elnevezés más tulajdonában
-			\item Ne legyen hasonló más csomagnévhez
-			\item Ne zavarjon össze másokat a tulajdonos személyével kapcsolatban
+			\item Ne legyen az elnevezés más tulajdonában.
+			\item Ne legyen hasonló más csomagnévhez.
+			\item Ne zavarjon össze másokat a tulajdonos személyével kapcsolatban.
 		\end{itemize}
 	\end{itemize}
 
-	\begin{flushright}
-		\cite{npm-scope} \cite{npm-naming}
-	\end{flushright}
-
-	\subsection{Szemantikus Verziózási Szabályok}
+	\subsection{Szemantikus verziózási szabályok}
 	
-	Ahhoz, hogy a JavaScript ökoszisztéma egészséges, megbízható és biztonságos legyen, minden jelentős változtatás után javasolt az csomag egy újabb verzióját publikálni, amelyet az adott \emph{package.json} fájlban szükséges feltüntetni. A csomag verzióinak megadásánál fontos követni a szemantikus verziózási szabályokat, mivel így más fejlesztőknek, akiknek projektjük az aktuális csomagtól függ, egyszerűbb lesz alkalmazkodnia az időközi változásokhoz.
+	Ahhoz, hogy a JavaScript ökoszisztéma egészséges, megbízható és biztonságos legyen, minden jelentős változtatás után javasolt a csomag egy újabb verzióját publikálni, amelyet az adott \emph{package.json} fájlban szükséges feltüntetni. A csomag verzióinak megadásánál fontos követni a szemantikus verziózási szabályokat, mivel így más fejlesztőknek, akiknek projektjük az aktuális csomagtól függ, egyszerűbb lesz alkalmazkodnia az időközi változásokhoz.
 	
 	A csomagok verziójának megadásánál az \textbf{x.x.x} forma az elfogadott.
 	
-	A csomagok fejlődésénél alapvetően 4 különböző szakaszt különböztetünk meg, ezeknek szabályai:
+	A csomagok fejlődésénél alapvetően 4 különböző szakaszt különböztetünk meg. Ezeknek a szabályait a \ref{tab:package-lifecycle}-es táblázatban láthatjuk \cite{npm-versioning}.
 	
 	\begin{table}[h]
 		\centering
-		\caption{Csomagok fejlődésének szakaszai:}
+		\caption{Csomagok fejlődésének szakaszai}
 		\label{tab:package-lifecycle}
 		\begin{tabular}{|c|c|c|}
 			\hline
@@ -169,7 +154,7 @@ A csomagoknak az \underline{alábbiakat nem szabad / nem célszerű} tartalmazni
 
 	Minden új verzió esetén a csomag publikálásakor egy újabb bejegyzés jön létre az npm Registry-ben, illetve az új verziószám hozzáadódik a csomag bejegyzés verzióihoz.
 	
-	A \emph{package.json} fájlban, így a Registry bejegyzésben is szereplő függőségi verziókövetelményben megadhatóak mely verziót vagy verziókat fogadja el az adott csomagból. Ezeknek megadására több lehetőség is létezik, azonban szigorú szintaktikai szabályokhoz van kötve:
+	A \emph{package.json} fájlban, így a Registry bejegyzésben is szereplő függőségi verziókövetelményben megadhatóak mely verziót vagy verziókat fogadja el az adott csomagból. Ezeknek megadására több lehetőség is létezik, azonban szigorú szintaktikai szabályokhoz van kötve (\ref{tab:sem-ver-pt1} táblázat) \cite{npm-versioning-semver}.
 	\begin{table}[h]
 		\centering
 		\caption{Verziózás szintaktikai szabályai:}
@@ -210,17 +195,14 @@ A csomagoknak az \underline{alábbiakat nem szabad / nem célszerű} tartalmazni
 			\hline
 		\end{tabularx}
 	\end{table}
-	\begin{flushright}
-		\cite{npm-versioning} \cite{npm-versioning-semver}
-	\end{flushright}
 
-\Section{npm Registry}
+\Section{Az npm Registry}
 
-A publikus npm jegyzék egy adatbázis, mely Javascript csomagokat tárol, mely csomagok mindegyike szoftverből és metaadatokból áll.
+A publikus npm jegyzék egy adatbázis, mely Javascript csomagokat tárol, mely csomagok mindegyike szoftverből és metaadatokból áll \cite{npm-registry}.
 
 Az npm csomagok nevének, verzióinak és egyéb adatainak felkutatásához az npm egy registry/jegyzék weboldallal kommunikál, amely a CommonJs Csomag Jegyzék specifikációját implementálja, a csomag információk lekérdezéséhez.
  
-Az npm az úgynevezett “npm publikus jegyzéket” használja alapvetően, de összeköthető bármely más kompatibilis jegyzékkel, vagy akár egy sajáttal is. A publikus jegyzék egy CouchDB adatbázis által van üzemeltetve, amelynek alapadatai az alábbiak:\\
+Az npm az úgynevezett “npm publikus jegyzéket” használja alapvetően, de összeköthető bármely más kompatibilis jegyzékkel, vagy akár egy sajáttal is. A publikus jegyzéket egy CouchDB adatbázis üzemelteti, amelynek alapadatai a \ref{fig:registry} ábrán láthatóak.\\
 
 \begin{figure}[h]
 	\centering
@@ -229,15 +211,15 @@ Az npm az úgynevezett “npm publikus jegyzéket” használja alapvetően, de 
 	\label{fig:registry}
 \end{figure}
 
-A \ref{fig:registry} ábra nem reprezentálja az aktuális adatokat, mivel a közösség aktívan növeli a registryben tárolt csomagok számát és méretét, illetve bizonyos esetekben csökkenti azokat. Jól látható, hogy ekkora méretű adatbázist lokálisan nem célszerű tárolni és mivel általában a registry csomagjainak csak a töredékére van szükség, így gyakran felesleges is, ezért lehet hasznos a registry API, mellyel el lehet érni interneten keresztül az adatbázist.\\
+\pagebreak
 
-\begin{flushright}
-	\cite{npm-registry}
-\end{flushright}
+A \ref{fig:registry} ábra nem reprezentálja az aktuális adatokat, mivel a közösség aktívan növeli a registryben tárolt csomagok számát és méretét, illetve bizonyos esetekben csökkenti azokat. Jól látható, hogy ekkora méretű adatbázist lokálisan nem célszerű tárolni és mivel általában a registry csomagjainak csak a töredékére van szükség, így gyakran felesleges is, ezért lehet hasznos a registry API, mellyel el lehet érni interneten keresztül az adatbázist.\\
 
 \subsection{Registry API}
 
-A registry API \underline{Meta} végpontjai:
+A következőkben az npm által használt publikus Registry API-jának bemutatására kerül sor \cite{npm-registry-api}.\\
+
+\noindent A registry API meta végpontjai:
 
 \begin{itemize}
 	\item \texttt{GET·/}
@@ -245,7 +227,7 @@ A registry API \underline{Meta} végpontjai:
 	\item \texttt{$\big[$GET·/-/$\big]$}
 \end{itemize}
 
-A registry API \underline{package} végpontjai:
+\noindent A registry API package végpontjai:
 
 \begin{itemize}
 	\item \texttt{GET·/$\bigl\{$package$\bigr\}$}
@@ -256,50 +238,48 @@ A registry API \underline{package} végpontjai:
 A \texttt{GET·/$\bigl\{$package$\bigr\}$} végpont válaszul egy csomag metaadat dokumentumot fog adni JSON formában. Ezeket az információkat többnyire a korábban már említett \emph{package.json} fájlból szerzi be.\\
 
 A \texttt{$\big[$GET·/-/v1/search$\big]$} végpont a csomagok keresésében kulcsszerepet játszik és több, hasznos paramétert meg lehet adni, amely finomítja a keresést.
-\textbf{Ilyen paraméterek:}
+
+Ilyen paraméterek:
 
 \begin{itemize}
-	\item \texttt{"text"} (a keresés szövege)
-	\item \texttt{"size"} (a találatok száma 20<n<250)
-	\item \texttt{"from"} (mettől kezdve adja vissza a találatokat)
-	\item \texttt{"quality"} (mennyire befolyásolja a keresést a csomagok minősége [0-1])
-	\item \texttt{"popularity"} (mennyire befolyásolja a keresést a csomagok népszerűsége [0-1])
-	\item \texttt{"maintenance"} (mennyire befolyásolja a keresést a csomagok karbantartása  [0-1])
+	\item \texttt{text}: a keresés szövege,
+	\item \texttt{size}: a találatok száma 20<n<250,
+	\item \texttt{from}: mettől kezdve adja vissza a találatokat,
+	\item \texttt{quality}: mennyire befolyásolja a keresést a csomagok minősége [0-1],
+	\item \texttt{popularity}: mennyire befolyásolja a keresést a csomagok népszerűsége [0-1],
+	\item \texttt{maintenance}: mennyire befolyásolja a keresést a csomagok karbantartása [0-1].
 \end{itemize}
 
 \pagebreak
 
 A keresés további finomítására léteznek speciális paraméterek, ezeket azonban csak teljes szöveges lekérdezésnél lehet alkalmazni.
-\textbf{Ilyen paraméterek:}
+
+Ilyen paraméterek:
 
 \begin{itemize}
-	\item \texttt{"author:"} (Csomagok szűrése erre a szerzőre)
-	\item \texttt{"maintainer:"} (Csomagok szűrése erre a fenntartóra)
-	\item \texttt{"keywords:"} (Csomagok szűrése az adott kulcsszavakra, több kulcsszó esetén:)
+	\item \texttt{author}: csomagok szűrése erre a szerzőre,
+	\item \texttt{maintainer}: csomagok szűrése erre a fenntartóra,
+	\item \texttt{keywords}: csomagok szűrése az adott kulcsszavakra. Több kulcsszó esetén:
 	\begin{itemize}
-		\item \texttt{','} = Logikai VAGY
-		\item \texttt{'+'} = Logikai ÉS
-		\item \texttt{',-'} = Kulcsszavak kihagyása
+		\item \texttt{','} = logikai VAGY,
+		\item \texttt{'+'} = logikai ÉS,
+		\item \texttt{',-'} = kulcsszavak kihagyása.
 	\end{itemize}
-	\item \texttt{"not:unstable"} (1.0.0-nél kisebb verziók kihagyása)
-	\item \texttt{"not:insecure"} (Nem biztonságosnak megjelölt csomagok kihagyása)
-	\item \texttt{"is:unstable"} (Szűrés 1.0.0-nél kisebb verziókra)
-	\item \texttt{"is:insecure"} (Szűrés nem biztonságosnak megjelölt csomagokra)
-	\item \texttt{"boost-exact:false"} (Ne kerüljenek fentebb az egzakt találatok (Alapértelmezett: true))
+	\item \texttt{not:unstable}: 1.0.0-nál kisebb verziók kihagyása,
+	\item \texttt{not:insecure}: nem biztonságosnak megjelölt csomagok kihagyása,
+	\item \texttt{is:unstable}: szűrés 1.0.0-nél kisebb verziókra,
+	\item \texttt{is:insecure}: szűrés nem biztonságosnak megjelölt csomagokra,
+	\item \texttt{boost-exact:false}: ne kerüljenek fentebb az egzakt találatok (alapértelmezett: true).
 \end{itemize}
 
-\begin{flushright}
-	\cite{npm-registry-api}
-\end{flushright}
+\subsection{A Registry elemek szerkezete}
 
-\subsection{A Registry Elemek Szerkezete}
-
-A Registry a csomagokról szöveges formában tárolja a metaadatokat. Ezeket az átláthatóság érdekében célszerű egy JSON parser kiegészítővel vizsgálni. Ekkor az alábbi formában kapható meg az adott csomagra vonatkozó információ:
+A Registry a csomagokról szöveges formában tárolja a metaadatokat. Ezeket az átláthatóság érdekében célszerű egy "JSON parser" kiegészítővel vizsgálni. Ekkor az alábbi formában kapható meg az adott csomagra vonatkozó információ:
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.75]{images/registry_vue.png}
-	\caption{Egy registry elem szerkezete. (Vue.Js)}
+	\caption{Egy registry elem szerkezete (Vue.Js)}
 	\label{fig:registry-package}
 \end{figure}
 
