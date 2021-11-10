@@ -116,6 +116,50 @@ Az számítások és ábrázolás előtt a program a csomagokat a függőségek 
 	\item A JavaScript és TypeScript fájlok aránya az összes fájlhoz képest erősen inkonzisztens. Alapvetően elmondható, hogy a JavaScript alapú csomagok jóval gyakoribbak, mint a TypeScript alapúak.
 \end{itemize}
 
+\subsubsection{Az adatok eloszlása}
+
+A kapott ábrák közül nem mindegyikről olvasható le egyértelmű konklúzió, ezért gyakorisághisztogramok készültek, amelyek már sokkal átláthatóbbak.\\
+
+A \ref{fig:hist_1} ábra a 100-nál kevesebb fájlból álló csomagokban lévő fájl darabszámokat mutatja. Jól látható, hogy 10 körüli darabszámból van a legtöbb. Az 1000 vizsgált csomagból több mint a negyede ezen leszűkített tartományba esik.
+
+\pagebreak
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.7]{images/hist_1.png}
+	\caption{100-nál kevesebb fájlt tartalmazó csomagok}
+	\label{fig:hist_1}
+\end{figure}
+
+A \ref{fig:hist_2} ábra már az 500 alatti darabszámokat jeleníti meg. A 100-as darabszám feletti tartományban alig fordulnak elő csomagok. 500 fájlszám felett hasonlóképpen elenyésző számban találni csak csomagokat.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.7]{images/hist_2.png}
+	\caption{500-nál kevesebb fájlt tartalmazó csomagok}
+	\label{fig:hist_2}
+\end{figure}
+
+A \ref{fig:hist_3} ábra a JavaScript fájlok arányának eloszlását jeleníti meg a csomagokban előforduló összes fájl számához viszonyítva. (A 0 azt jelzi, hogy egyáltalán nincs benne JavaScript fájl, az 1 pedig azt feltételezné, hogy csak azt tartalmaz, de a \emph{package.json} miatt ezt az értéket nem veheti fel.) A gyakorisághisztogram azt jelzi, hogy fájltípusok tekintetében a JavaScript fájlok egyáltalán nincsenek túlnyomó többségben a többi fájltípushoz képest. Érdekes eredmény, hogy 0,5 környékén egy kiugró érték van. Arról azt olvashatjuk le, hogy a vizsgált csomagok körülbelül nyolcadában a csomaghoz tartozó fájlok fele JavaScript állomány.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.7]{images/hist_3.png}
+	\caption{JavaScript fájlok arányának eloszlása}
+	\label{fig:hist_3}
+\end{figure}
+
+\pagebreak
+
+A \ref{fig:hist_4} ábra ugyanezen vizsgálatot a TypeScript fájlok esetére végzi. Az ábrából az állapítható meg, hogy a TypeScript fájlok a többi fájltípushoz képest igen kis arányban fordulnak elő.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.7]{images/hist_4.png}
+	\caption{TypeScript fájlok arányának eloszlása}
+	\label{fig:hist_4}
+\end{figure}
+
 \subsubsection{Érdekességek, kiugrások az ábrákon}
 
 \begin{itemize}
