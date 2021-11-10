@@ -1,51 +1,52 @@
 \Chapter{Tesztelés és Eredmények}
 
-A program funkciói a fejlesztés során folyamatosan tesztelésre kerültek, alapvetően manuálisan. Az algoritmus, illetve a szemantikus verziózás tesztelése végül a statisztikai vizsgálat során automatikusan is megtörtént, bár nem ez volt annak a résznek a célja. Ennek következtében derült ki az algoritmusnál is tárgyalt hiba, miszerint nem számított bizonyos átlagtól eltérő esetekre, amely a ciklus végtelen futását eredményezte.\\
+A program funkciói a fejlesztés során folyamatosan tesztelésre kerültek, alapvetően manuálisan. Az algoritmus, illetve a szemantikus verziózás tesztelése végül a statisztikai vizsgálat során automatikusan is megtörtént, bár nem ez volt annak a résznek a célja.
 
 Ebben a szekcióban a program felhasználása, illetve a használatával szerzett eredmények elemzése kerül ismertetésre.
 
-\Section{Használat}
+\Section{Az elkészült program használata}
+
+A kész szoftver használata az egyszerű és átlátható UI miatt kényelmes, először az egy csomagot vizsgáló mód kerül bemutatásra (\ref{fig:examiner} ábra), majd a több csomag statisztikai vizsgálatáért felelős mód (\ref{fig:statistics} ábra).
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.2]{images/examiner.png}
-	\caption{Egy Csomagos Mód}
+	\caption{Egy csomagos mód}
 	\label{fig:examiner}
 \end{figure}
 
 \begin{itemize}
 	\item Első lépésként meg kell adni a csomag nevét és keresni a (Search) gombbal.
-	\item Helyes csomagnév esetén feltöltődik a verziók listája, innen tetszőlegesen kell választani egyet.
-	\item Opcionálisan megadható, hogy keresés mennyire legyen mély
-	\item Végül a (Get dependencies) gomb megnyomásával lehet elindítani a folyamatot.
+	\item Helyes csomagnév esetén feltöltődik a verziók listája, innen tetszőlegesen kell választani egyet. Opcionálisan megadható a keresés mélysége.
+	\item Végül a "Get dependencies" gomb megnyomásával lehet elindítani a folyamatot.
 	\item Az elkészült ábra görgővel és egérgomb lenyomva tartásával interaktívan mozgatható, nagyítható. A Sidebar pedig lefelé görgethető a gráfelemzés információinak megtekintéséhez.
 \end{itemize}
 
 \pagebreak
 
-\textbf{A két mód közötti váltást a (Switch) gomb segítségével lehet megtenni.}
+A két mód közötti váltást a (Switch) gomb segítségével lehet megtenni.
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.2]{images/statistics.png}
-	\caption{Több Csomagos Mód}
-	\label{fig:examiner}
+	\caption{Több csomagos mód}
+	\label{fig:statistics}
 \end{figure}
 
 \begin{itemize}
-	\item Először a vizsgált csomagok mennyiségét szükséges megadni.
+	\item A több csomagos módban először a vizsgált csomagok mennyiségét szükséges megadni.
 	\item A lefelé gördülő listából pedig a sorrendbe állítási elvet kell kiválasztani, alapértelmezett a leggyakrabban használt csomagok elve.
-	\item A folyamatot a (Check Packages) gombra kattintással lehet elindítani.
+	\item A folyamatot a "Check Packages" gombra kattintással lehet elindítani.
 \end{itemize}
 
-\Section{Eredmények}
+\Section{A kapott eredmények bemutatása}
 
-A korábban tárgyalt mérete és csomagmennyisége miatt az npm Registry egészét túl hosszas és költségigényes lenne elemezni, így az első ezer leggyakrabban használt csomagról, mint "reprezentatívan leszűkített Registryről" készült statisztikai elemzés. A vizsgálat előtt a program a \textbf{csomagokat a függőségek száma szerint csökkenő sorrendbe állította}, majd elvégezte a szükséges számításokat és az eredményeket a következő hisztogramokon ábrázolta:
+A korábban tárgyalt mérete és csomagmennyisége miatt az npm Registry egészét túl hosszas és költségigényes lenne elemezni, így az első ezer leggyakrabban használt csomagról, mint "reprezentatívan leszűkített Registryről" készült statisztikai elemzés. A vizsgálat előtt a program a csomagokat a függőségek száma szerint csökkenő sorrendbe állította, majd elvégezte a szükséges számításokat és az eredményeket a következő hisztogramokon ábrázolta:
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.12]{images/depdist.png}
-	\caption{Függőségek számának eloszlása}
+	\caption{Csomagonkénti függőségek száma}
 	\label{fig:depdist}
 \end{figure}  
 
@@ -66,7 +67,7 @@ A korábban tárgyalt mérete és csomagmennyisége miatt az npm Registry egész
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.12]{images/pkgsize.png}
-	\caption{Csomagméret(MB-ban megadott) eloszlás}
+	\caption{Csomagok mérete(MB-ban megadott)}
 	\label{fig:pkgsize}
 \end{figure}
 
@@ -95,18 +96,18 @@ A korábban tárgyalt mérete és csomagmennyisége miatt az npm Registry egész
 
 \subsubsection{Eredmények Elemzése}
 
-A program a számított hisztogramokat maga is elemezte, minden ábra esetében kiszámolta a prezentált adatok átlagát és szórását, melyet a Sidebar-ra írt ki az alábbi módon (Average = Átlag, Standard Deviation = Szórás):
+A program a számított hisztogramokat maga is elemezte, minden ábra esetében kiszámolta a prezentált adatok átlagát és szórását, melyet a Sidebar-ra írt ki az alábbi módon (Average = Átlag, Standard Deviation = Szórás)(\ref{fig:hg_data} ábra).
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.35]{images/hg_data.png}
-	\caption{Hisztogramok Elemzése}
+	\caption{Eredmények elemzése}
 	\label{fig:hg_data}
 \end{figure}
 
 A vizsgálat során minden csomag esetében a legutóbbi stabil verziót vette alapul a program. 
 
-Az számítások és ábrázolás előtt a program \textbf{a csomagokat a függőségek száma szerinti csökkenő sorrendbe rendezte}, hogy egyértelműbbek legyenek az esetleges összefüggések.
+Az számítások és ábrázolás előtt a program a csomagokat a függőségek száma szerinti csökkenő sorrendbe rendezte, hogy egyértelműbbek legyenek az esetleges összefüggések.
 
 \begin{itemize}
 	\item Természetesen a gráf mélysége és a csomagok átlagos fokszáma, bár nem szigorúan, de követte a függőségek számának változását.
@@ -115,26 +116,26 @@ Az számítások és ábrázolás előtt a program \textbf{a csomagokat a függ�
 	\item A JavaScript és TypeScript fájlok aránya az összes fájlhoz képest erősen inkonzisztens. Alapvetően elmondható, hogy a JavaScript alapú csomagok jóval gyakoribbak, mint a TypeScript alapúak.
 \end{itemize}
 
-\subsubsection{Érdekességek, kiugrások az ábrákon:}
+\subsubsection{Érdekességek, kiugrások az ábrákon}
 
 \begin{itemize}
-	\item \textbf{Függőségek száma:} A legtöbb (400 feletti) függőséggel a \textbf{jest} (677), \textbf{jest-config} (569) és \textbf{gulp} (491) rendelkezik.
-	\item \textbf{Gráf mélysége:} A \textbf{jest} 21 mélységű függőségi gráffal rendelkezik, amelyet indokol a függőségeinek száma, azonban a \textbf{gulp} érdekesebb, itt a kirívó 36-os mélység annak köszönhető, hogy található függőségi gráfjában nem várt kör, amely miatt az algoritmus tovább próbálta rendezni, sikertelenül a pontokat, míg végül feladta.
-	\item \textbf{Átlagos fokszám}:  A \textbf{crypto-browserify} a maga 2.842-es átlagával volt a legmagasabb, de kirívónak nem nevezhető.
-	\item \textbf{Csomagméret:} Két feltűnően nagy méretű csomag a \textbf{typescript} (1.541,57 MB) és a \textbf{@types/node} (746,19 MB) amik maguk a TypeScript csomag és a Type-Script által használt Node.JS típusdefiníciókat tartalmazó csomag.
-	\item \textbf{Fájlok száma:} Természetesen a két legnagyobb csomag kirívó itt is: \textbf{typescript:} 54.554 fájl, \textbf{@types/node:} 58.643 fájl.
-	\item \textbf{TypeScript arány:} A JavaScript fájlok aránya változó, nincs kifejezetten kirívó eset, viszont a TypeScript esetében a \textbf{@types/node} típusdefiníciók 71,45\%-a TS fájl, illetve az ajv-keyword 79,74\%-a.
-	\item \textbf{jest és babel: }A jest és babel scope-pal rendelkező csomagok és alcsomagok mind ugyanarra a GitHub linkre mutatnak a package.json fájlban, mivel ugyanazon repositoryban található minden alcsomag, így a fájlszintű elemzések esetében (csomagméret, fájlok száma, TS és JS arányok) ugyanazokat az értékeket hozzák. Ez magyarázza ezeknél az ábráknál a több azonosan magas pontot.
+	\item \textbf{Függőségek száma:} A legtöbb (400 feletti) függőséggel a \texttt{jest} (677), \texttt{jest}-\texttt{config} (569) és \texttt{gulp} (491) rendelkezik.
+	\item \textbf{Gráf mélysége:} A \texttt{jest} 21 mélységű függőségi gráffal rendelkezik, amelyet indokol a függőségeinek száma, azonban a \texttt{gulp} érdekesebb, itt a kirívó 36-os mélység annak köszönhető, hogy található függőségi gráfjában nem várt kör, amely miatt az algoritmus tovább próbálta rendezni, sikertelenül a pontokat, míg végül feladta.
+	\item \textbf{Átlagos fokszám}:  A \texttt{crypto-browserify} a maga 2,842-es átlagával volt a legmagasabb, de kirívónak nem nevezhető.
+	\item \textbf{Csomagméret:} Két feltűnően nagy méretű csomag a \texttt{typescript} (1541,57 MB) és a \texttt{@types/node} (746,19 MB) amik maguk a TypeScript csomag és a Type-Script által használt Node.JS típusdefiníciókat tartalmazó csomag.
+	\item \textbf{Fájlok száma:} Természetesen a két legnagyobb csomag kirívó itt is: \texttt{typescript} (54554 fájl), \texttt{@types/node} (58643 fájl).
+	\item \textbf{TypeScript arány:} A JavaScript fájlok aránya változó, nincs kifejezetten kirívó eset, viszont a TypeScript esetében a \texttt{@types/node} típusdefiníciók 71,45\%-a TS fájl, illetve az ajv-keyword 79,74\%-a.
+	\item \texttt{jest} és \texttt{babel}: A jest és babel scope-pal rendelkező csomagok és alcsomagok mind ugyanarra a GitHub linkre mutatnak a \emph{package.json} fájlban, mivel ugyanazon repositoryban található minden alcsomag, így a fájlszintű elemzések esetében (csomagméret, fájlok száma, TS és JS arányok) ugyanazokat az értékeket hozzák. Ez magyarázza ezeknél az ábráknál a több azonosan magas pontot.
 	
 \end{itemize}
 
 
-\Section{Önelemzés}
+\Section{A saját elemzőprogram elemzése}
 
 A szoftver Node.JS csomagként is működik, a publikus npm registry-ben kiadásra került. Ennek köszönhetően a program tudja a saját függőségeit elemezni, amelyre az alábbi eredményt adta:
 
 \begin{itemize}
-	\item A függőségként megjelölt és használt 3 csomag közül a szemantikus verziózásért felelős semver két további függőségi szintet eredményezett, amely nem lett volna egyértelmű pusztán a package.json tartalma alapján.
+	\item A függőségként megjelölt és használt 3 csomag közül a szemantikus verziózásért felelős \texttt{semver} két további függőségi szintet eredményezett, amely nem lett volna egyértelmű pusztán a \emph{package.json} tartalma alapján.
 	\item Az elemzés során nem talált kulcsszavakban rejlő redundáns funkcionalitásra jeleket.
 \end{itemize}
 

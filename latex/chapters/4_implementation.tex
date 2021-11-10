@@ -4,27 +4,27 @@ Ebben a fejezetben kerül részletes bemutatásra a program implementációjána
 
 Mivel a csomagadatok lekérdezése egyszerűen megoldható az npm Registrynek köszönhetően, így gond nélkül lehet keresést implementálni, amelynek eredményeként megkaphatjuk egy adott csomag adott verziójának összes függőségét.
 
-\Section{Csomag Szerkezet}
-Az npm csomagok szerkezetére vannak megkötések, így a projekt szerkezetét is ilyen formára kell hozni. Elkészült hozzá a \texttt{package.json} fájl, amely tartalmaz minden kötelező és releváns opcionális mezőt. A csomag a \textbf{package-examiner} fantázianevet kapta.   
+\Section{Csomag szerkezet}
+Az npm csomagok szerkezetére vannak megkötések, így a projekt szerkezetét is ilyen formára kell hozni. Elkészült hozzá a \emph{package.json} fájl, amely tartalmaz minden kötelező és releváns opcionális mezőt. A csomag a package-examiner fantázianevet kapta.   
 
-A csomag belépési pontja, a \texttt{package.json}-ban is jelzett \texttt{main.js}. A csomag funkcionális szerkezete az alábbi módon néz ki:
+A csomag belépési pontja, a \emph{package.json}-ban is jelzett \texttt{main.js}. A csomag funkcionális szerkezete az alábbi módon néz ki:
 
 \begin{js}
 ./	
-	src/
-		- scripts
-		- styles
-		- templates
-		- app.js
-		- main.js
-	public/
-		- index.html
-	package.json
-	package-lock.json
-	README.md	
+  src/
+    - scripts
+    - styles
+    - templates
+    - app.js
+    - main.js
+  public/
+    - index.html
+  package.json
+  package-lock.json
+  README.md	
 \end{js}
 
-Mint látható csak az \texttt{index} HTML fájl létezik, ennek oka a következő szakaszban részletezésre kerül.
+\noindent Mint látható csak az \texttt{index.html} fájlt tartalmazza a public mappa, ennek oka a következő szakaszban részletezésre kerül.
 
 \pagebreak
 
@@ -32,16 +32,16 @@ Mint látható csak az \texttt{index} HTML fájl létezik, ennek oka a következ
 
 A Single Page Application, azaz SPA lényege, hogy egy oldalra dinamikusan tölti be a tartalmat, nem történik új lap nyitása, se újratöltés.
 
-Ennek a megvalósítására több technológia létezik, többek között a jQuery könyvtár is. A program úgynevezett "JavaScript Template"-ekkel való megoldást alkalmazza, amely során JavaScript fájlokban hoz létre HTML sablonokat és azokat exportálja, majd az applikáció felhasználási módtól függően dinamikusan tölti be azokat.\\
+Ennek a megvalósítására több technológia létezik, többek között a jQuery könyvtár is \cite{jquery}. A program úgynevezett "JavaScript Template"-ekkel való megoldást alkalmazza, amely során JavaScript fájlokban hoz létre HTML sablonokat és azokat exportálja, majd az applikáció felhasználási módtól függően dinamikusan tölti be azokat.\\
 
-\textbf{Egy ilyen exportálható JavaScript Template szintaktikája:}
+Egy ilyen exportálható JavaScript Template szintaktikája:
 
 \begin{js}
 const Template = () => {
-	const template = `
-	#Some HTML code
-	`;
-	return template;
+  const template = `
+  #Some HTML code
+  `;
+  return template;
 };
 
 export default Template;
@@ -50,14 +50,14 @@ export default Template;
 A program az alábbi sablonokat tartalmazza:
 \begin{js}
 ./templates/	
-	Sidebar
-	- Examiner.js
-	- Statistics.js
-	Canvas.js
-	Sidebar.js
+  Sidebar/
+    - Examiner.js
+    - Statistics.js
+  Canvas.js
+  Sidebar.js
 \end{js}
 
-A Sidebar és Canvas sablonokat az app.js fájl tölti be automatikusan az index.html-be, ezek konstansan részét képezik az index tartalmának. A Sidebar és a Canvas tartalmának egy része azonban felhasználási módtól függően változik.
+A Sidebar és Canvas sablonokat az app.js fájl tölti be automatikusan az \newline\texttt{index.html}-be, ezek konstansan részét képezik az index tartalmának. A Sidebar és a Canvas tartalmának egy része azonban felhasználási módtól függően változik.
 
 Az Examiner-t egy csomag, a Statistics-t több csomag vizsgálata esetén tölti be. A két funkcionalitási mód közötti váltást egy "Switch Mode" gomb teszi lehetővé.\\
 
@@ -75,7 +75,7 @@ A \textbf{Single Package Analysis} esetén, ha létező csomagra keresünk rá, 
 
 Amennyiben a Registry-ben csak a csomagnévre keresünk rá, akkor nem fogunk függőségeket visszakapni, mivel itt általános információk vannak a csomagról, nem pedig működési információk. Konkrét információt a verzió megadásával tudunk megszerezni.\\
 
-A Sidebar továbbá tartalmaz egy konstansan jelen lévő kapcsolót, amellyel a világos és sötét megjelenítési mód között lehet választani, az alapértelmezett mód a sötét, viszont \underline{nyomtatási szempontból} a \textbf{világos módot} fogom használni az ábrákhoz. 
+A Sidebar továbbá tartalmaz egy konstansan jelen lévő kapcsolót, amellyel a világos és sötét megjelenítési mód között lehet választani, az alapértelmezett mód a sötét, viszont nyomtatási szempontból a világos módot fogom használni az ábrákhoz. 
 
 \begin{figure}[!h]
 	\centering
@@ -84,12 +84,12 @@ A Sidebar továbbá tartalmaz egy konstansan jelen lévő kapcsolót, amellyel a
 	\label{fig:ui_darkmode}
 \end{figure}
 
-A csomagok adatainak lekérdezését, függőségek összegyűjtését, elemzését és ábrázolását végző funkciókat a következő "lekezelő" funkció indítja el, amint a szükséges információk ki vannak gyűjtve:
+A csomagok adatainak lekérdezését, függőségek összegyűjtését, elemzését és ábrázolását végző funkciókat a következő funkció indítja el, amint a szükséges információk ki vannak gyűjtve:
 
 \begin{js}
 window.handleFormEvents = (event) => {
-	event.preventDefault();
-	submitForm(event.target.id);
+  event.preventDefault();
+  submitForm(event.target.id);
 };
 \end{js}
 
@@ -97,60 +97,60 @@ window.handleFormEvents = (event) => {
 
 \Section{Adatgyűjtés}
 
-Az adatok lekérésére három különböző modul áll rendelkezésre, a \textbf{getPackage.js}, a \textbf{searchPackages.js} és a \textbf{getGitData.js}.
+Az adatok lekérésére három különböző modul áll rendelkezésre, a \texttt{getPackage.js}, a \texttt{searchPackages.js} és a \texttt{getGitData.js}.
 
-A program HTML form-ok küldés eseményére reagál, majd ezeket lekezeli és a form típusától függően hív meg függvényeket. Ezt a \textbf{handleSideBarEvents.js} modul fogja végezni, mely az alábbiak szerint dönti el, hogy mely funkciókat hívja meg:
+A program HTML form-ok küldés eseményére reagál, majd ezeket lekezeli és a form típusától függően hív meg függvényeket. Ezt a \texttt{handleSideBarEvents.js} modul fogja végezni, mely az alábbiak szerint dönti el, hogy mely funkciókat hívja meg:
 
 \begin{js}
 function submitForm(form){
-	switch (form) {
-		case "packageForm":
-		getPackageData();
-		break;
-		case "graphingForm":
-		makeGraph();
-		break;
-		case "statForm":
-		makeStat();
-		break;
-		default:
-		break;
-	}
+  switch (form) {
+    case "packageForm":
+      getPackageData();
+    break;
+    case "graphingForm":
+      makeGraph();
+    break;
+    case "statForm":
+      makeStat();
+    break;
+    default:
+    break;
+  }
 }
 \end{js}
 
-\noindent\textbf{getPackageData()}
+\noindent \texttt{getPackageData}
 \begin{itemize}
 	\item Ez a funkció felelős a "Package Version" Select DOM elem listájának feltöltéséért. 
 	\item Amennyiben nem található a csomag, hibát fog dobni.
-	\item Közvetlenül támaszkodik a \textbf{getPackage.js} modulra.
+	\item Közvetlenül támaszkodik a \texttt{getPackage.js} modulra.
 \end{itemize}
 
-\noindent\textbf{makeGraph()}
+\noindent \texttt{makeGraph}
 \begin{itemize}
 	\item Ez a funkció felelős a kiválasztott csomag függőségei gráfjának megalkotásáért, megrajzolásáért, majd pedig elemzéséért.
 	\item Amennyiben nincs kiválasztva a verzió, hibát fog dobni.
-	\item Közvetetten támaszkodik a \textbf{getPackage.js} modulra.
+	\item Közvetetten támaszkodik a \texttt{getPackage.js} modulra.
 \end{itemize}
 
-\noindent\textbf{makeStat()}
+\noindent \texttt{makeStat}
 \begin{itemize}
 	\item Ez a funkció felelős több csomagos mód esetén a megadott paraméterek szerinti csomagok összegyűjtéséért, függőségi elemzéséért és statisztikai ábrázolásáért.
 	\item Amennyiben nem található a csomag, hibát fog dobni.
-	\item Közvetetten támaszkodik a \textbf{searchPackages.js} és \textbf{getGitData.js} modulokra.
+	\item Közvetetten támaszkodik a \texttt{searchPackages.js} és \texttt{getGitData.js} modulokra.
 \end{itemize}
 
 \pagebreak
 
 \subsection{Lekérdezések}
 
-\textbf{Probléma:} Az npm Registry lekérdezésénél lehetőség van egy csomag adatainak lekérésére, illetve arra is, hogy a Registry-ben található csomagok között keressünk. Ezzel csak az a probléma, hogy a keresés a keresés szövege köré épül, tehát lényegében nem tudunk minden csomag esetében, megadott paraméterek szerint keresni, mivel legalább egy betűt elvár a keresési végpont.
+Az npm Registry lekérdezésénél lehetőség van egy csomag adatainak lekérésére, illetve arra is, hogy a Registry-ben található csomagok között keressünk. Ezzel csak az a probléma, hogy a keresés a keresés szövege köré épül, tehát lényegében nem tudunk minden csomag esetében, megadott paraméterek szerint keresni, mivel legalább egy betűt elvár a keresési végpont.
 
-\textbf{Megoldás:} A Libraries.io API-ja, amely lehetőséget ad arra, hogy popularitás, illetve egyéb szempontok szerint keressünk tetszőleges mennyiségű csomagot. Ez a több csomagos módnál szükséges lesz.
+Erre megoldást jelent a Libraries.io API-ja, amely lehetőséget ad arra, hogy popularitás, illetve egyéb szempontok szerint keressünk tetszőleges mennyiségű csomagot. Ez a több csomagos módnál szükséges lesz \cite{libraries-io}.
 
 Az applikáció minden lekérdezése aszinkron, hogy ne befolyásolja a végfelhasználói élményt, így ameddig nincsenek adatok, törekedve arra, hogy a felhasználó tisztában legyen azzal, hogy a háttérben futnak a folyamatok, a képernyőn megjelenik egy körkörös, töltést jelző ikon.\\
 
-\noindent 1) \underline{getPackage()}\\
+A következőkben a két lekérdezéshez definiált függvény kerül bemutatásra.
 
 \begin{js}
 function getPackage(packageName, packageVersion="", requiredData="")
@@ -159,16 +159,14 @@ function getPackage(packageName, packageVersion="", requiredData="")
 \noindent \textbf{Paraméterei:}
 
 \begin{itemize}
-	\item \textbf{packageName:} A csomag neve, amelynek az npm adatait szeretnénk megkapni.
-	\item \textbf{packageVersion:} A csomag verziója, amellyel összefűzve intézi a kérést az npm registry felé. Alapértelmezetten üres String.
-	\item \textbf{requiredData:} Amennyiben csak egy fajta adatra vagyunk kíváncsiak a csomag adatai közül, akkor itt megadható, hogy melyet adja vissza. Alapértelmezetten üres String.
+	\item \texttt{packageName}: A csomag neve, amelynek az npm adatait szeretnénk megkapni.
+	\item \texttt{packageVersion}: A csomag verziója, amellyel összefűzve intézi a kérést az npm registry felé. Alapértelmezetten üres String.
+	\item \texttt{requiredData}: Amennyiben csak egy fajta adatra vagyunk kíváncsiak a csomag adatai közül, akkor itt megadható, hogy melyet adja vissza. Alapértelmezetten üres String.
 \end{itemize}
 
 \noindent \textbf{Visszatérési értéke:} \\
 
-\textbf{pkg:} A csomag adatait tartalmazó objektum.\\
-
-\noindent 2) \underline{searchPackages()}\\
+\texttt{pkg}: A csomag adatait tartalmazó objektum.\\
 
 \begin{js}
 function searchPackages(size, sortBy)
@@ -177,13 +175,13 @@ function searchPackages(size, sortBy)
 \noindent \textbf{Paraméterei:}
 
 \begin{itemize}
-	\item \textbf{size:} Az a mintaméret (csomagmennyiség) amelyet a felhasználó megad a Statisztikai módban.
-	\item \textbf{sortBy:} Egy olyan String, mely megadja, hogy a Libraries.IO API-ja milyen rendezési elvet használjon a keresés során. 
+	\item \texttt{size}: Az a mintaméret (csomagmennyiség) amelyet a felhasználó megad a Statisztikai módban.
+	\item \texttt{sortBy}: Egy olyan String, mely megadja, hogy a Libraries.IO API-ja milyen rendezési elvet használjon a keresés során. (Az elvekről bővebben a \hyperlink{subsection.4.5.1}{4.5.1-es szekcióban} lesz szó.)
 \end{itemize}
 
 \noindent \textbf{Visszatérési értéke:} \\
 
-\textbf{pkgs:} A megadott mennyiségű csomagok Libraries.IO adatait tartalmazó objektum.\\
+\texttt{pkgs}: A megadott mennyiségű csomagok Libraries.io adatait tartalmazó objektum.\\
 \pagebreak
 
 \subsection{HTTP Kérés}
@@ -192,58 +190,60 @@ A programon belül a HTTP kérések a fetch API segítségével valósulnak meg,
 
 \begin{js}
 async function fetchData(url){
-	let response = await fetch(url);
-	
-	if (!response.ok) {
-		throw new Error(response.status);
-	}
-	
-	return response.json();
+  let response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+
+  return response.json();
 }
 \end{js}
 
 \textbf{async/await} módon működik, ígéretet ad arra, hogy fog adni adatot a meghívója számára, amely addig vár a futásával, de közben más feladatok futását nem akadályozza.
 
-\textbf{URL:} Az URL attól függően, hogy egy csomag információira vagyunk kíváncsiak, vagy csomagokra bizonyos paraméterek szerint, a következő lehet:
+\texttt{url:} Az URL attól függően, hogy egy csomag információira vagyunk kíváncsiak, vagy csomagokra bizonyos paraméterek szerint, a következő lehet:
 \begin{itemize}
-	\item Egy csomag esete: npm Registry (https://registry.npmjs.cf/)
-	\item Több csomag esete: Libraries.io (https://libraries.io/api/search)
+	\item egy csomag esete: npm Registry (https://registry.npmjs.cf/),
+	\item több csomag esete: Libraries.io (https://libraries.io/api/search).
 \end{itemize} 
 
 \Section{Gráfalkotás és Elemzés}
 
-A \textbf{makeGraph()} funkció meghívásával kezdődik el a folyamat. A függvény amennyiben ki van választva egy csomag és annak egy verziója, meghívja a \textbf {grahpDependencies.js} modult. 
+A \texttt{makeGraph} funkció meghívásával kezdődik el a folyamat. A függvény amennyiben ki van választva egy csomag és annak egy verziója, meghívja a \texttt {grahpDependencies.js} modult. 
 
 \begin{js}
 function graphDependencies(pckg, dDepth, singleMode=true){
 	
-	let dependencies = await getDependenciesTillDepth(pckg, dDepth);
-	let packages = dependencies[dependencies.length-1];
-	dependencies.pop(dependencies[dependencies.length-1]);
-	
-	let graphEntities = 
-		calculateGraphData(packages, dependencies, singleMode);
-	let currentGraph = 
-		new Graph(graphEntities[0], graphEntities[1]);
-	
-	if(singleMode){
-		analyseGraph(currentGraph);
-	}
-	
-	return currentGraph;
+  let dependencies = await getDependenciesTillDepth(pckg, dDepth);
+  let packages = dependencies[dependencies.length-1];
+  dependencies.pop(dependencies[dependencies.length-1]);
+
+  let graphEntities = 
+  	calculateGraphData(packages, dependencies, singleMode);
+  
+  let currentGraph = new Graph(graphEntities[0], graphEntities[1]);
+
+  if(singleMode){
+    analyseGraph(currentGraph);
+  }
+
+  return currentGraph;
 }	
 \end{js}
 
-Egy és több csomagos módban is a graphDependencies() az egyik alappillér, mivel ez a funkció felelős egy adott csomag függőségeinek összegyűjtéséért, azok gráf struktúrába rendezéséért.
+\pagebreak
+
+Egy és több csomagos módban is a \texttt{graphDependencies} az egyik alappillér, mivel ez a funkció felelős egy adott csomag függőségeinek összegyűjtéséért, azok gráf struktúrába rendezéséért.
 Visszatérési értékként a csomag függőségi gráf struktúráját adja vissza.\\
 
-A \textbf{singleMode} boolean jellegű változó 'igaz' (alapértelmezett) érték esetén a következő extra funkciók is végrehajtásra kerülnek:
+A \texttt{singleMode} boolean jellegű változó 'igaz' (alapértelmezett) érték esetén a következő extra funkciók is végrehajtásra kerülnek:
 	\begin{itemize}
-		\item A gráf struktúra kirajzolása
-		\item A gráf analizálása
+		\item a gráf struktúra kirajzolása,
+		\item a gráf analizálása.
 	\end{itemize}
 
-Következő lépésként fog megtörténni az adott csomag függőségeinek megkeresése. Ezt a \textbf{getDependencies.js} modul fogja teljesíteni, amely az alábbi 2 függvényt tartalmazza:
+Következő lépésként fog megtörténni az adott csomag függőségeinek megkeresése. Ezt a \texttt{getDependencies.js} modul fogja teljesíteni, amely az alábbi 2 függvényt tartalmazza:
 
 \begin{js}
 function getDependenciesTillDepth(pckg, depth)
@@ -253,49 +253,49 @@ function getData(pck, depth)
 
 \subsection{A getDependencies modul}
 
-Először a \textbf{getDependenciesTillDepth()} függvény kerül meghívásra, ez attól függően, hogy megadták-e hogy milyen mélyen keressen fogja megkeresni az adott csomag függőségeit.\\
+Először a \texttt{getDependenciesTillDepth} függvény kerül meghívásra, ez attól függően, hogy megadták-e hogy milyen mélyen keressen fogja megkeresni az adott csomag függőségeit.\\
 
 \noindent \textbf{Paraméterei:}
 
 \begin{itemize}
-	\item \textbf{pckg: }A csomag neve, amelynek a függőségi gráfját szeretnénk megkapni.
-	\item \textbf{depth: }A keresés mélysége, az a szám, amelyre még kiterjed a keresés. Ez nem a függőségi gráf szintje. Egy szint megfelel az adott csomag közvetlen függőségeinek. Tehát az első szint mindig a gyökérelem direkt függőségei, a második szint a direkt függőségek közvetlen függőségei, és így tovább.	Amennyiben a keresés szintje megadásra kerül, akkor addig a szintig gyűjti össze az összes ilyen objektumot, ha nem kerül megadásra, akkor addig keres, amíg meg nem találja az összes függőséget, majd visszaadja az objektumokat tartalmazó tömböt.
+	\item \texttt{pckg: }A csomag neve, amelynek a függőségi gráfját szeretnénk megkapni.
+	\item \texttt{depth: }A keresés mélysége, az a szám, amelyre még kiterjed a keresés. Ez nem a függőségi gráf szintje. Egy szint megfelel az adott csomag közvetlen függőségeinek. Tehát az első szint mindig a gyökérelem direkt függőségei, a második szint a direkt függőségek közvetlen függőségei, és így tovább.	Amennyiben a keresés szintje megadásra kerül, akkor addig a szintig gyűjti össze az összes ilyen objektumot, ha nem kerül megadásra, akkor addig keres, amíg meg nem találja az összes függőséget, majd visszaadja az objektumokat tartalmazó tömböt.
 \end{itemize}
 
 \noindent \textbf{Visszatérési értéke:} \\
 
-Az összegyűjtött függőségeket egy \textbf{dependencies} tömbként fogja visszaadni. A tömb utolsó elemét mindig a csomagok tömbje képzi, amelyektől függ a kiinduló csomag.\\
+Az összegyűjtött függőségeket egy \texttt{dependencies} tömbként fogja visszaadni. A tömb utolsó elemét mindig a csomagok tömbje képzi, amelyektől függ a kiinduló csomag.\\
 
-A \textbf{getDependenciesTillDepth()} függvény fogja megkeresni a függőségeket, minden szint esetében. Az aktuális mélységi szinten minden csomag esetében meghívásra kerül a \textbf{getData()} függvény.
+A \texttt{getDependenciesTillDepth} függvény fogja megkeresni a függőségeket, minden szint esetében. Az aktuális mélységi szinten minden csomag esetében meghívásra kerül a \texttt{getData} függvény.
 \pagebreak
 
-A \textbf{getData()} a csomag adatait fogja lekérdezni, majd elkülöníti belőle csomag összes kulcsszavát és közvetlen függőségét.\\ 
+A \texttt{getData} a csomag adatait fogja lekérdezni, majd elkülöníti belőle csomag összes kulcsszavát és közvetlen függőségét.\\ 
 
 \noindent \textbf{Paraméterei:}
 
 \begin{itemize}
-	\item \textbf{pckg: }Az aktuális csomag neve, amelynek a közvetlen függőségeit keressük.
-	\item \textbf{depth: }A keresés aktuális mélységi szintje.
+	\item \texttt{pckg: }Az aktuális csomag neve, amelynek a közvetlen függőségeit keressük.
+	\item \texttt{depth: }A keresés aktuális mélységi szintje.
 \end{itemize}
 
-\noindent \textbf{Visszatérési értéke:} \\
+\noindent \texttt{Visszatérési értéke:} \\
 
-Egy olyan objektum mely tartalmazza az adott csomag kulcsszavait (\textbf{Keywords}) és közvetlen függőségeit (\textbf{Dependencies}).\\
+Egy olyan objektum mely tartalmazza az adott csomag kulcsszavait (\texttt{Keywords}) és közvetlen függőségeit (\texttt{Dependencies}).\\
 
-\noindent A csomag minden \textbf{függőségről} az alábbi adatokat fogja tartalmazni:
+\noindent A csomag minden függőségről az alábbi adatokat fogja tartalmazni:
 \begin{itemize}
-	\item Csomag Neve
-	\item Verzió
-	\item Mélységi Szint
-	\item Szülő
-	\item Szülő Verziója
+	\item csomag neve,
+	\item verziója,
+	\item mélységi szintje,
+	\item szülő,
+	\item szülő verziója.
 \end{itemize}
 
 A csomag függőségeinek az összegyűjtése esetében azért van szükség a kulcsszavak letárolására is, mivel így csomagonként megspórol a program egy extra Get Request-et, amely a csomag kulcsszavainak lekérdezésére irányulna.
 
-\subsection{Szemantikus Verziózás Problémája}
+\subsection{Szemantikus verziózás problémája}
 
-A kezdeti futtatások, tesztek során kiderült, hogy nem minden esetben egy konkrét csomag verziót van megjelölve a függőségeknél.\\
+A kezdeti futtatások, tesztek során kiderült, hogy nem minden esetben egy konkrét csomag verzió van megjelölve a függőségeknél.\\
 
 Természetesen ennek hatására a program hibás HTTP kéréseket intézett a Registry felé, amely 404 vagy 405-ös hibakódokkal reagált a kérésekre, mivel vagy nem létezett a csomag, vagy a megadott csomag nem létezett. 
 
@@ -303,87 +303,86 @@ A 404-es hibákat alapvetően azért kapta, mert ha "scoped" csomagot vizsgált 
 
 A verziók problémája azonban ennél sokkal markánsabb volt. A hiba feltárását követően felkutattam a dokumentációt, amely a szemantikus verziózásról szólt. 
 
-Kiderült, hogy az npm-nek van egy saját csomagja, amely ismeri és kezelni tudja szemantikus verziózás szintaktikáját, mely csomag neve \textbf{semver}. 
+Kiderült, hogy az npm-nek van egy saját csomagja, amely ismeri és kezelni tudja szemantikus verziózás szintaktikáját, mely csomag neve \texttt{semver} \cite{semver}. 
 
-Használata a dokumentáció elolvasását követően nem tűnik összetettnek, a \textbf{getPackage} modulban kerül implementálásra a helyes verzió kiválasztása a lekérdezéshez, a \textbf{findMaxSatisfying()} függvény segítségével.
+Használata a dokumentáció elolvasását követően nem tűnik összetettnek, a \newline\texttt{getPackage.js} modulban kerül implementálásra a helyes verzió kiválasztása a lekérdezéshez, a \texttt{findMaxSatisfying} függvény segítségével.
 
-A függvény implementációjának formája a lekérdezésekhez a következő oldalon van prezentálva.
+A függvény implementációjának formája a lekérdezéshez a következő kódrésszel szemléltethető.
 
 \pagebreak
 
 \begin{js}
 function findMaxSatisfying(packageName, range){
-	let pkg = await fetchData(registryUrl+packageName);
-	let versions = [];
-	
-	for(let version in pkg.versions){
-		versions.push(version);
-	}
-	
-	let max = semver.maxSatisfying(versions, range);
-	return max;
+  let pkg = await fetchData(registryUrl+packageName);
+  let versions = [];
+
+  for(let version in pkg.versions){
+    versions.push(version);
+  }
+
+  let max = semver.maxSatisfying(versions, range);
+  return max;
 }
 \end{js}
 
-A funkció az aktuális csomagot és az elfogadott verziók intervallumát kéri be. Ezek után lekéri az adott csomag minden verzióját. Ezt követően a \textbf{semver} maxSatisfying() függvényének megadva a verziókat tartalmazó tömböt és a szemantikus módon megadott elfogadott verziók intervallumát, visszaadja a legfrissebb verziót, amit még elfogad az intervallum.
+A funkció az aktuális csomagot és az elfogadott verziók intervallumát kéri be. Ezek után lekéri az adott csomag minden verzióját. Ezt követően a \texttt{semver} \texttt{maxSatisfying} függvényének megadva a verziókat tartalmazó tömböt és a szemantikus módon megadott elfogadott verziók intervallumát, visszaadja a legfrissebb elfogadott verziót.
 
-\subsection{Adatok Gráf Struktúrába Rendezése:}
+\subsection{Adatok gráf struktúrába rendezése}
 
-Újra a graphDependencies() függvényben van a program, megszerezte a szükséges adatokat a gráf struktúrába rendezéshez. Ekkor hívja meg a \textbf{calculateGraphData()} függvényt amely a csomagokat, a függőségeket kéri paraméterként, illetve azt, hogy kirajzolja-e a gráfot vagy sem. Ez egycsomagos mód esetén 'igaz' lesz.
+Újra a \texttt{graphDependencies} függvényben van a program, megszerezte a szükséges adatokat a gráf struktúrába rendezéshez. Ekkor hívja meg a \texttt{calculateGraphData} függvényt amely a csomagokat, a függőségeket kéri paraméterként, illetve azt, hogy meg-rajzolja-e a gráfot vagy sem. Ez egycsomagos mód esetén igaz lesz.
 
-\noindent\textbf{Csomópontok és gráfélek megadása, a csomagokból és függőségekből:}
+A csomópontok és gráfélek megadása, a csomagokból és függőségekből a következő formában oldható meg.
 
 \begin{js}
 // Create graph nodes from packages
 for (let i = 0; i < packages.length; i++) {
-	graphNodes[i] =  {
-		id: packages[i].Name, 
-		label: packages[i].Name, 
-		y:0, 
-		x:0+packages[i].Level, 
-		size:1
-	};
+  graphNodes[i] = {
+    id: packages[i].Name, 
+    label: packages[i].Name, 
+    y: 0, 
+    x: packages[i].Level, 
+    size: 1
+  };
 }
 // Create graph edges from dependencies
 for (let i = 0; i < dependencies.length; i++) {
-	graphEdges[i] =  {
-		id: 'edge_'+i, 
-		source: dependencies[i].Parent, 
-		target: dependencies[i].Name, 
-		color:"#333"};
+  graphEdges[i] = {
+    id: "edge_" + i, 
+    source: dependencies[i].Parent, 
+    target: dependencies[i].Name, 
+    color: "#333"
+  };
 }
-
-if(shouldDrawGraph){
-	drawGraph(graphNodes, graphEdges);
+if (shouldDrawGraph) {
+  drawGraph(graphNodes, graphEdges);
 }
 \end{js}
 
-A gráf rajzolásához a \textbf{sigma.js} nevű gráfkészítő csomagot használja a program. A sigma objektum a gráf megrajzolásához két adathalmazt használ, az egyik a Node-ok azaz csomópontok, a másik az Edge-k, azaz gráfélek.\\
+A gráf rajzolásához a \texttt{sigma.js} nevű gráfkészítő csomagot használja a program \cite{sigma}. A \texttt{sigma} objektum a gráf megrajzolásához két adathalmazt használ, az egyik a Node-ok azaz csomópontok, a másik az Edge-k, azaz gráfélek.\\
 
-\textbf{Egy sigma példányosítás:
-}
+Egy \texttt{sigma} példányosítás az alábbi kódpéldában látható.
 \begin{js}
 function drawGraph(graphNodes, graphEdges){	
-	var s = new sigma({ 
-		container: 'container',
-		renderer: {
-			container: document.getElementById('container'),
-			type: sigma.renderers.canvas,
-		},
-		settings: {}
-	});
-	for(let node of graphNodes){
-		s.graph.addNode(node);
-	}
-	for(let edge of graphEdges){
-		s.graph.addEdge(edge);
-	}
+  var s = new sigma({ 
+    container: "container",
+    renderer: {
+      container: document.getElementById("container"),
+      type: sigma.renderers.canvas,
+    },
+    settings: {}
+  });
+  for (let node of graphNodes) {
+    s.graph.addNode(node);
+  }
+  for (let edge of graphEdges) {
+    s.graph.addEdge(edge);
+  }
 }
 \end{js}
 
-A sigma.js canvason rajzolja meg a gráfot, beállításként meg lehet adni a csomópontok és élek attribútumait, élek típusát és egyéb opcionális attribútumokat.\\
+A \texttt{sigma.js} canvason rajzolja meg a gráfot. Beállításként meg lehet adni a csomópontok és élek attribútumait, élek típusát és egyéb opcionális attribútumokat.\\
 
-Az így feltöltött függőségi gráf azonban még közel sem reprezentatív. A cél ennek a gráfnak egy olyan felépítést adni, amely DAG jellegű. A DAG egy "Directed acyclic graph", azaz irányított körmentes gráfot jelent. Elméletileg minden függőségi gráf meg kell, hogy feleljen ennek, ha nem, akkor hiba van a függőségek megadásánál. Jelenlegi állapotban valahogy így nézne ki a gráf:\\
+Az így feltöltött függőségi gráf azonban még közel sem reprezentatív. A cél ennek a gráfnak egy olyan felépítést adni, amely DAG jellegű. Elméletileg minden függőségi gráf meg kell, hogy feleljen ennek, ha nem, akkor hiba van a függőségek megadásánál. Jelenlegi állapotban a \ref{fig:graph_wrong} ábrán látható módon jelenne meg a gráf, a Vue.JS keretrendszer példáján.\\
 
 \textbf{A Vue.JS keretrendszer példája:}
 
@@ -396,10 +395,10 @@ Az így feltöltött függőségi gráf azonban még közel sem reprezentatív. 
 
 \pagebreak
 
-\subsection{Gráfrendező Algoritmus}
-Mint látható a \ref{fig:graph_wrong} ábrán, a gráf nem valósítja meg a DAG elrendezést. A gráf helyes elrendezését megvalósító, már létező algoritmust nem találtam, a legtöbb esetben az \textbf{npmgraph.an} példájához hasonlóan, randomizáltan, inkább hálós gráfot hoznak létre. \\
+\subsection{Gráfrendező algoritmus}
+Mint látható a \ref{fig:graph_wrong} ábrán, a gráf nem valósítja meg a DAG elrendezést. A gráf helyes elrendezését megvalósító, már létező algoritmust nem találtam, a legtöbb esetben az npmgraph.an példájához hasonlóan, randomizáltan, inkább hálós gráfot hoznak létre. \\
 
-Ennek megfelelően saját algoritmust írtam a gráf csomópontjainak helyes elrendezésére. Az algoritmus két szakaszból épül fel, az 1. szakaszban (X koordináta) a horizontális rendezés történik a különböző szintekre, majd a 2. szakaszban (Y koordináta) az adott szinteken történik egy vertikális rendezés. 
+Ennek megfelelően saját algoritmust írtam a gráf csomópontjainak helyes elrendezésére. Az algoritmus két szakaszból épül fel, az 1. szakaszban (X koordináta) a horizontális rendezés történik a különböző szintekre, majd a 2. szakaszban (Y koordináta) az adott szinteken történik egy vertikális rendezés. Az algoritmusokat a következőkben pszeudó kód formájában közlöm.
 
 \subsubsection{Gráfrendező Algoritmus: 1. Szakasz}
 
@@ -478,7 +477,7 @@ Ennek megfelelően saját algoritmust írtam a gráf csomópontjainak helyes elr
 
 \pagebreak
 
-\noindent\textbf{Az algoritmust lefutását követően Vue.JS \ref{fig:graph_wrong} ábrán látható felépítését az alábbi módon változtatta meg:}
+\noindent Az algoritmust lefutását követően Vue.JS függőségi gráfjának megjelenítését a \ref{fig:graph_right} ábrán látható módon valósítja meg.
 
 \begin{figure}[!h]
 	\centering
@@ -487,16 +486,16 @@ Ennek megfelelően saját algoritmust írtam a gráf csomópontjainak helyes elr
 	\label{fig:graph_right}
 \end{figure}
 
-\noindent\textbf{Egy nem várt meglepetés:}\\
+\noindent\textbf{Körkörös függőségek kezelése}\\
 
-A tesztelés során akadtak olyan csomagok, ahol a gráf algoritmusa végtelen iterációban futott, ezzel lefagyasztva a programot.
-Ennek az oka az volt, hogy egyes csomagok függőségei között olyan csomagverziók is voltak, amelyekben függőségként a gyökércsomag volt megjelölve, vagy esetleg kört eredményeztek a függőségi gráfban, ritkán egy szülő<-->gyermek kölcsönönös függési viszony alakult ki két csomag között. Ezek problémásak lehetnek, mivel elvben egy függőségi gráfban ilyennek nem szabadna előfordulni.
+A tesztelés során akadtak olyan csomagok, ahol a gráf algoritmusa végtelen iterációba futott, ezzel lefagyasztva a programot.
+Ennek az oka az volt, hogy egyes csomagok függőségei között olyan csomagverziók is voltak, amelyekben függőségként a gyökércsomag volt megjelölve, vagy esetleg kört eredményeztek a függőségi gráfban, ritkán egy olyan kölcsönönös függési viszony alakult ki két csomag között, ahol a szülő egyszerre volt a függősége szülője és gyermeke. Ezek problémásak lehetnek, mivel elvben egy függőségi gráfban ilyennek nem szabadna előfordulni.
 
 Az ilyen problémák kiszűrésére az algoritmus kapott egy olyan kiegészítést, hogy a gyökércsomag koordinátáit semmiképpen ne lehessen változtatni, illetve ha két iteráció között sem sikerül érdemben javítani az elrendezésen, kilép az algoritmus, mert nem tud tovább rendezni.\\
 
 \subsubsection{Visszatérés}
 
-A calculateGraph() attól függően, hogy szükséges-e, megrajzolja a gráfot, és visszatér a helyes csomópontokkal és élekkel feltöltött tömbbel a \textbf{graphDependencies()} függvénybe, ahol az adatokból létre fog hozni egy gráf objektumot, a gráf osztály példányosításával:
+A \texttt{calculateGraph} attól függően, hogy szükséges-e, megrajzolja a gráfot, és visszatér a helyes csomópontokkal és élekkel feltöltött tömbbel a \texttt{graphDependencies} függvénybe, ahol az adatokból létre fog hozni egy gráf objektumot, a gráf osztály példányosításával:
 
 \begin{js}
 let currentGraph = new Graph(graphEntities[0], graphEntities[1]);
@@ -504,69 +503,71 @@ let currentGraph = new Graph(graphEntities[0], graphEntities[1]);
 
 \pagebreak
 
-\subsection{Gráf Osztály}
+\subsection{Gráf osztály}
+
+A gráfot reprezentáló osztály szerkezete a következő.
 
 \begin{js}
-class Graph{
-	constructor(nodes, edges){
-		this.name = nodes[0].id;
-		this.nodes = nodes;
-		this.edges = edges;
-	}
-	getMaxDepth();
-	
-	getLinksPerDepth();
-	
-	getNodeDegrees();
+class Graph {
+  constructor(nodes, edges){
+    this.name = nodes[0].id;
+    this.nodes = nodes;
+    this.edges = edges;
+  }
+  getMaxDepth();
+
+  getLinksPerDepth();
+
+  getNodeDegrees();
 }
 \end{js}
 
 Ez az osztály tartalmaz minden olyan adattagot és metódust, amelyre a függőségi gráf elemzésénél szükség lesz. Vissza fogja adni a fokszámot, a gráf mélységét, és azt is, hogy mélységi szintenként hány függőség van.
 
-\subsection{Gráf Elemzése}
+\subsection{Gráf elemzése}
 
-Egy csomagot vizsgáló mód esetén az utolsó előtti lépés a függőségi gráf elemzése, amelynek könnyítésére jött létre a gráf osztály, amellyel egyszerűen tudjuk elemezni a gráfot. Az elemzések eredményeit grafikus módon a \textbf{chart.js} diagram készítő csomaggal fogja majd ábrázolni a program.
+Egy csomagot vizsgáló mód esetén az utolsó előtti lépés a függőségi gráf elemzése, amelynek könnyítésére jött létre a gráf osztály, amellyel egyszerűen tudjuk elemezni a gráfot. Az elemzések eredményeit grafikus módon a \texttt{chart.js} diagram készítő csomaggal fogja majd ábrázolni a program \cite{chart}.
 
 \subsubsection{Chart.js csomag}
 
-A Chart.js egy egyszerű, könnyűsúlyú JavaScript csomag interaktív hisztogramok, diagramok létrehozására, ábrázolására.\\
+A \texttt{Chart.js} egy egyszerű, könnyűsúlyú JavaScript csomag interaktív hisztogramok, diagramok létrehozására, ábrázolására.\\
 
-A programban ezt a csomagot a \textbf{makeHistogram.js} fájl fogja implementálni, amelyben található egy makeHistogram() függvény. A funkció a következő adatokat fogja elvárni paraméterként: 
+A programban ezt a csomagot a \texttt{makeHistogram.js} fájl fogja implementálni, amelyben található egy \texttt{makeHistogram} függvény. A funkció a következő adatokat fogja elvárni paraméterként: 
 
 \begin{itemize}
-	\item \texttt{"id"}: A HTML Div elem ID-ja, amelyet canvasként fog használni a hisztogram számára.
-	\item \texttt{"dataArray"}: Az ábrázolandó y adatokat tartalmazó tömb.
-	\item \texttt{"label"}: A hisztogram elnevezése.
-	\item \texttt{"labArray"}: Az x tengely beosztásait tartalmazó tömb.
+	\item \texttt{id}: A HTML Div elem ID-ja, amelyet canvasként fog használni a hisztogram számára.
+	\item \texttt{dataArray}: Az ábrázolandó y adatokat tartalmazó tömb.
+	\item \texttt{label}: A hisztogram elnevezése.
+	\item \texttt{labArray}: Az x tengely beosztásait tartalmazó tömb.
 \end{itemize} 
 
-A setHistogram() függvényt az analyseGraph() fogja meghívni, amely előkészíti azokat a HTML elemeket, amik szükségesek lesznek az elemzés eredményeinek megjelenítésére. A különböző eredményeket szövegesen vagy hisztogram formájában fogja megjeleníteni a Sidebar-on. Miután elvégezte az elemzéseket, meghívja a setHistogram() funkciót, amely az adatokat a megjelenítő által elvárt formára hozza és meghívja a makeHistogram() függvényt, ami pedig kirajzolja a megfelelő reprezentatív hisztogramokat. 
+A \texttt{setHistogram} függvényt az \texttt{analyseGraph} fogja meghívni, amely előkészíti azokat a HTML elemeket, amik szükségesek lesznek az elemzés eredményeinek megjelenítésére. A különböző eredményeket szövegesen vagy hisztogram formájában fogja megjeleníteni a Sidebar-on. Miután elvégezte az elemzéseket, meghívja a \texttt{setHistogram} funkciót, amely az adatokat a megjelenítő által elvárt formára hozza és meghívja a \texttt{makeHistogram} függvényt, ami pedig kirajzolja a megfelelő reprezentatív hisztogramokat. 
 
 \pagebreak
  
-\noindent\textbf{Chart.js szintaktikája:}
+\noindent\textbf{A Chart.js szintaktikája a következő példában látható.}
  
 \begin{js}
 function makeHistogram(id, dataArray, label, labArray){
-	const ctx = document.getElementById(id).getContext('2d');
-	const chart = new Chart(ctx, {
-		type: 'line',
-		data: {
-			labels: labArray,
-			datasets: [{
-				label: label,
-				data: dataArray,
-			}]
-		},
-		options: {
-			scales: {
-				xAxes: [{
-				}],
-				yAxes: [{
-				}]
-			}
-		}
-	});
+  const ctx = document.getElementById(id).getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labArray,
+      datasets: [{
+        label: label,
+        data: dataArray,
+      }]
+    },
+    options: {
+      scales: {
+        xAxes: [{
+        }],
+        yAxes: [{
+        }]
+      }
+    }
+  });
 }	
 \end{js}
 
@@ -578,71 +579,70 @@ Mivel a függőségek esetében küldött kérésre kapott válaszban szintén s
 
 A megszerzett csomagok adatait tartalmazó objektumok így a kulcsszavakat is tárolni fogják.\\
 
-A kulcsszavak elemzését az analyseGraph() függvény által meghívott \textbf{checkKeywords()} függvény fogja végezni, amely paraméterként bekéri az összegyűjtött csomagokat és függőségeket.
+A kulcsszavak elemzését az \texttt{analyseGraph} függvény által meghívott \texttt{checkKeywords} függvény fogja végezni, amely paraméterként bekéri az összegyűjtött csomagokat és függőségeket.
 
 A csomagokat összehasonlítja és amennyiben nincsenek egymással függési viszonyban, illetve a funkcionalitásukat leíró kulcsszavak több mint 50\%-os átfedésben vannak, esetleges redundanciaként kezeli.
 Az ilyen csomagpárokat visszaadja egy tömbbe rendezve, melynek minden eleme tartalmazza a csomagok nevét, azok szüleit, és az átfedés mértékét \%-ban megadva.
 
-Az analyseGraph() végül ezeket ki fogja írni a Sidebar aljára, mint esetleges redundáns funkcionalitású csomagokat.
+Az \texttt{analyseGraph} végül ezeket ki fogja írni a Sidebar aljára, mint esetleges redundáns funkcionalitású csomagokat.
 
 A csomagok vizsgálata a fejlesztő feladata, a program funkcionalitása csak a kulcsszavak alapján tesz javaslatot, amely nem jelenti, hogy redundáns a csomagok funkcionalitása, viszont a kulcsszavak egyezése miatt lehetséges.
 
 \pagebreak 
 
-\Section{Függőségi Gráfok Statisztikai Vizsgálata}
+\Section{Függőségi gráfok statisztikai vizsgálata}
 
 Ebben a szekcióban a program másik felhasználási módja kerül bemutatásra, amely több csomag függőségi gráfjainak statisztikai elemzését teszi lehetővé.
 Ezen mód alapjait nagyrészt lefedi az egy csomagos módnál bemutatott funkcionalitás, néhány kiegészítéssel. Az ismertetés során így a már áttekintet funkciókra csak hivatkozás fog történni.\\
  
-A későbbiekben az első 1000 leggyakrabban használt csomagot és azok függőségeit fogjuk tekinteni a reprezentatív módon leszűkített teljes npm Registrynek, mivel a teljes Registry túl nagy lenne az elemzésre, bár a lehetőség elvben meg lenne rá.\\
+A későbbiekben az első 1000 leggyakrabban használt csomagot és azok függőségeit fogjuk tekinteni a reprezentatív módon leszűkített teljes npm Registrynek, mivel a teljes Registry túl nagy lenne az elemzésre, bár a lehetőség elvben meg lenne rá. A teljes jegyzék méretéről egy 2021 májusi kutatás szerint már akkor több, mint 1,4 millió csomag volt bejegyezve. \cite{npm-size}\\
 
 A program több csomagos módra váltását követően meg lehet adni, hogy hány csomag függőségi gráfjának elemzését szeretnénk kérni, és hogy ezeket milyen paraméter alapján állítsa sorrendbe és adja vissza a program. Az elemzést minimum egy csomagra lehet elindítani és az alapértelmezett rangsorolás a leggyakrabban használt csomagok szerint történik.\\
 
-Ezt követően meghívásra kerül a handleSideBarEvents() modulból a \textbf{createStatistics.js} modul createStats() függvénye. Paraméterként a csomagok mennyiségét és a rangsorolási módot fogja kérni.
+Ezt követően meghívásra kerül a \texttt{handleSideBarEvents.js} modulból a \texttt{create}-\texttt{Statistics.js} modul \texttt{createStats} függvénye. Paraméterként a csomagok mennyiségét és a rangsorolási módot fogja kérni.\\
 
-\subsubsection{Eltérések az egycsomagos módhoz képest:}
+\noindent Eltérések az egycsomagos módhoz képest a következők:
 
 \begin{itemize}
-	\item \textbf{searchPackages()} funkció
-	\item \textbf{getGitData()} funkció
-	\item A létrehozott függőségi gráfoknak csak felhasználja a szerkezetét, nem rajzolja ki
-	\item Nem fogja az önálló gráfelemzéseket elvégezni
+	\item \texttt{searchPackages} funkció,
+	\item \texttt{getGitData} funkció,
+	\item a létrehozott függőségi gráfoknak csak felhasználja a szerkezetét, nem rajzolja ki,
+	\item nem fogja az önálló gráfelemzéseket elvégezni.
 \end{itemize}
 
-\subsection{searchPackages Modul}
+\subsection{A searchPackages modul}
 
-A searchPackages modul a csomagok sorrendbe rendezett lekérésére alkalmas. A modul implementálja a Libraries.io API-ját, amely lehetővé teszi a csomagkezelő által nyilvántartott csomagok különböző elvek szerint rendezett lekérdezését. Az alapértelmezés a már említett leggyakrabban használt csomagok elve, azonban lehetőség van még SourceRank, csillagok száma, legfrissebb kiadású csomagok, függő csomagok száma, közreműködők száma és legújabb csomagok szerinti rendezésre is.\\
+A \texttt{searchPackages.js} modul a csomagok sorrendbe rendezett lekérésére alkalmas. A modul implementálja a Libraries.io API-ját, amely lehetővé teszi a csomagkezelő által nyilvántartott csomagok különböző elvek szerint rendezett lekérdezését. Az alapértelmezés a már említett leggyakrabban használt csomagok elve, azonban lehetőség van még SourceRank, csillagok száma, legfrissebb kiadású csomagok, függő csomagok száma, közreműködők száma és legújabb csomagok szerinti rendezésre is.\\
 
-Az API működése paraméterezett kérésekkel történik, a Libraries.io search végpontja felé. Ezekre válaszul csomagokat tartalmazó JSON objektumokat ad vissza. A rangsorolt csomagokat oldalanként tárolja és adja vissza, amelynek a mérete maximum 100 elemű lehet. Ennek megfelelően egy 1000 csomagos lekérdezés esetén 10 x 100 csomag lekérdezése fog megtörténni, majd ezeket egy tömbként adja vissza a funkció. A kérések a már ismert fetchData() funkcióval történnek.
+Az API működése paraméterezett kérésekkel történik, a Libraries.io search végpontja felé. Ezekre válaszul csomagokat tartalmazó JSON objektumokat ad vissza. A rangsorolt csomagokat oldalanként tárolja és adja vissza, amelynek a mérete maximum 100 elemű lehet. Ennek megfelelően egy 1000 csomagos lekérdezés esetén 10-szer 100 csomag lekérdezése fog megtörténni, majd ezeket egy tömbként adja vissza a funkció. A kérések a már ismert \texttt{fetchData} funkcióval történnek.
 
-\subsubsection{Szükséges paraméterek:}
+\subsubsection{A szükséges paraméterek a következő kódpéldában láthatóak.}
 \begin{js}
 let params = {
-	sort:sortBy, 
-	per_page:size,
-	page:1,
-	platforms:"NPM",
-	api_key:"576acbf22232eac6a3a6b05be774eecb"
+  sort: sortBy, 
+  per_page: size,
+  page: 1,
+  platforms: "NPM",
+  api_key: "576acbf22232eac6a3a6b05be774eecb"
 }
 \end{js}
 
 \subsubsection{Visszatérés és Megjelenítés}
 
-A visszakapott csomagok függőségi gráfjait a createStats() függvény egyesével lekérdezi, az egy csomagos mód esetében tisztázott lépéssorozat segítségével, majd a visszakapott \textbf{Graph} objektumokat eltárolja egy tömbben.\\
+A visszakapott csomagok függőségi gráfjait a \texttt{createStats} függvény egyesével lekérdezi, az egy csomagos mód esetében tisztázott lépéssorozat segítségével, majd a visszakapott \texttt{Graph} objektumokat eltárolja egy tömbben.\\
 
-A gráf objektumokat tartalmazó tömb adatait a megjelenítő hisztogramok típusának megfelelő formába rendezése után, a függőségek száma szerint csökkenő sorrendben a korábban már szintén tisztázott setHistogram() és makeHistogram() függvények segítségével az oldal "Canvas" részén jeleníti meg. Erre azért van szükség, mivel nagy mennyiségű csomag esetén, itt lehetséges reprezentatív méretű hisztogramokat kirajzolni.
+A gráf objektumokat tartalmazó tömb adatait a megjelenítő hisztogramok típusának megfelelő formába rendezése után, a függőségek száma szerint csökkenő sorrendben a korábban már szintén tisztázott \texttt{setHistogram} és \texttt{makeHistogram} függvények segítségével az oldal "Canvas" részén jeleníti meg. Erre azért van szükség, mivel nagy mennyiségű csomag esetén, itt lehetséges reprezentatív méretű hisztogramokat kirajzolni.
 
-\subsection{Fájlszintű Elemzés} 
+\subsection{Fájlszintű elemzés} 
 A csomagok statisztikai vizsgálatának egy igen fontos lépése a jegyzék szintű elemzése az adott csomagnak. Az elemzés során ki fog derülni:
 \begin{itemize}
-	\item A csomag mérete
-	\item A csomag fájljainak száma
-	\item A JavaScript fájlok aránya
-	\item A TypeScript fájlok aránya
+	\item a csomag mérete,
+	\item a csomag fájljainak száma,
+	\item a JavaScript fájlok aránya,
+	\item a TypeScript fájlok aránya.
 \end{itemize}
 
-\subsubsection{Probléma}
-Az elemzés módjának kivitelezésére a terv egy lokális vizsgálat volt, amely a következő okok miatt nem igazán bizonyult kivitelezhetőnek:
+\noindent Az elemzés módjának kivitelezésére a terv egy lokális vizsgálat volt, amely a következő okok miatt nem igazán bizonyult kivitelezhetőnek.
 \begin{itemize}
 	\item Minden vizsgálandó csomagnak lokálisan jelen kell lennie a rendszeren, amely nagy mennyiségű npm csomag letöltését eredményezné.
 	\item A letöltéshez gyermek processz-re van szükség, hogy a JavaScript kódból futtatható legyen a telepítés.
@@ -650,7 +650,6 @@ Az elemzés módjának kivitelezésére a terv egy lokális vizsgálat volt, ame
 	\item Mind a gyermek processz és filesystem kliens oldali használata biztonságtechnikai okokból korlátozásra került.
 \end{itemize}
 
-\subsubsection{Megoldás}
 A kivitelezés megvalósítására a GitHub API-ja nyújtott lehetőséget, amely tanulmányozásának eredményeként kiderült, hogy képes a program által igényelt adatok szolgáltatására.\\
 
 A program alapvetően két végpont URL címével dolgozik, melyek felé kéréseket intéz a megfelelő "tulajdonos/repo-név", illetve "branch" megadásával.
@@ -659,72 +658,73 @@ A program alapvetően két végpont URL címével dolgozik, melyek felé kérés
 	\item https://api.github.com/repos/\{repo\}/git/trees/\{branch\}?recursive=1
 \end{itemize}
 
-Az első végpont a repository adatait adja vissza, majd ebből kinyerve az alapértelmezett branchet, intéz kérést a program a második végpont felé, amely rekurzívan megkeresi és visszaadja a repository jegyzék struktúráját.
+Az első végpont a repository adatait adja vissza, majd ebből kinyerve az alapértelmezett \texttt{branchet}, intéz kérést a program a második végpont felé, amely rekurzívan megkeresi és visszaadja a repository jegyzék struktúráját.
 
 \subsubsection{Implementáció}
-Minden csomag esetében két kérés történik a GitHub api felé, az első az általános adatok lekéréséhez, a második a jegyzék struktúra lekérdezéséhez.\\
+Minden csomag esetében két kérés történik a GitHub API felé, az első az általános adatok lekéréséhez, a második a jegyzék struktúra lekérdezéséhez.\\
 
-A kéréseket a \textbf{getGitData()} függvény fogja elvégezni, majd a választ a megfelelő formában visszaadni.
+A kéréseket a \texttt{getGitData} függvény fogja elvégezni, majd a választ a megfelelő formában visszaadni.
 
 \begin{js}
 function getGitData(repo, urlType, branch="")
 \end{js}
-\textbf{Paraméterként} a repository \textbf{(repo)} tulajdonosát és nevét kéri be "owner/name" formában, az URL típusát \textbf{(urlType)}, hogy általános vagy jegyzék lekérdezéshez állítsa be az URL-t, illetve jegyzékek esetén a \textbf{branch} (ág) nevét.\\
+Paraméterként a repository \texttt{(repo)} tulajdonosát és nevét kéri be "owner/name" formában, az URL típusát \texttt{(urlType)}, hogy általános vagy jegyzék lekérdezéshez állítsa be az URL-t, illetve jegyzékek esetén a \texttt{branch} (ág) nevét.\\
 
-\noindent\textbf{Visszatérési értéke} annak a csomagnak a GitHub adatait tartalmazó objektum, amelynek nevét megkapta a repo paraméterként.\\
+\noindent Visszatérési értéke annak a csomagnak a GitHub adatait tartalmazó objektum, amelynek nevét megkapta a \texttt{repo} paraméterként.\\
 
-A getGitData() a már ismert fetchData() függvényt fogja alkalmazni a kérésekhez.
+\noindent A \texttt{getGitData} a már ismert \texttt{fetchData} függvényt fogja alkalmazni a kérésekhez.
 
-\subsubsection{Fetch Korlátozások}
+\subsubsection{Fetch korlátozások}
 Az adatok megszerzéséhez szükséges kérések számát a GitHub API limitálja. Alapértelmezetten ez 60 kérés óránként, ami igen kevés, maximum 30 csomag elemzésére elég egy órában.
 
 Azonban, ha authorizált felhasználó intézi a kéréseket akkor ez a szám 5000 kérésre emelkedik óránként, ami már bőven elég az 1000 csomagos vizsgálathoz.\\
 
-A GitHub minden felhasználó számára biztosítja az Auth Tokeneket, amit a kérés Headerjébe helyezve lehet használni. Egy Auth Token igénylésénél meg lehet adni milyen privilégiumokkal rendelkezzen. A programban használt Token semmilyen privilégiummal nem rendelkezik, pusztán jelzi, hogy a lekérdezés felhasználó által történik.\\
+A GitHub minden felhasználó számára biztosítja az Auth Tokeneket, amit a kérés fejlécébe helyezve lehet használni. Egy Auth Token igénylésénél meg lehet adni milyen privilégiumokkal rendelkezzen. A programban használt Token semmilyen privilégiummal nem rendelkezik, pusztán jelzi, hogy a lekérdezés felhasználó által történik.\\
 
-A fetchData.js modul így kiegészítésre került a GitHub Token használatával.
+A \texttt{fetchData.js} modul így kiegészítésre került a GitHub Token használatával.
 
 \pagebreak
 
 \begin{js}
-function fetchData(url, token=false){
-	let headers = {"Content-Type": "application/json"};
-	
-	if(token){
-		headers["Authorization"] = "token "+getToken();
-	}
-	
-	let response = await fetch(url, {headers,});
-	
-	if (!response.ok) {
-		throw new Error(response.status);
-	}
-	
-	return response.json();
+function fetchData(url, token=false) {
+  let headers = {"Content-Type": "application/json"};
+
+  if (token) {
+    headers["Authorization"] = "token " + getToken();
+  }
+
+  let response = await fetch(url, {headers});
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+
+  return response.json();
 }
 
-function getToken(){
-	const decipher = crypto.createDecipheriv();
-	const decrypted = Buffer.concat([decipher.update(Buffer.from()),
-						decipher.final()]);
-	
-	return decrypted.toString();
+function getToken() {
+  const decipher = crypto.createDecipheriv();
+  const decrypted = Buffer.concat([decipher.update(Buffer.from()),
+					decipher.final()]);
+
+  return decrypted.toString();
 }
 \end{js}
-\textbf{Token Probléma:} A kód GitHubra commitolása során a rendszer észrevette a kódban megadott Token jellegű adatot, így visszavonta a Tokent. 
+\textbf{Token Probléma} \newline A kód GitHubra commitolása során a rendszer észrevette a kódban megadott Token jellegű adatot, így visszavonta a Tokent. 
 
 Ezért szükség volt a Token titkosítására, majd az így titkosított Token került megadásra a kódban és csak futásidőben fog visszafejtésre kerülni, így a GitHub számára nem Token jellegű a karaktersorozat és nem vonja vissza.
 
 A Token egyébként nem okoz biztonsági problémát, mivel már említésre került, hogy nincs semmilyen privilégium hozzá társítva, pusztán arra alkalmas, hogy a kéréseknél jelezzük, hogy authorizált kérésről van szó.\\
 
-A getGitData() adatait a \textbf{analyseSource()} függvény fogja felhasználni, amely csomagonként az alábbi információt fogja szolgáltatni a createStats() függvény számára:
+A \texttt{getGitData} adatait a \texttt{analyseSource} függvény fogja felhasználni, amely csomagonként az alábbi információt fogja szolgáltatni a \texttt{createStats} függvény számára:
 
-\begin{js}
-{Package:, Size:, Files:, JS_Files:, TS_Files:}
-\end{js}
-Azaz csomagnév, csomagméret MB-ban, fájlok száma, JavaScript fájlok aránya \%-ban megadva, TypeScript fájlok aránya \%-ban megadva.
+\begin{itemize}
+	\item \texttt{Package}: a csomag neve,
+	\item \texttt{Size}: a csomag mérete MB-ban,
+	\item \texttt{Files}: a csomagban található fájlok száma,
+	\item \texttt{JS\_Files}: JavaScript fájlok aránya \%-ban megadva,
+	\item \texttt{TS\_Files}: TypeScript fájlok aránya \%-ban megadva.
+\end{itemize}
 
-\subsubsection{Visszatérés}
-
-A fent leírt objektumok tömbjével fog visszatérni a createStats() függvényben, amelyet felhasználva az a setHistogram() és makeHistogram() fügvényekkel ábrázolni fog a függőségek száma szerint csökkenő sorrendben.
+Végül a fent leírt objektumok tömbjével fog visszatérni a \texttt{createStats} függvényben, amelyet felhasználva az a \texttt{setHistogram} és \texttt{makeHistogram} fügvényekkel ábrázolni fog a függőségek száma szerint csökkenő sorrendben.
 

@@ -2,27 +2,25 @@
 
 \Section{Koncepció}
 
-Mivel a szakdolgozat egyszerre foglalkozik kutatási és szoftverfejlesztési témákkal, a dolgozat kidolgozása során szükséges a két területtel egyszerre foglalkozni.\\ 
+Mivel a szakdolgozat egyszerre foglalkozik kutatási és szoftverfejlesztési témákkal, a dolgozat kidolgozása során szükséges a két területtel egyszerre foglalkozni.\\
 
-A kutatás alapvetően a \hyperlink{chapter.2}{Node Package Manager (npm)} megismeréséhez, működésének megértéséhez fűződik, míg a fejlesztés egy olyan program megtervezése, amely megfelelően implementálja az npm funkcióit a feladatai elvégzéséhez.
+A kutatás alapvetően a \hyperlink{chapter.2}{2. fejezetben} tárgyalt Node Package Manager megismeréséhez, működésének megértéséhez fűződik, míg a fejlesztés egy olyan program megtervezése, amely megfelelően implementálja az npm funkcióit a feladatai elvégzéséhez.
 
-A kutatás másik fontos mérföldköve volt felmérni a \hyperlink{section.3.2}{hasonló programok} meglétét, kivitelezésének formáját. A tapasztalatok alapján érdekes, de alapvető funkcionalitásában eltérő alkalmazások készültek eddig hasonló témában. A ténylegesen kivitelezett feladataik nem terjednek ki a szakdolgozatban említett problémákra.\\
+A kutatás másik fontos mérföldköve volt felmérni a hasonló programok meglétét, kivitelezésének formáját, ezeket a \hyperlink{section.3.2}{3.2-es szekcióban} fogom bemutatni. A tapasztalatok alapján érdekes, de alapvető funkcionalitásában eltérő alkalmazások készültek eddig hasonló témában. A ténylegesen kivitelezett feladataik nem terjednek ki a szakdolgozatban említett problémákra.\\
 
-\textbf{A készítendő programnak az alábbi feladatai lesznek:}
+A készítendő programnak az alábbi feladatai lesznek:
 \begin{itemize}
-	\item A csomag függőségeinek ábrázolása, függőségi gráfként
-	\item A függőségi gráf elemzése, vizsgálata
-	\item Statisztikai elemzések elvégzése a csomagok függőségi gráfjairól
-	\item Javaslatok tétele az esetleges függőségek csökkentésére
-	\item A csomagok forráskód szintű elemzése
+	\item a csomag függőségeinek ábrázolása, függőségi gráfként,
+	\item a függőségi gráf elemzése, vizsgálata,
+	\item statisztikai elemzések elvégzése a csomagok függőségi gráfjairól,
+	\item javaslatok tétele az esetleges függőségek csökkentésére,
+	\item a csomagok forráskód szintű elemzése.
 \end{itemize}
 
 Ezen funkciók implementálásának a kérdése magában hordozza az npm dokumentáció kutatásának, vizsgálatának a szükségességét.
 A program megtervezésében és kidolgozásában kulcsfontosságú szerepet játszott az npm \hyperlink{chapter.2}{2. fejezetben} feltárt struktúrájának elemzése, funkcionalitásának megismerése, és ezek implementálása a programba.\\
 
-\textbf{Projekt nyelve:}\\
-
-Mivel mind a dokumentáció, mind az npm interfésze angol nyelvű, így nem indokolt magyar nyelvű szoftver fejlesztése. Továbbá ezen a nyelven széleskörűen megismerhető a projekt, nem csak magyar anyanyelvűek számára, illetve maguk a programnyelvek szintaktikái is többnyire angol nyelvűek. Következésképpen a program és az interfész is angol nyelven kerül megírásra. A forráskód szintjén ez angol nyelvű deklarációkat és definíciókat, illetve kommenteket jelent. 
+Mivel mind a dokumentáció, mind az npm interfésze angol nyelvű, továbbá ezen a nyelven széleskörűen megismerhető a projekt, nem csak magyar anyanyelvűek számára, illetve maguk a programnyelvek szintaktikái is többnyire angol nyelvűek, így a projekthez is ezt a nyelvet választottam. Következésképpen a program és az interfész is angol nyelven kerül megírásra. A forráskód szintjén ez angol nyelvű deklarációkat és definíciókat, illetve kommenteket jelent. 
 
 \pagebreak
 
@@ -30,7 +28,7 @@ Mivel mind a dokumentáció, mind az npm interfésze angol nyelvű, így nem ind
 	
 	A program felvázolt feladataiból kiindulva fontos, hogy az elkészült alkalmazás interaktív legyen, mivel a csomagok közül bármelyikre kíváncsi lehet a felhasználó.\\
 	
-	A program alapeleme egy olyan \textbf{felhasználói felület} (User Interface / UI) fejlesztése, amely: 
+	A program alapeleme egy olyan felhasználói felület (User Interface / UI) fejlesztése, amely teljesíti az alábbi követelményeket. 
 	
 	\begin{itemize}
 		\item Az ábrákat látványosan, nagy méretben prezentálja.
@@ -42,25 +40,25 @@ Mivel mind a dokumentáció, mind az npm interfésze angol nyelvű, így nem ind
 	
 	Tekintettel arra, hogy manapság sok különböző eszköz és operációs rendszer van használatban, fontos, hogy mindegyiken működjön a fejlesztett szoftver, így célszerű a közös pontot, azaz a webes böngészőket alapul venni.\\
 	 
-	\textbf{Webes kivitelezés előnyei:}
+	\noindent A webes kivitelezés a következő előnyökkel jár.
 	\begin{itemize}
 		\item Platformfüggetlenség: A program függetlenül fog futni az operációs rendszertől a böngésző környezetében.
-		\item Elterjedt technológia a Node.Js, így rengeteg lefejlesztett csomag áll rendelkezésre.
+		\item Elterjedt technológia a Node.Js, így rengeteg csomag áll rendelkezésre.
 		\item A JavaScript fejlődésének köszönhetően megkönnyíti a HTTP kérések implementálását.
 		\item Az aszinkron kérések implementálása is egyszerűen kivitelezhető, amitől a felhasználói élmény javulni fog. 
 	\end{itemize}
 	
-	\noindent Egy webes applikáció fejlesztése természetesen hordoz \textbf{nehézségeket} is magában:
+	\noindent Egy webes applikáció fejlesztése természetesen nehézségeket is magában hordoz.
 	\begin{itemize}
 		\item A JavaScriptnek vannak korlátai, amelyeknek átlépése vagy kikerülése implementációs kérdés lesz.
 		\item El kell dönteni, hogy szükséges és indokolt-e JavaScript keretrendszert használni a fejlesztéshez, vagy sem.
 	\end{itemize}
 	
-	A \textbf{cél} egy olyan webszerveren futtatható szoftver fejlesztése, amely képes elvégezni a kutatáshoz kötődő feladatokat, tehát összegyűjti a megfelelő adatokat egy vagy több csomag függőségeiről, azokat képes szofisztikált és informatív ábrákkal prezentálni, majd felhasználva az adatokat, esetleg egyéb vizsgálatok adatait, megpróbál javaslatot tenni a csomag függőségeinek csökkentéséről.
+	A cél egy olyan webszerveren futtatható szoftver fejlesztése, amely képes elvégezni a kutatáshoz kötődő feladatokat, tehát összegyűjti a megfelelő adatokat egy vagy több csomag függőségeiről, azokat képes szofisztikált és informatív ábrákkal prezentálni, majd felhasználva az adatokat, esetleg egyéb vizsgálatok adatait, megpróbál javaslatot tenni a csomag függőségeinek csökkentéséről.
 	
 	\pagebreak
 
-\Section{Hasonló Programok}
+\Section{Hasonló programok}
 
 Több okból is fontos lépés a hasonló programok felkutatása, vizsgálata. Nem csak azt a célt szolgálja, hogy meggyőződjünk nincs-e már egy ugyanolyan program, mint az áltatunk készítendő, hanem azt is, hogy megvizsgáljuk mások eddig milyen eredményeket értek el a területen, van-e olyan amire esetleg támaszkodni tudunk és mi az amit nekünk kell elérnünk.
 
@@ -68,22 +66,18 @@ A kutatásom eredményeként találtam több olyan alkalmazást is, amelynek mű
 
 	\subsection{npm list}
 	
-	Az \textbf{nmp list} egy beépített npm parancs, amely kiírja a konzolra a telepített csomagokat és azok függőségeit.
+	Az nmp list egy beépített npm parancs, amely kiírja a konzolra a telepített csomagokat és azok függőségeit \cite{dep-cruise}.
 	
 	\textbf{Használata:} \texttt{npm ls [[<@scope>/]<pkg> ...]}\\
 	
-	\textbf{Miért nem megfelelő}
+	A következőkben felsorolt indokok miatt nem megfelelő.
 	\begin{itemize}
-		\item Alapvetően CLI-s használatra lett tervezve. Ez probléma mivel a JavaScript kódból összetett lenne kifelé intézni parancsokat, mindeközben fenntartani a program interaktivitását.
+		\item Alapvetően CLI-s használatra tervezték. Ez probléma mivel a JavaScript kódból összetett lenne kifelé intézni parancsokat, közben pedig fenntartani a program interaktivitását.
 		\item Csak azokkal a csomagokkal tud dolgozni, amelyek fent vannak a rendszeren lokálisan, így eltűnik a lehetőség, hogy bármely csomagot, a registryből lekérhessük.
-		\item Csak rendszerre telepített csomagverziót ismeri, így nem tud korábbi verziók esetében függőségeket visszaadni.
-		\item A név és verziónál több adatra van szükség a későbbi elemzésekhez.
+		\item Csak a rendszerre telepített csomagverziót ismeri, így nem tud korábbi verziók esetében függőségeket visszaadni.
+		\item Csupán a nevét és verzióját adja meg a függőségeknek (\ref{fig:npm-ls} ábra), amelynél több adatra van szükség a későbbi elemzésekhez.
 	\end{itemize}
-	
-	\begin{flushright}
-		\cite{dep-cruise}
-	\end{flushright}
-	
+		
 	\begin{figure}[h]
 		\centering
 		\includegraphics[scale=0.35]{images/npm_ls.png}
@@ -93,114 +87,98 @@ A kutatásom eredményeként találtam több olyan alkalmazást is, amelynek mű
 	
 	\subsection{Dependency cruiser}
 	
-	A \textbf{Dependency cruiser} egy olyan szoftver, amely validálja és vizualizálja az adott csomag függőségeit, a felhasználó által megadott szabályok szerint.\\
+	A Dependency cruiser egy olyan szoftver, amely validálja és vizualizálja az adott csomag függőségeit, a felhasználó által megadott szabályok szerint \cite{dep-cruise}.\\
 	
-	\textbf{Miért nem megfelelő}
+	A következő pontokban felsorolt okok miatt nem megfelelő.
 	\begin{itemize}
 		\item A hangsúly a csomagban a csomag függőségeinek validációján van, azaz megvizsgálja, hogy minden adott-e a rendszeren ahhoz, hogy a csomag működni tudjon.
 		\item Az npm list-hez hasonlóan ez is csak a rendszeren telepített csomagokkal tud dolgozni, amely szintén leszűkíti a lehetőségeket, hogy mely csomagokat lehet megvizsgálni.
-		\item Bár történik gráfkészítés, azonban ez a gráf nagyobb csomagok esetében hatalmas, az ember számára ránézésre szinte semmitmondó, a gráfot .svg kiterjesztésben lokálisan menti, aminek Kliens oldali elérése nehézkes, elemzésre pedig nem szolgáltat adatokat.
+		\item Bár történik gráfkészítés (\ref{fig:dep-cruiser} ábra), azonban ez a gráf nagyobb csomagok esetében hatalmas, az ember számára ránézésre szinte semmitmondó. A gráfot .svg kiterjesztésben lokálisan menti, aminek a további elemzése körülményes.
 	\end{itemize}
-	
-	\begin{flushright}
-		\cite{dep-cruise}
-	\end{flushright}
-	
+		
 	\begin{figure}[h]
 		\centering
 		\includegraphics[scale=0.4]{images/dep_cruiser.png}
-		\caption{Dependency cruiser}
+		\caption{Dependency cruiser minta gráf}
 		\label{fig:dep-cruiser}
 	\end{figure}
 	
 	\subsection{Software Galaxies}
 	
-	A \textbf{Software Galaxies} egy olyan JavaScript alapú szoftver, amely képes vizualizálni olyan csomagkezelő rendszerek adatait, mint amilyen az npm is. Rendkívül látványos, galaxisra emlékeztető 3 dimenziós objektumot hoz létre, mely a böngészőben jelenik meg és körbejárható. A fejlesztése \textbf{Andrei Kashcha ("anvaka")} nevéhez fűződik.\\
+	A Software Galaxies egy olyan JavaScript alapú szoftver, amely képes vizualizálni olyan csomagkezelő rendszerek adatait, mint amilyen az npm is. Rendkívül látványos, galaxisra emlékeztető 3 dimenziós objektumot hoz létre, mely a böngészőben jelenik meg és körbejárható. A fejlesztése Andrei Kashcha ("anvaka") nevéhez fűződik \cite{anvaka-galaxies}.\\
 	
 	
-	\textbf{Miért nem megfelelő}
+	A következő okok miatt nem megfelelő az aktuális probléma megoldására.
 	\begin{itemize}
 		\item Rendkívül nagy a számításigénye. Még erősebb hardveren is érezhető, hogy a 3 dimenziós megjelenítés leterheli a rendszert.
 		\item Teljes csomagkezelő rendszereket reprezentál, nem implementálja a csomagok függőségeinek rekurzív keresését, nagy a többletfunkcionalitás az eltérő cél miatt.
 		\item Érdekes és látványos (\ref{fig:sw-galaxies} ábra), jól bemutatja a csomagkezelő méretét és nagyságrendjét, amely indokolja hogy ne legyen lokálisan tárolva, azonban ennél többet nem nyújt a feladat szempontjából.
 	\end{itemize}
-	
-	\begin{flushright}
-		\cite{anvaka-galaxies}
-	\end{flushright}
-	
+		
 	\begin{figure}[!h]
 		\centering
 		\includegraphics[scale=0.1]{images/anvaka_pm.png}
-		\caption{Software Galaxies (Szín invertált)}
+		\caption{Software Galaxies (Szín invertált) \cite{sw-galaxies}}
 		\label{fig:sw-galaxies}
 	\end{figure}
 	
 	\subsection{npmgraph.an}
 	
-	A \textbf{npmgraph.an} egy olyan JavaScript alapú, Angular.JS keretrendszert használó, interaktív webes szoftver, amely képes vizualizálni egy adott csomag függőségeit gráf formában. A kutatás során ez a szoftver állt a legközelebb az általam tervezett program jellegéhez.	Fejlesztése szintén \textbf{Andrei Kashcha ("anvaka")} nevéhez fűződik.	\\
+	A \textbf{npmgraph.an} egy olyan JavaScript alapú, Angular.JS keretrendszert használó, interaktív webes szoftver, amely képes vizualizálni egy adott csomag függőségeit gráf formában. A kutatás során ez a szoftver állt a legközelebb az általam tervezett program jellegéhez. Fejlesztése szintén Andrei Kashcha ("anvaka") nevéhez fűződik \cite{anvaka-npmgraph}.\\
 	
-	\textbf{Miért hasznos:}
+	A következő pontokban leírtak miatt találtam hasznosnak a programot.
 	\begin{itemize}
-		\item A megközelítés hasonló a vízióban felvázolthoz. Azaz kérésekkel, a lokális fájlrendszertől függetlenül szerzi meg rekurzívan a szükséges információt, majd ezeket egy gráfként reprezentálja, verziófüggően.
+		\item A megközelítés hasonló a vízióban felvázolthoz, azaz kérésekkel, a lokális fájlrendszertől függetlenül szerzi meg rekurzívan a szükséges információt, majd ezeket egy gráfként reprezentálja, verziófüggően.
 		\item A program által intézett kérések vizsgálata során kiderült, hogy létezik egy publikus npm registry API, amellyel minden szükséges csomaginformáció lekérhető.
 	\end{itemize}
 	
-	\textbf{Miért nem megfelelő:}
+	Az alábbiak miatt azonban mégsem bizonyult teljes körűen jó megoldásnak. 
 	\begin{itemize}
-		\item A vizualizáció hálós gráfként történik, amely nem annyira informatív. A csomagok függőségi gráfja általánosságban egy DAG, azaz irányított, körmentes fagráf, ezt egy hálós gráfos reprezentáció nem használja ki, nem egyértelműsíti sem a mélységet, sem a szinteket és azt sem lehet leolvasni róla, hogy van-e fagráfokra nem jellemző anomália (kör vagy oda-vissza mutató függési viszony).
+		\item A vizualizáció hálós gráfként történik (például a \ref{fig:sw-npmgraph} ábrán látható Vue.JS esete), amely nem annyira informatív. A csomagok függőségi gráfja általánosságban egy DAG (Directed acyclic graph), azaz irányított, körmentes fagráf, ezt egy hálós gráfos reprezentáció nem használja ki, nem egyértelműsíti sem a mélységet, sem a szinteket, és azt sem lehet leolvasni róla, hogy van-e fagráfokra nem jellemző anomália (kör vagy oda-vissza mutató függési viszony).
 		\item AngularJS keretrendszert használ, amelyet más, kevésbé fejlett struktúra és funkcionalitás jellemez, mint a jelenlegi Angulart, illetve indokolatlan keretrendszert használni egy ilyen funkcionalitású program kivitelezéséhez.  
 	\end{itemize}
-	
-	\begin{flushright}
-		\cite{anvaka-npmgraph}
-	\end{flushright}
 	
 	\begin{figure}[!h]
 		\centering
 		\includegraphics[scale=0.15]{images/anvaka_npmgraph.png}
-		\caption{npmgraph.an}
+		\caption{npmgraph.an (Vue.JS függőségi gráfja) \cite{npmgraph}}
 		\label{fig:sw-npmgraph}
 	\end{figure}
 	
 	\pagebreak
 
-\Section{Alkalmazott Technológiák}
+\Section{Alkalmazott technológiák}
 
 A program megtervezésének következő lépése a technológiák, programozási nyelvek kiválasztása, amelyek szükségesek a megvalósításhoz.\\
 
-Mivel a \hyperlink{section.2.2}{vízióban} meghatározásra került, hogy az alkalmazás egy web-applikáció lesz, így ez leszűkíti a kört a webes technológiákra. Mivel a program az adatokat csak feldolgozni fogja, nem pedig tárolni, így sem adatbázis, sem back-end nem szükséges, azaz egy front-end alkalmazás elkészítésére van szükség.\\
+Mivel a vízióban (\hyperlink{section.2.2}{2.2-es szekció}) meghatározásra került, hogy az alkalmazás egy web-applikáció lesz, így ez leszűkíti a kört a webes technológiákra. Mivel a program az adatokat csak feldolgozni fogja, nem pedig tárolni, így sem adatbázis, sem back-end nem szükséges, azaz egy front-end alkalmazás elkészítésére van szükség.\\
 
-A felhasználói interfész lényegében a weboldal felülete lesz, amelynek testreszabása egyértelműen két jelölő nyelvet fog magával vonzani:
+A felhasználói interfész lényegében a weboldal felülete lesz, amelynek testreszabása egyértelműen két jelölő nyelv használatát fogja szükségessé tenni:
 \begin{itemize}
-	\item HTML5
-	\item CSS3
+	\item HTML5,
+	\item CSS3.
 \end{itemize}
 
-A jelölőnyelvekkel szép, áttekinthető UI hozható létre, azonban mivel nem programozási nyelvekről van szó, így szükség lesz egy olyan nyelvre is, amely a kliens oldalon szabályozza a weboldal működését. Webes applikációk esetében leginkább a \textbf{JavaScript}-et szokás használni.\\
+A jelölőnyelvekkel szép, áttekinthető UI hozható létre, azonban mivel nem programozási nyelvekről van szó, így szükség lesz egy olyan nyelvre is, amely a kliens oldalon szabályozza a weboldal működését. Webes applikációk esetében leginkább a JavaScript-et szokás használni. Ez előnyös, mivel
 
-\textbf{Hasznos jellemzői:}
 \begin{itemize}
-	\item Magas-szintű nyelv
-	\item Többszörös paradigma támogatás
-	\item Futásidejű fordítás
-	\item Prototípus alapú objektum orientáltság támogatása
+	\item egy magas-szintű nyelv,
+	\item többszörös paradigma támogatás,
+	\item futásidejű fordítás és
+	\item prototípus alapú objektum orientáltság támogatása jellemzi \cite{javascript}. 
 \end{itemize}
-\begin{flushright}
-	\cite{javascript}
-\end{flushright}
 
 A program továbbá a Node.JS-t is alkalmazni fogja, amely a 2. fejezetben bemutatott, aszinkron JavaScript futtatási környezet.
 
-A JavaScript fontos jellemzője az említetteken kívül, hogy egy olyan programozási nyelv, amely az ECMAScript specifikációit követi. A legújabb ECMAScript verzió az ES12 (2021), azonban a legszéleskörűbb támogatást egyelőre az ES6 élvezi a böngészők nagy hányadánál. 
+A JavaScript fontos jellemzője az említetteken kívül, hogy egy olyan programozási nyelv, amely az ECMAScript specifikációit követi. A legújabb ECMAScript verzió az ES12 (2021), azonban a legszélesebb körű támogatást egyelőre az ES6 élvezi a böngészők nagy hányadánál. 
 
-A JavaScript programok strukturálása a korai felhasználási módok miatt egy darabig abszolút nem volt létező fogalom, gyakorlatilag egy \texttt{.js} fájl tartalmazott minden JavaScript kódot, de volt rá precedens, hogy a html kódban a \texttt{<script></script>} tag-ek közé került a kód.
+A JavaScript programok strukturálása a korai felhasználási módok miatt egy darabig abszolút nem volt létező fogalom, gyakorlatilag egy \texttt{.js} fájl tartalmazott minden JavaScript kódot, de volt rá precedens, hogy a HTML kódban a \texttt{<script></script>} tag-ek közé került a kód.
 
 Bár mára a JavaScriptben lehetőség van funkciók, osztályok exportálására és importálására, ezt sokáig csak megkerülni tudták valamilyen más módszerrel.
 
-Az npm-ben nagyon népszerű a \textbf{Babel}, egy olyan JavaScript fordító, amely képes az ES6+ veriójú JavaScript kódok ES5 verziójúra fordítani és futtatni.
+Az npm-ben nagyon népszerű a Babel, egy olyan JavaScript fordító, amely képes az ES6+ veriójú JavaScript kódok ES5 verziójúra fordítani és futtatni. \cite{babel}
 
-A program megfelelő strukturálása, a téma és az esetlegesen hasznos csomagok miatt kényelmes megoldásnak bizonyul a programot egy \textbf{Babelt} alkalmazó \textbf{npm csomagként} megírni, illetve érdekességként a kész program képes lesz önmagát is elemezni.
+A program megfelelő strukturálása, a téma és az esetlegesen hasznos csomagok miatt kényelmes megoldásnak bizonyul a programot egy Babelt alkalmazó npm csomagként megírni, illetve érdekességként a kész program képes lesz önmagát is elemezni.
 
 A program funkcionalitása nem indokolja JavaScript keretrendszer szükségességét.
 
@@ -208,27 +186,27 @@ A program funkcionalitása nem indokolja JavaScript keretrendszer szükségessé
 
 \Section{Tervezés}
 
-\subsection{Felhasználói Interfész}
+\subsection{Felhasználói interfész}
 
-A felhasználói interfész megtervezésénél a fejlesztő szabad kezet kap, azonban célszerű néhány dologra odafigyelni:
-
-\begin{itemize}
-	\item Legyen minden egyértelmű
-	\item Ne árassza el a felhasználót információval
-	\item Maradjon konzisztens
-\end{itemize}
-
-\noindent A mai eszközök eltérő méretű kijelzői miatt célszerű az alábbiakra is odafigyelni:
+A felhasználói interfész megtervezésénél a fejlesztő szabad kezet kap, azonban célszerű néhány dologra odafigyelni.
 
 \begin{itemize}
-	\item A képernyő méretének változásával ne veszítse el jellegét
-	\item Gondosan legyen megtervezve, hogy különböző méretű kijelzők esetén hogy viselkedjen a weboldal
-	\item Véletlenül se tűnjön el az információ bizonyos képméreteknél, tehát ne legyen statikus elem
+	\item Legyen minden egyértelmű!
+	\item Ne árassza el a felhasználót információval!
+	\item Maradjon konzisztens!
 \end{itemize}
 
-Erősen opcionális, azonban érdemes követni a dizájn trendeket, legalább egy alapvető szinten. A program felhasználói felülete ebben az esetben leginkább a "Material UI" dizájnelveit fogja követni, illetve a szemek kímélése érdekében implementálásra kerül majd a lehetőség, hogy a felhasználó váltson sötét és világos mód között.\\
+\noindent A mai eszközök eltérő méretű kijelzői miatt célszerű az alábbiakra is odafigyelni.
 
-A program felhasználói felületének látványterve alább látható:
+\begin{itemize}
+	\item A képernyő méretének változásával ne veszítse el jellegét!
+	\item Gondosan legyen megtervezve, hogy különböző méretű kijelzők esetén hogy viselkedjen a weboldal!
+	\item Véletlenül se tűnjön el az információ bizonyos képméreteknél, tehát ne legyen statikus elem!
+\end{itemize}
+
+Opcionális, azonban érdemes követni a dizájn trendeket, legalább egy alapvető szinten. A program felhasználói felülete ebben az esetben leginkább a "Material UI" dizájnelveit fogja követni, illetve a szemek kímélése érdekében implementálásra kerül majd a lehetőség, hogy a felhasználó váltson sötét és világos mód között.\\
+
+A program felhasználói felületének látványterve a \ref{fig:ui_plan} ábrán látható.
 
 \begin{figure}[!h]
 	\centering
@@ -239,32 +217,29 @@ A program felhasználói felületének látványterve alább látható:
 
 \pagebreak
 
-\subsubsection{UI Látványterv (\ref{fig:ui_plan} ábra)}
 \begin{itemize}
 	\item A UI két részre lesz felbontva 25-75\% arányban.  A kisebb rész a Sidebar, oldalsó vezérlőpanel lesz, míg a nagyobbik a Canvas, vagyis a "vászon".
 	\item A Sidebar-on fog elhelyezkedni minden beviteli mező és gomb, illetve kisebb ábrák, információk kijelzésére lesz alkalmas.
 	\item A Canvas lesz a vászon a program számára. Ide fogja kirajzolni a függőségi gráfokat, illetve a nagy méretű diagramokat.
 \end{itemize}
 
-\subsection{A Program Szerkezete}
+\subsection{A program szerkezete}
 
-A program egy npm csomagként fog elkészülni, ennek megfelelően szükség lesz az npm \hyperlink{section2.2}{2. fejezetben tárgyalt csomagokra irányuló követelményeinek} az implementálására.\\
-
-\textbf{Az applikáció jellege:}
+A program egy npm csomagként fog elkészülni, ennek megfelelően szükség lesz az npm \hyperlink{section2.2}{2. fejezetben} tárgyalt csomagokra irányuló követelményeinek az implementálására.\\
 
 \begin{itemize}
 	\item A weboldal "single-page", azaz egy oldalra tartalmat dinamikusan betöltő web alkalmazás lesz.
 	\item Az app szerkezetének és a kód strukturálásának az alapját a tervezett felhasználó interfész elrendezése, és működése fogja adni.
 \end{itemize}
 
-\noindent Alapvető építőelemei \textbf{modulok} lesznek, amelyeknek két fajtáját fogja megkülönböztetni:
+\noindent Alapvető építőelemei modulok lesznek, amelyeknek két fajtáját fogja megkülönböztetni:
 
 \begin{itemize}
 	\item Template jellegű modulok
 	\item Function jellegű modulok
 \end{itemize}
 
-\noindent A program alapvetően két módon lesz képes futni:
+\noindent A program alapvetően két módon lesz képes futni.
 
 \begin{itemize}
 	\item Egy lokális fejlesztői szerveren, ami reaktív, azaz folyamatosan figyeli a kód változtatásait.
@@ -275,12 +250,12 @@ A program egy npm csomagként fog elkészülni, ennek megfelelően szükség les
 
 \noindent A tervezett funkcionalitás megvalósításához felhasznált csomagok:
 \begin{itemize}
-	\item \textbf{Babel}, a már korábban leírt funkciók kivitelezéséhez
-	\item \textbf{Parcel}, publikus "build"-be rendszerező csomag
-	\item Valamilyen ábrák készítésére alkalmas csomag
+	\item Babel, a már korábban leírt funkciók kivitelezéséhez,
+	\item Parcel, publikus "build"-be rendszerező csomag \cite{parcel},
+	\item valamilyen ábrák készítésére alkalmas csomag.
 \end{itemize}
 
-\noindent A programot felépítő modulok tervezett szerkezetét ábrázolja a \ref{fig:struct_plan} ábra, a következő oldalon.
+\noindent A programot felépítő modulok tervezett szerkezetét ábrázolja a \ref{fig:struct_plan} ábra.
 
 \begin{figure}[!h]
 	\centering

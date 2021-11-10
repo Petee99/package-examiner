@@ -47,7 +47,7 @@ A csomagoknak az alábbiakat nem szabad / nem célszerű tartalmaznia:
 	
 	Nagyon sok mezőt tartalmazhat, akár felhasználó által definiáltakat is. Kulcsfontosságú a készítendő program szempontjából, mivel tartalmazza a csomag függőségeit, hogy ezek mely verziói elfogadottak.
 	
-	A \emph{package.json} a következőkben felsorolt mezőket tartalmazhatja (a teljesség igénye nélkül). \cite{npm-package.json}
+	A \emph{package.json} a következőkben felsorolt mezőket tartalmazhatja (a teljesség igénye nélkül) \cite{npm-package.json}.
 	
 	\begin{itemize}
 		\item \textbf{Kötelező:}
@@ -64,7 +64,7 @@ A csomagoknak az alábbiakat nem szabad / nem célszerű tartalmaznia:
 		\end{itemize}
 		\item \textbf{Opcionális:}
 		\begin{itemize}
-			\item \texttt{description}: a csomag keresését könnyítő leírás,	
+			\item \texttt{description}: a csomag keresését segítő leírás,	
 			\item \texttt{scripts}: futtatható npm szkriptek,
 			\item \texttt{repository}: a csomag GitHub-on vagy egyéb verziókezelő rendszerben nyilvántartott repositoryja,
 			\item \texttt{keywords}: a csomag funkcionalitását leíró kulcsszavak,
@@ -117,7 +117,7 @@ A csomagoknak az alábbiakat nem szabad / nem célszerű tartalmaznia:
 		\item Ne ütközzön az npm irányelveibe, illetve ne legyen védjegy alatt az elnevezés.
 		\item Ne tartalmazzon szóközöket.
 		\item Tartalmazhat alulvonást, illetve kötőjelet.
-		\item "unscoped" csomagok esetében az alábbiakra kell figyelni:
+		\item "unscoped" csomagok esetében az alábbiakra kell figyelni.
 		\begin{itemize}
 			\item Ne legyen az elnevezés más tulajdonában.
 			\item Ne legyen hasonló más csomagnévhez.
@@ -131,7 +131,7 @@ A csomagoknak az alábbiakat nem szabad / nem célszerű tartalmaznia:
 	
 	A csomagok verziójának megadásánál az \textbf{x.x.x} forma az elfogadott.
 	
-	A csomagok fejlődésénél alapvetően 4 különböző szakaszt különböztetünk meg. Ezeknek a szabályait a \ref{tab:package-lifecycle}-es táblázatban láthatjuk \cite{npm-versioning}.
+	A csomagok fejlődésénél alapvetően 4 különböző szakaszt különböztetünk meg \cite{npm-versioning}. Ezeknek a szabályait a \ref{tab:package-lifecycle}-es táblázatban láthatjuk.
 	
 	\begin{table}[h]
 		\centering
@@ -170,7 +170,7 @@ A csomagoknak az alábbiakat nem szabad / nem célszerű tartalmaznia:
 		\hline
 		Minden verzió, amely nagyobb a megadottnál ugyanabban a Minor tartományban & $\sim$x.x.x & $\sim$2.2.0 esetén:\newline $\big[$2.2.x; 2.3.0$\big[$  \\
 		\hline
-		Stabil verziók tartományának megadása & \underline{Összehasonlítások:} <, >, =, <=, >= \underline{Inkluzív tartomány:} - (A kötőjel mindkét oldalán 1 szóköz karakternek kell szerepelnie!) & >3.1 esetén: \newline Minden 3.1-nél nagyobb verzió 2.0.0 – 2.3.0 esetén: $\big[$2.0.x; 2.3.x$\big]$ \\
+		Stabil verziók tartományának megadása & \underline{Összehasonlítások:}\newline <, >, =, <=, >= \underline{Inkluzív tartomány:} - \newline(A kötőjel mindkét oldalán 1 szóköz karakternek kell szerepelnie!) & >3.1 esetén: \newline Minden 3.1-nél nagyobb verzió 2.0.0 – 2.3.0 esetén: $\big[$2.0.x; 2.3.x$\big]$ \\
 		\hline
 		Kiadás előtti (alfa, béta) verzió & x.x.x-rc.x (Csak pontos verziót lehet megadni) & 1.0.0-rc.1 \\
 		\hline 
@@ -189,7 +189,7 @@ A csomagoknak az alábbiakat nem szabad / nem célszerű tartalmaznia:
 			\hline
 			\textbf{Szabály} & \textbf{Szintaktika} & \textbf{Példa} \\
 			\hline 
-			Kiadás előtti (alfa, béta) verziók tartományának megadása & \underline{Összehasonlítások:} <, >, =, <=, >= \underline{Inkluzív tartomány:} - (Csak akkor kerül bele kiadás előtti verzió a tartományba ha megadjuk) & 1.0.0-rc.0 - 1.0.1 esetén: $\big[$1.0.0-rc.x; 1.0.0; 1.0.1$\big]$ \\
+			Kiadás előtti (alfa, béta) verziók tartományának megadása & \underline{Összehasonlítások:}\newline <, >, =, <=, >= \underline{Inkluzív tartomány:} - \newline(Csak akkor kerül bele kiadás előtti verzió a tartományba ha megadjuk) & 1.0.0-rc.0 - 1.0.1 esetén: $\big[$1.0.0-rc.x; 1.0.0; 1.0.1$\big]$ \\
 			\hline
 			Több verziótartomány megadása & || karakterekkel lehetséges & \textsuperscript{$\wedge$}0.1 ||  2.2 - 2.3 esetén: $\big[$0.1.x; 2.2.x; 2.3.x$\big]$\\
 			\hline
@@ -200,7 +200,7 @@ A csomagoknak az alábbiakat nem szabad / nem célszerű tartalmaznia:
 
 A publikus npm jegyzék egy adatbázis, mely Javascript csomagokat tárol, mely csomagok mindegyike szoftverből és metaadatokból áll \cite{npm-registry}.
 
-Az npm csomagok nevének, verzióinak és egyéb adatainak felkutatásához az npm egy registry/jegyzék weboldallal kommunikál, amely a CommonJs Csomag Jegyzék specifikációját implementálja, a csomag információk lekérdezéséhez.
+Az npm csomagok nevének, verzióinak és egyéb adatainak felkutatásához az npm egy registry/jegyzék weboldallal kommunikál, amely a CommonJs Package Registry specifikációját \cite{commonjs-spec} implementálja, a csomag információk lekérdezéséhez.
  
 Az npm az úgynevezett “npm publikus jegyzéket” használja alapvetően, de összeköthető bármely más kompatibilis jegyzékkel, vagy akár egy sajáttal is. A publikus jegyzéket egy CouchDB adatbázis üzemelteti, amelynek alapadatai a \ref{fig:registry} ábrán láthatóak.\\
 
@@ -285,71 +285,67 @@ A Registry a csomagokról szöveges formában tárolja a metaadatokat. Ezeket az
 
 \pagebreak
 
-A \ref{fig:registry-package} ábra egy \textbf{teljes verziós objektumot} ábrázol, amely a Vue.JS-ről tartalmaz metaadatokat. Itt minden \underline{felső-szintű információt} listáz az adott csomagról. \textbf{Ilyenek:}
+A \ref{fig:registry-package} ábra egy teljes verziós objektumot ábrázol, amely a Vue.JS-ről tartalmaz metaadatokat. Itt minden felső-szintű információt listáz az adott csomagról. Ilyenek:
 
 \begin{itemize}
-	\item \texttt{"\_id"} (CouchDB azonosító)
-	\item \texttt{"\_rev"} (CouchDB dokumentum revíziós szám)
-	\item \texttt{"name"} (A csomag neve)
-	\item \texttt{"dist-tags"} (Kiadási címkék, minden csomag rendelkezik "latest" cimkével.)
-	\item \texttt{"time"} (Egy olyan objektum, amely a verziókhoz köti a kiadási idejüket)
-	\item \texttt{"users"} (Felhasználók akik megcsillagozták a csomagot)
-	\item \texttt{"versions"} (A mindenkori verziók objektumokként listázva. Ez a projekt szempontjából kulcsfontosságú.)
+	\item \texttt{\_id}: CouchDB azonosító,
+	\item \texttt{\_rev}: CouchDB dokumentum revíziós szám,
+	\item \texttt{name}: a csomag neve,
+	\item \texttt{dist-tags}: kiadási címkék, minden csomag rendelkezik "latest" cimkével,
+	\item \texttt{time}: egy olyan objektum, amely a verziókhoz köti a kiadási idejüket,
+	\item \texttt{users}: felhasználók akik megcsillagozták a csomagot,
+	\item \texttt{versions}: a mindenkori verziók objektumokként listázva. Ez a projekt szempontjából kulcsfontosságú.
 \end{itemize}
 
-A \underline{további mezőket} a a legutóbbi (latest) kiadású csomag verzió objektumhoz tartozó \emph{package.json} fájlból fogja beemelni:
+A további mezőket a a legutóbbi (latest) kiadású csomag verzió objektumhoz tartozó \emph{package.json} fájlból fogja beemelni:
 
 \begin{itemize}
-	\item \texttt{"author"} (\emph{human} objektum)
-	\item \texttt{"bugs"} (Hivatkozás)
-	\item \texttt{"contributors"} (\emph{human} objektumokat tartalmazó tömb)
-	\item \texttt{"description"} (Csomag rövid leírása)
-	\item \texttt{"homepage"} (Hivatkozás)
-	\item \texttt{"keywords"} (\emph{string} kulcsszavakat tartalmazó tömb)
-	\item \texttt{"license"} (A csomag licenszének \textbf{SPDX azonosítója})
-	\item \texttt{"maintainers"} (Olyan \emph{human} objektumokat tartalmazó tömb, amelyeknek jogosultsága van a csomag publikálására)
-	\item \texttt{"readme"} (Az első 64KB-ja a README adatot tartalmazó fájlnak)
-	\item \texttt{"readmeFilename"} (A README adatot tartalmazó fájl)
-	\item \texttt{"repository"} (A \emph{package.json}-ben megadott hivatkozás.)
+	\item \texttt{author}: \emph{human} objektum,
+	\item \texttt{bugs}: a hibákat leíró oldalra mutató hivatkozás,
+	\item \texttt{contributors}: \emph{human} objektumokat tartalmazó tömb,
+	\item \texttt{description}: csomag rövid leírása,
+	\item \texttt{homepage}: a csomag weboldalára mutató hivatkozás,
+	\item \texttt{keywords}: \emph{string} kulcsszavakat tartalmazó tömb,
+	\item \texttt{license}: a csomag licenszének SPDX azonosítója,
+	\item \texttt{maintainers}: olyan \emph{human} objektumokat tartalmazó tömb, amelyeknek jogosultsága van a csomag publikálására,
+	\item \texttt{readme}: az első 64KB-ja a README adatot tartalmazó fájlnak,
+	\item \texttt{readmeFilename}: a README adatot tartalmazó fájl,
+	\item \texttt{repository}: a \emph{package.json}-ben megadott hivatkozás.
 \end{itemize}
 
-Minden \textbf{csomag verzió objektumnak} tartalmaznia \textbf{kell} a fenti mezőket, a rövidített verzió objektumban releváns mezőit, illetve legalább a következő mezőket:
+Minden csomagverzió objektumnak tartalmaznia kell a fenti mezőket, a rövidített verzió objektumban releváns mezőit, illetve legalább a következő mezőket \cite{npm-registry-item}:
  
 \begin{itemize}
-	\item \texttt{"\_id"} (\emph{package@version}, például \emph{npm@1.0.0})
-	\item \texttt{"\_nodeVersion"} (A publikáláshoz használt Node verziója)  
-	\item \texttt{"\_npmUser"} (A csomagot publikáló felhasználó)
-	\item \texttt{"\_npmVersion"} (A publikáláshoz használt npm kliens verziója)
-	\item \texttt{"main"} (A csomag belépési pontja)
+	\item \texttt{\_id}: \emph{package@version}, például \emph{npm@1.0.0},
+	\item \texttt{\_nodeVersion}: a publikáláshoz használt Node verziója,  
+	\item \texttt{\_npmUser}: a csomagot publikáló felhasználó,
+	\item \texttt{\_npmVersion}: a publikáláshoz használt npm kliens verziója,
+	\item \texttt{main}: a csomag belépési pontja.
 \end{itemize}
 
-\textbf{A rövidített verzió objektum} a következő mezőket tartalmazhatja:
+A rövidített verzió objektum (például \ref{fig:registry-vue-version} ábra) a következő mezőket tartalmazhatja:
 
 \begin{itemize}
 	\item Minden esetben tartalmazza:
 	\begin{itemize}
-		\item \texttt{"name"} (Csomagnév)
-		\item \texttt{"version"} (Csomag verzió)
-		\item \texttt{"dist"} (\emph{dist} objektum)
+		\item \texttt{name}: csomagnév,
+		\item \texttt{version}: csomag verzió,
+		\item \texttt{dist}: \emph{dist} objektum.
 	\end{itemize}
 	\item Abban az esetben tartalmazza, ha relevánsak:
 	\begin{itemize}
-		\item \texttt{"deprecated"} (Elavultsági figyelmeztetések)
-		\item \texttt{"dependencies"} (Szemantikus verziózással megadott függőségek)
-		\item \texttt{"optionalDependencies"} (Szemantikus verziózással megadott opcionális függőségek)
-		\item \texttt{"devDependencies"} (Szemantikus verziózással megadott fejlesztői függőségek)
-		\item \texttt{"bundleDependencies"} (Függőségek tömbje ehhez a verzióhoz csomagolva)
-		\item \texttt{"peerDependencies"} (Szemantikus verziózással megadott "peer" függőségek)
-		\item \texttt{"bin"} (Ehhez a verzióhoz kötött "bin" parancsok)
-		\item \texttt{"directories"} (Tömb mely olyan könyvtárakat tartalmaz, amelyeket tartalmaz az adott verzió)
-		\item \texttt{"engines"} (Az adott verzió futtatásához szükséges Node motorok)
-		\item \texttt{"\_hasShrinkwrap: true"} (Ha ismert, hogy a csomag tartalmazza, akkor "true", egyébként "false")
+		\item \texttt{deprecated}: elavultsági figyelmeztetések,
+		\item \texttt{dependencies}: szemantikus verziózással megadott függőségek,
+		\item \texttt{optionalDependencies}: szemantikus verziózással megadott opcionális függőségek,
+		\item \texttt{devDependencies}: szemantikus verziózással megadott fejlesztői függőségek,
+		\item \texttt{bundleDependencies}: Függőségek tömbje ehhez a verzióhoz csomagolva,
+		\item \texttt{peerDependencies}: szemantikus verziózással megadott \emph{peer} függőségek,
+		\item \texttt{bin}: ehhez a verzióhoz kötött \emph{bin} parancsok,
+		\item \texttt{directories}: tömb mely olyan könyvtárakat tartalmaz, amelyeket tartalmaz az adott verzió,
+		\item \texttt{engines}: az adott verzió futtatásához szükséges Node motorok,
+		\item \texttt{\_hasShrinkwrap: true}: ha ismert, hogy a csomag tartalmazza, akkor \emph{true}, egyébként \emph{false}.
 	\end{itemize}
 \end{itemize}
-
-\begin{flushright}
-	\cite{npm-registry-item}
-\end{flushright}
 
 \begin{figure}[h]
 	\centering
@@ -364,9 +360,9 @@ Minden \textbf{csomag verzió objektumnak} tartalmaznia \textbf{kell} a fenti me
 
 Az npm CLI (Command Line Interface), azaz parancssoros felület az csomagkezelő használatának alapját adja. Segítségével telepíthetők, publikálhatók a fejlesztők által készített csomagok. Funkcionalitása széleskörű, vannak olyan csomagok, melyek csak a CLI-re támaszkodnak a felhasználóval való kommunikációhoz.
 
-Használata egyszerű, miután települt a céleszközre, globálisan elérhető a rendszeren belül, és a definiált npm parancsokkal azonnal igénybe vehetők a funkciói.
+Használata egyszerű, miután települt a céleszközre, globálisan elérhető a rendszeren belül, és a definiált npm parancsokkal (\ref{tab:npm-cli} táblázat) azonnal igénybe vehetők a funkciói.
 \begin{table}[h]
-	\caption{Releváns npm CLI parancsok, a teljesség igénye nélkül:}
+	\caption{Releváns npm CLI parancsok (a teljesség igénye nélkül)}
 	\label{tab:npm-cli}
 	\begin{tabularx}{\textwidth} { 
 			| >{\centering\arraybackslash}X 
@@ -400,8 +396,4 @@ Használata egyszerű, miután települt a céleszközre, globálisan elérhető
 	\end{tabularx}
 \end{table}
 
-Az npm CLI alapértelmezett beállításai szerint a publikus npm Registry-t használja a csomagok adatainak lekérdezéséhez, illetve a csomagok lokális telepítéséhez. Ez azonban igény esetén megváltoztatható, tehát az npm készséggel támogatja a privát registryk használatát.
-
-\begin{flushright}
-	\cite{npm-cli}
-\end{flushright}
+Az npm CLI alapértelmezett beállításai szerint a publikus npm Registry-t használja a csomagok adatainak lekérdezéséhez, illetve a csomagok lokális telepítéséhez. Ez azonban igény esetén megváltoztatható, tehát az npm készséggel támogatja a privát registryk használatát \cite{npm-cli}.

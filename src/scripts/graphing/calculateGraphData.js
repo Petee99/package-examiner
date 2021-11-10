@@ -10,7 +10,7 @@ const colors = ['#2e946d','#F0A30A','#2980B9','#A20025','#FFAB91','yellow','blue
  * */
 function calculateGraphData(packages, dependencies, shouldDrawGraph = true){
 
-    if(drawGraph){
+    if(shouldDrawGraph){
         document.getElementById("container").innerHTML="";
         document.getElementById("showReq").innerHTML ="";
     }
